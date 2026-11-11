@@ -174,4 +174,11 @@ describe("HealthPoint store & user/admin flows", () => {
 
     fetchSpy.mockRestore();
   });
+
+  it("mounts main map home route (/) cleanly with Leaflet MarkerCluster maxZoom configured", async () => {
+    renderAppAt(["/"]);
+
+    expect(await screen.findByText(/Nearby Healthcare Access Points/i)).toBeInTheDocument();
+    expect(await screen.findByText(/8 points matched/i)).toBeInTheDocument();
+  });
 });

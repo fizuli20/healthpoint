@@ -20,9 +20,9 @@ export function HealthPointIcon({ size = 32, className = "" }: { size?: number; 
 
 export function HealthPointWordmark({ compact = false }: { compact?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-2.5 select-none">
-      <HealthPointIcon size={compact ? 28 : 34} />
-      <span className="font-extrabold tracking-tight text-[#171717] text-lg sm:text-xl leading-none">
+    <span className="inline-flex items-center gap-1.5 sm:gap-2.5 select-none">
+      <HealthPointIcon size={compact ? 26 : 34} />
+      <span className="font-extrabold tracking-tight text-[#171717] text-base sm:text-xl leading-none">
         Health<span className="text-[#C8102E]">Point</span>
       </span>
     </span>

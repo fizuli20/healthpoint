@@ -127,7 +127,7 @@ export function SearchFilterBar({ compact = false }: { compact?: boolean }) {
         )}
       </div>
 
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+      <div className="flex flex-wrap items-center gap-1.5">
         <FilterChip
           active={filter.nearestOnly}
           onClick={() => setFilter((p) => ({ ...p, nearestOnly: !p.nearestOnly }))}

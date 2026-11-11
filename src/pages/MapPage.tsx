@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AccessPointCard } from "../components/AccessPointCard";
 import { LeafletMapView } from "../components/LeafletMapView";
+import { MapErrorBoundary } from "../components/MapErrorBoundary";
 import { ReportIssueModal } from "../components/ReportIssueModal";
 import { SearchFilterBar } from "../components/SearchFilterBar";
 import { DemoBadge, StatusBadge } from "../components/StatusBadge";
@@ -81,16 +82,18 @@ export function MapPage() {
   return (
     <div className="relative h-[calc(100vh-4rem)] w-full overflow-hidden">
       {/* Interactive Leaflet Map */}
-      <LeafletMapView
-        points={filteredPoints}
-        selectedPointId={selectedPointId}
-        onSelectPoint={(p) => {
-          setSelectedPointId(p.id);
-          setSheetExpanded(false);
-        }}
-        userLocation={userLocation}
-        center={effectiveOrigin}
-      />
+      <MapErrorBoundary>
+        <LeafletMapView
+          points={filteredPoints}
+          selectedPointId={selectedPointId}
+          onSelectPoint={(p) => {
+            setSelectedPointId(p.id);
+            setSheetExpanded(false);
+          }}
+          userLocation={userLocation}
+          center={effectiveOrigin}
+        />
+      </MapErrorBoundary>
 
       {/* Top Search & Find Nearest Floating Overlay */}
       <div className="absolute top-3 left-3 right-16 z-[410] max-w-xl space-y-2 pointer-events-auto">

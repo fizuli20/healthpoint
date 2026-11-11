@@ -85,6 +85,8 @@ export function LeafletMapView({
     const map = L.map(containerRef.current, {
       center: [center.lat, center.lng],
       zoom,
+      minZoom: 3,
+      maxZoom: 19,
       zoomControl: false,
       attributionControl: true,
     });

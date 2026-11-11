@@ -56,8 +56,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-white text-[#171717]">
       {/* Desktop & Tablet Top Header */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB]">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-3">
-          <Link to="/" className="shrink-0 focus:outline-none focus:ring-2 focus:ring-[#C8102E] rounded-xl p-1">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 h-16 flex items-center justify-between gap-2">
+          <Link to="/" className="shrink-0 focus:outline-none focus:ring-2 focus:ring-[#C8102E] rounded-xl p-0.5 sm:p-1">
             <HealthPointWordmark compact />
           </Link>
 
@@ -84,7 +84,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Compact Language Switcher */}
             <div
               className="inline-flex rounded-xl border border-[#E5E7EB] bg-[#FAFAFA] p-0.5"
@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   type="button"
                   onClick={() => setLanguage(code)}
                   aria-pressed={language === code}
-                  className={`px-2 py-1 rounded-lg text-xs font-bold uppercase transition ${
+                  className={`px-1.5 sm:px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition ${
                     language === code
                       ? "bg-[#C8102E] text-white"
                       : "text-[#737373] hover:text-[#171717]"
@@ -111,7 +111,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               to={user ? "/profile" : "/login"}
               aria-label={user ? t("nav.profile") : t("nav.login")}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#E5E7EB] text-xs font-semibold text-[#171717] hover:border-[#C8102E] transition"
+              className="inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-xl border border-[#E5E7EB] text-xs font-semibold text-[#171717] hover:border-[#C8102E] transition shrink-0"
             >
               <User className="w-4 h-4 text-[#C8102E]" />
               <span className="hidden sm:inline">{user ? user.fullName || t("nav.profile") : t("nav.login")}</span>
@@ -121,7 +121,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link
                 to="/emergency"
                 role="button"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#C8102E] text-white text-xs sm:text-sm font-bold shadow-brand hover:bg-[#8B1028] focus:outline-none focus:ring-2 focus:ring-[#E11D48] transition"
+                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-xl bg-[#C8102E] text-white text-xs sm:text-sm font-bold shadow-brand hover:bg-[#8B1028] focus:outline-none focus:ring-2 focus:ring-[#E11D48] transition shrink-0"
               >
                 <PhoneCall className="w-4 h-4" />
                 <span>SOS</span>

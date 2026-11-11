@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { LoadingSplash } from "../components/BrandLogo";
 import { LeafletMapView } from "../components/LeafletMapView";
+import { MapErrorBoundary } from "../components/MapErrorBoundary";
 import { DemoBadge } from "../components/StatusBadge";
 import { useHealthPoint } from "../context/HealthPointContext";
 import { useAccessPointQuery } from "../hooks/useHealthPointData";
@@ -231,13 +232,15 @@ export function NavigationPage() {
 
       {/* Live Map with Route Polyline */}
       <div className="hp-card bg-white rounded-3xl border border-[#E5E7EB] overflow-hidden shadow-card h-[420px]">
-        <LeafletMapView
-          points={[point]}
-          selectedPointId={point.id}
-          userLocation={effectiveOrigin}
-          routeCoordinates={route?.coordinates}
-          center={effectiveOrigin}
-        />
+        <MapErrorBoundary>
+          <LeafletMapView
+            points={[point]}
+            selectedPointId={point.id}
+            userLocation={effectiveOrigin}
+            routeCoordinates={route?.coordinates}
+            center={effectiveOrigin}
+          />
+        </MapErrorBoundary>
       </div>
     </div>
   );
