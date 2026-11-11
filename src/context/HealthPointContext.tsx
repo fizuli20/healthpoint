@@ -63,6 +63,12 @@ function applyAccessibilityToDom(prefs: AccessibilityPreferences): void {
   root.classList.toggle("hp-reduced-motion", prefs.reducedMotion);
 }
 
+const PAGE_TITLES: Record<LanguageCode, string> = {
+  az: "HealthPoint — Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi",
+  en: "HealthPoint — Healthcare access, wherever life happens",
+  ru: "HealthPoint — Доступ к медицине там, где идёт жизнь",
+};
+
 export function HealthPointProvider({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
 
@@ -94,6 +100,7 @@ export function HealthPointProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     document.documentElement.lang = language;
+    document.title = PAGE_TITLES[language] ?? PAGE_TITLES.az;
     void i18n.changeLanguage(language);
     saveStoredLanguage(language);
   }, [language, i18n]);

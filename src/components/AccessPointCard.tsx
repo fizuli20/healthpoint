@@ -1,7 +1,8 @@
-import { Accessibility, Bookmark, Clock, Flag, MapPin, Navigation, Volume2 } from "lucide-react";
+import { Accessibility, Bookmark, Clock, Flag, MapPin, Navigation, QrCode, Volume2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { formatDistance, estimateDurationSeconds, formatDurationMinutes } from "../lib/geo";
+import { getKioskCode } from "../lib/localizePoint";
 import type { AccessPoint } from "../types/healthpoint";
 import { DemoBadge, StatusBadge } from "./StatusBadge";
 
@@ -11,6 +12,7 @@ interface AccessPointCardProps {
   isSaved: boolean;
   onToggleSave: (id: string) => void;
   onReport?: (point: AccessPoint) => void;
+  onActivate?: (point: AccessPoint) => void;
   compact?: boolean;
 }
 
@@ -20,6 +22,7 @@ export function AccessPointCard({
   isSaved,
   onToggleSave,
   onReport,
+  onActivate,
   compact = false,
 }: AccessPointCardProps) {
   const { t, i18n } = useTranslation();
@@ -31,7 +34,12 @@ export function AccessPointCard({
       <div className="space-y-2.5">
         <div className="flex items-start justify-between gap-2 flex-wrap">
           <div className="space-y-1">
-            <h3 className="font-bold text-[#171717] text-base leading-snug">{point.name}</h3>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-[#FFF1F2] border border-[#FCE8EC] text-[#C8102E] text-[10px] font-extrabold tracking-wide">
+                {getKioskCode(point.id)}
+              </span>
+              <h3 className="font-bold text-[#171717] text-base leading-snug">{point.name}</h3>
+            </div>
             <p className="text-xs text-[#737373] inline-flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5 text-[#C8102E] shrink-0" />
               {point.address}
@@ -62,7 +70,7 @@ export function AccessPointCard({
           {point.audioGuided && (
             <span className="inline-flex items-center gap-1 text-[#171717] font-medium">
               <Volume2 className="w-3.5 h-3.5 text-[#C8102E]" />
-              Audio
+              {t("point.audioShort")}
             </span>
           )}
         </div>
@@ -110,6 +118,17 @@ export function AccessPointCard({
         >
           <Bookmark className={`w-4 h-4 ${isSaved ? "fill-current" : ""}`} />
         </button>
+        {onActivate && (
+          <button
+            type="button"
+            onClick={() => onActivate(point)}
+            aria-label={t("point.activateStation")}
+            title={t("point.activateStation")}
+            className="p-2.5 rounded-xl border border-[#FCE8EC] bg-[#FFF1F2] text-[#C8102E] hover:bg-[#C8102E] hover:text-white transition focus:outline-none focus:ring-2 focus:ring-[#C8102E]"
+          >
+            <QrCode className="w-4 h-4" />
+          </button>
+        )}
         {onReport && (
           <button
             type="button"

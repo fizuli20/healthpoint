@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit2, Plus, Trash2, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { StatusBadge } from "../../components/StatusBadge";
-import { useAccessPointsQuery } from "../../hooks/useHealthPointData";
+import { useLocalizedAccessPointsQuery } from "../../hooks/useHealthPointData";
 import {
   createAccessPoint,
   deleteAccessPoint,
@@ -74,7 +74,7 @@ function toFormState(point: AccessPoint): PointFormState {
 export function AdminPointsPage() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { data: points = [] } = useAccessPointsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
 
   const [editingPoint, setEditingPoint] = useState<AccessPoint | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -87,10 +87,10 @@ export function AdminPointsPage() {
       const lat = Number(form.latitude);
       const lng = Number(form.longitude);
       if (form.name.trim().length < 3 || form.address.trim().length < 3) {
-        throw new Error("Name and address must be at least 3 characters.");
+        throw new Error(t("admin.errors.nameAddress"));
       }
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-        throw new Error("Latitude and longitude must be valid numbers.");
+        throw new Error(t("admin.errors.coords"));
       }
       const payload = {
         name: form.name.trim(),
@@ -201,7 +201,7 @@ export function AdminPointsPage() {
 
             <div className="flex items-center justify-between gap-2 pt-2 border-t border-[#E5E7EB]">
               <span className="text-xs text-[#737373]">
-                {pt.equipment.length} equipment • {pt.openingHours}
+                {t("admin.equipmentCount", { count: pt.equipment.length })} • {pt.openingHours}
               </span>
               <div className="flex items-center gap-2">
                 <button
@@ -245,7 +245,7 @@ export function AdminPointsPage() {
                 type="button"
                 onClick={() => setModalOpen(false)}
                 className="p-2 rounded-full text-[#737373] hover:bg-[#F5F5F5]"
-                aria-label="Close"
+                aria-label={t("point.closeCard")}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -259,7 +259,9 @@ export function AdminPointsPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-[#171717] mb-1">Name</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.name")}
+                </label>
                 <input
                   type="text"
                   required
@@ -270,7 +272,9 @@ export function AdminPointsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Neighborhood</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.neighborhood")}
+                </label>
                 <input
                   type="text"
                   value={form.neighborhood}
@@ -280,7 +284,9 @@ export function AdminPointsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Status</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.status")}
+                </label>
                 <select
                   value={form.operationalStatus}
                   onChange={(e) =>
@@ -288,15 +294,17 @@ export function AdminPointsPage() {
                   }
                   className="w-full px-3.5 py-2 rounded-xl border border-[#E5E7EB] text-sm bg-white"
                 >
-                  <option value="operational">Operational</option>
-                  <option value="limited">Limited Service</option>
-                  <option value="unavailable">Unavailable</option>
-                  <option value="unknown">Unknown</option>
+                  <option value="operational">{t("status.operational")}</option>
+                  <option value="limited">{t("status.limited")}</option>
+                  <option value="unavailable">{t("status.unavailable")}</option>
+                  <option value="unknown">{t("status.unknown")}</option>
                 </select>
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-[#171717] mb-1">Address</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.address")}
+                </label>
                 <input
                   type="text"
                   required
@@ -307,7 +315,9 @@ export function AdminPointsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Latitude</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.latitude")}
+                </label>
                 <input
                   type="text"
                   required
@@ -318,7 +328,9 @@ export function AdminPointsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Longitude</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.longitude")}
+                </label>
                 <input
                   type="text"
                   required
@@ -329,7 +341,9 @@ export function AdminPointsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Opening Hours</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.openingHours")}
+                </label>
                 <input
                   type="text"
                   value={form.openingHours}
@@ -339,7 +353,9 @@ export function AdminPointsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Image URL (optional)</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.imageUrl")}
+                </label>
                 <input
                   type="url"
                   value={form.imageUrl}
@@ -349,7 +365,9 @@ export function AdminPointsPage() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-[#171717] mb-1">Description</label>
+                <label className="block text-xs font-bold text-[#171717] mb-1">
+                  {t("admin.fields.description")}
+                </label>
                 <textarea
                   rows={2}
                   value={form.description}
@@ -359,7 +377,9 @@ export function AdminPointsPage() {
               </div>
 
               <div className="sm:col-span-2 space-y-1.5">
-                <span className="block text-xs font-bold text-[#171717]">Equipment</span>
+                <span className="block text-xs font-bold text-[#171717]">
+                  {t("admin.fields.equipment")}
+                </span>
                 <div className="flex flex-wrap gap-2">
                   {ALL_EQUIPMENT.map((item) => {
                     const checked = form.equipment.includes(item);
@@ -374,7 +394,7 @@ export function AdminPointsPage() {
                             : "bg-white text-[#737373] border-[#E5E7EB]"
                         }`}
                       >
-                        {item}
+                        {t(`equipment.${item}`)}
                       </button>
                     );
                   })}
@@ -388,7 +408,7 @@ export function AdminPointsPage() {
                     checked={form.wheelchairAccessible}
                     onChange={(e) => setForm({ ...form, wheelchairAccessible: e.target.checked })}
                   />
-                  Wheelchair Accessible
+                  {t("admin.fields.wheelchair")}
                 </label>
                 <label className="inline-flex items-center gap-1.5">
                   <input
@@ -396,7 +416,7 @@ export function AdminPointsPage() {
                     checked={form.audioGuided}
                     onChange={(e) => setForm({ ...form, audioGuided: e.target.checked })}
                   />
-                  Audio Guided
+                  {t("admin.fields.audio")}
                 </label>
                 <label className="inline-flex items-center gap-1.5">
                   <input
@@ -404,7 +424,7 @@ export function AdminPointsPage() {
                     checked={form.open247}
                     onChange={(e) => setForm({ ...form, open247: e.target.checked })}
                   />
-                  Open 24/7
+                  {t("admin.fields.open247")}
                 </label>
               </div>
             </div>

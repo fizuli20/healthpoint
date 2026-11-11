@@ -8,6 +8,7 @@ import {
   Flag,
   MapPin,
   Navigation,
+  QrCode,
   ShieldAlert,
   Volume2,
   Wrench,
@@ -16,11 +17,14 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { HealthPointIcon, LoadingSplash } from "../components/BrandLogo";
 import { LeafletMapView } from "../components/LeafletMapView";
+import { MapErrorBoundary } from "../components/MapErrorBoundary";
 import { ReportIssueModal } from "../components/ReportIssueModal";
+import { StationActivateModal } from "../components/StationActivateModal";
 import { DemoBadge, StatusBadge } from "../components/StatusBadge";
 import { useHealthPoint } from "../context/HealthPointContext";
 import {
-  useAccessPointQuery,
+  useLocalizedAccessPointQuery,
+  useLocalizedAccessPointsQuery,
   useSavedIdsQuery,
   useToggleSaveMutation,
 } from "../hooks/useHealthPointData";
@@ -30,16 +34,19 @@ import {
   formatDurationMinutes,
   haversineDistanceMeters,
 } from "../lib/geo";
+import { getKioskCode } from "../lib/localizePoint";
 import { trackAccessPointView } from "../services/healthpointStore";
 
 export function PointDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { t, i18n } = useTranslation();
   const { effectiveOrigin } = useHealthPoint();
-  const { data: point, isLoading } = useAccessPointQuery(id);
+  const { data: point, isLoading } = useLocalizedAccessPointQuery(id);
+  const { data: allPoints = [] } = useLocalizedAccessPointsQuery();
   const { data: savedIds = [] } = useSavedIdsQuery();
   const toggleSave = useToggleSaveMutation();
   const [reportOpen, setReportOpen] = useState(false);
+  const [activateOpen, setActivateOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -95,8 +102,11 @@ export function PointDetailPage() {
         ) : (
           <div className="h-44 bg-gradient-to-br from-[#FFF1F2] via-white to-[#FCE8EC] border-b border-[#FCE8EC] flex items-center justify-between px-6 sm:px-10">
             <div className="space-y-1.5">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#C8102E]">
-                HealthPoint Station
+              <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-widest text-[#C8102E]">
+                <span className="px-2 py-0.5 rounded-md bg-[#C8102E] text-white">
+                  {getKioskCode(point.id)}
+                </span>
+                HealthPoint
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-[#171717]">
                 {point.name}
@@ -145,10 +155,18 @@ export function PointDetailPage() {
 
           {/* Primary Actions */}
           <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setActivateOpen(true)}
+              className="flex-1 min-w-[170px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#C8102E] text-white font-bold hover:bg-[#8B1028] transition shadow-brand"
+            >
+              <QrCode className="w-4 h-4" />
+              {t("point.activateStation")}
+            </button>
             <Link
               to={`/navigation/${point.id}`}
               role="button"
-              className="flex-1 min-w-[160px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#C8102E] text-white font-bold hover:bg-[#8B1028] transition shadow-brand"
+              className="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#FFF1F2] border border-[#C8102E] text-[#C8102E] font-bold hover:bg-[#FCE8EC] transition"
             >
               <Navigation className="w-4 h-4" />
               {t("point.navigate")}
@@ -236,13 +254,15 @@ export function PointDetailPage() {
 
       {/* Mini Map Preview */}
       <div className="hp-card bg-white rounded-3xl border border-[#E5E7EB] overflow-hidden shadow-soft h-64">
-        <LeafletMapView
-          points={[point]}
-          selectedPointId={point.id}
-          center={{ lat: point.latitude, lng: point.longitude }}
-          zoom={15}
-          showControls={false}
-        />
+        <MapErrorBoundary>
+          <LeafletMapView
+            points={[point]}
+            selectedPointId={point.id}
+            center={{ lat: point.latitude, lng: point.longitude }}
+            zoom={15}
+            showControls={false}
+          />
+        </MapErrorBoundary>
       </div>
 
       <ReportIssueModal
@@ -250,6 +270,13 @@ export function PointDetailPage() {
         accessPointName={point.name}
         open={reportOpen}
         onClose={() => setReportOpen(false)}
+      />
+
+      <StationActivateModal
+        open={activateOpen}
+        points={allPoints.length > 0 ? allPoints : [point]}
+        initialPoint={point}
+        onClose={() => setActivateOpen(false)}
       />
     </div>
   );

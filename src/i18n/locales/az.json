@@ -4,7 +4,11 @@
     "mission": "Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi.",
     "demoBanner": "Demo Məkanı — Təsdiqlənmiş Tibb Müəssisəsi Deyil",
     "demoModeLabel": "Demo Rejimi (Yerli Baza)",
-    "liveModeLabel": "Canlı Supabase Baza"
+    "liveModeLabel": "Canlı Supabase Baza",
+    "downloadApk": "Android Tətbiqini Yüklə (APK)",
+    "downloadApkShort": "APK Yüklə",
+    "downloadApkDesc": "Apar üslublu mobil təcrübə: Bakı xəritəsi, 103/112 SOS və oflayn dəstəkli Android paketi (v1.0.0).",
+    "apkBannerText": "HealthPoint Android Tətbiqi hazırdır — birbaşa APK endirin"
   },
   "nav": {
     "map": "Xəritə",
@@ -44,7 +48,17 @@
     "manualLocation": "Mövqeyi əl ilə seç",
     "sheetTitle": "Yaxın Sağlamlıq Məntəqələri",
     "resultsCount": "{{count}} məntəqə tapıldı",
-    "nearestRecommended": "Ən yaxın uyğun məntəqə seçildi"
+    "nearestRecommended": "Ən yaxın uyğun məntəqə seçildi",
+    "tileSlow": "Xəritə yüklənir — məntəqə işarələri aktivdir.",
+    "zoomIn": "Yaxınlaşdır",
+    "zoomOut": "Uzaqlaşdır",
+    "ariaRegion": "İnteraktiv Sağlamlıq Məntəqələri Xəritəsi",
+    "manualLocations": {
+      "sahil": "Sahil / Dənizkənarı",
+      "may28": "28 May Metrosu",
+      "icherisheher": "İçərişəhər",
+      "ganjlik": "Gənclik"
+    }
   },
   "filters": {
     "nearest": "Ən yaxın",
@@ -73,11 +87,31 @@
     "wheelchairYes": "Əlil arabası üçün tam uyğun",
     "wheelchairNo": "Məhdud fiziki giriş",
     "audioYes": "Səsli təlimat mövcuddur",
+    "audioShort": "Səsli",
     "equipmentList": "Mövcud Avadanlıq",
     "maintenanceInfo": "Texniki Xidmət Məlumatı",
     "notFound": "Məntəqə tapılmadı",
     "backToMap": "Xəritəyə qayıt",
-    "usageEvents": "İstifadə sayı"
+    "usageEvents": "İstifadə sayı",
+    "closeCard": "Kartı bağla",
+    "kioskCode": "Məntəqə kodu",
+    "activateStation": "Məntəqəni Aktiv Et"
+  },
+  "station": {
+    "scanOrCode": "Kod / QR ilə Başla",
+    "enterCodeTitle": "Məntəqəyə Qoşul",
+    "enterCodeSubtitle": "Apar təcrübəsi kimi — məntəqənin üzərindəki kodu daxil edin (məs. HP-01) və ya siyahıdan seçin.",
+    "codePlaceholder": "Məsələn: HP-01",
+    "activateBtn": "Məntəqəni Aktiv Et",
+    "quickSelect": "Sürətli seçim (Demo məntəqələr)",
+    "activeSessionBadge": "Məntəqə Aktivdir (Demo Kiosk)",
+    "demoNotice": "Demo Kiosk Simulyatoru: Real fiziki kilid açılmır; yoxlama sayı analitikaya qeyd olunur.",
+    "availableModules": "Mövcud Modullar və İstifadə Təlimatı",
+    "stepGuide": "İstədiyiniz cihazı seçin — addım-addım təlimat açılacaq.",
+    "listenVoice": "Səsli oxu",
+    "endSession": "Sessiyanı Bitir",
+    "codeNotFound": "Bu kodla məntəqə tapılmadı (məs. HP-01 — HP-08).",
+    "unavailableWarning": "Bu məntəqə texniki xidmətə görə hazırda əlçatmazdır."
   },
   "report": {
     "title": "Məntəqə ilə bağlı problem bildir",
@@ -134,6 +168,7 @@
     "voiceInput": "Səslə daxil et",
     "voiceUnsupported": "Bu brauzerdə səsli giriş dəstəklənmir.",
     "clearChat": "Tarixçəni Təmizlə",
+    "searching": "Bakı məntəqələri yoxlanılır...",
     "welcome": "Salam! Mən HealthPoint Köməkçisiyəm. Yaxınlıqdakı məntəqələr, AED, qan təzyiqi cihazı və əlil arabası girişi barədə real məntəqə bazasına əsasən cavab verirəm. Tibbi diaqnoz qoymuram — fövqəladə halda dərhal 103 və ya 112-yə zəng edin.",
     "prompts": [
       "Ən yaxın HealthPoint haradadır?",
@@ -171,7 +206,12 @@
     "contactPhone": "Telefon nömrəsi",
     "addContact": "Əlaqə Əlavə Et",
     "savedTitle": "Saxlanılan Məntəqələr",
-    "savedEmpty": "Hələ heç bir məntəqə saxlanılmayıb. Xəritədən və ya siyahıdan məntəqə əlavə edin."
+    "savedEmpty": "Hələ heç bir məntəqə saxlanılmayıb. Xəritədən və ya siyahıdan məntəqə əlavə edin.",
+    "validationName": "Ən azı 2 simvoldan ibarət ad daxil edin.",
+    "validationPhone": "Düzgün telefon nömrəsi daxil edin."
+  },
+  "saved": {
+    "loading": "Saxlanılan məntəqələr yüklənir..."
   },
   "settings": {
     "title": "Tətbiq Ayarları",
@@ -181,6 +221,9 @@
     "privacy": "Məxfilik və Mövqe",
     "privacyDesc": "Yalnız sorğu zamanı mövqe hesablanır; hərəkət tarixçəsi toplanmır",
     "backendStatus": "Məlumat Mənbəyi",
+    "open": "Aç →",
+    "supabaseConnected": "Supabase Qoşulub",
+    "localDemoStore": "Yerli Demo Baza",
     "resetDemo": "Demo Məlumatları Sıfırla",
     "resetDone": "Demo məntəqələr və bildirişlər ilkin vəziyyətə qaytarıldı."
   },
@@ -194,7 +237,9 @@
     "signOut": "Çıxış",
     "demoAdminBtn": "Demo Admin kimi Daxil Ol (Hakaton Sınağı)",
     "demoUserBtn": "Demo İstifadəçi kimi Daxil Ol",
-    "adminRequired": "Bu bölməyə daxil olmaq üçün səlahiyyətli Admin hesabı tələb olunur."
+    "adminRequired": "Bu bölməyə daxil olmaq üçün səlahiyyətli Admin hesabı tələb olunur.",
+    "validationEmail": "Düzgün e-poçt ünvanı daxil edin.",
+    "validationPassword": "Şifrə ən azı 6 simvoldan ibarət olmalıdır."
   },
   "admin": {
     "title": "Admin İdarəetmə Paneli",
@@ -215,10 +260,44 @@
     "savePoint": "Məntəqəni Yadda Saxla",
     "reportStatus": "Statusu Yenilə",
     "assignedTo": "Təhkim edilən texnik",
+    "assignedPlaceholder": "Texnik / Komanda",
     "notes": "Texniki qeydlər",
+    "notesPlaceholder": "Həll qeydləri",
     "coverageChart": "Məntəqə Status Paylanması",
-    "neighborhoodChart": "Rayonlar üzrə İstifadə və Əhatə",
+    "neighborhoodChart": "Bakı Məntəqələri üzrə İstifadə",
     "reportTrends": "Bildiriş Statusları",
-    "gapNotice": "Məlumat mənbəyi: Hazırkı aktiv demo/baza qeydləri üzrə real hesablamalar."
+    "gapNotice": "Məlumat mənbəyi: Hazırkı aktiv demo/baza qeydləri üzrə real hesablamalar.",
+    "checkingAuth": "Admin icazələri yoxlanılır...",
+    "viewAll": "Hamısına bax ({{count}})",
+    "noReports": "Hələ heç bir texniki bildiriş qeydə alınmayıb.",
+    "noMatchingReports": "Bu filtrə uyğun bildiriş yoxdur.",
+    "all": "Hamısı",
+    "updated": "Yeniləndi",
+    "equipmentCount": "{{count}} avadanlıq",
+    "reportStatuses": {
+      "open": "Açıq",
+      "in_progress": "İcrada",
+      "resolved": "Həll edilib",
+      "dismissed": "Ləğv edilib"
+    },
+    "fields": {
+      "name": "Məntəqənin adı",
+      "neighborhood": "Rayon / Ərazi",
+      "status": "Status",
+      "address": "Ünvan",
+      "latitude": "Enlik (Latitude)",
+      "longitude": "Uzunluq (Longitude)",
+      "openingHours": "İş saatları",
+      "imageUrl": "Şəkil URL (istəyə bağlı)",
+      "description": "Təsvir",
+      "equipment": "Avadanlıq",
+      "wheelchair": "Əlil arabası üçün uyğun",
+      "audio": "Səsli təlimat",
+      "open247": "24/7 Açıq"
+    },
+    "errors": {
+      "nameAddress": "Ad və ünvan ən azı 3 simvol olmalıdır.",
+      "coords": "Enlik və uzunluq düzgün rəqəm olmalıdır."
+    }
   }
 }

@@ -14,3 +14,11 @@ dist-ssr
 .DS_Store
 coverage
 *.tsbuildinfo
+
+# Android build artifacts & keystores
+android/.gradle/
+android/build/
+android/app/build/
+android/capacitor-cordova-android-plugins/build/
+*.jks
+*.keystore

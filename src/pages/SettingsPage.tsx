@@ -5,14 +5,17 @@ import {
   Bell,
   CheckCircle2,
   Database,
+  Download,
   Globe,
   RotateCcw,
   Settings,
   Shield,
+  Smartphone,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useHealthPoint } from "../context/HealthPointContext";
+import { isNativeApp } from "../lib/platform";
 import { isSupabaseConfigured } from "../lib/supabase";
 import { resetDemoData } from "../services/healthpointStore";
 import type { LanguageCode } from "../types/healthpoint";
@@ -160,9 +163,33 @@ export function SettingsPage() {
               <p className="text-xs text-[#737373]">{t("accessibility.subtitle")}</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-[#C8102E]">Open →</span>
+          <span className="text-xs font-bold text-[#C8102E]">{t("settings.open")}</span>
         </Link>
       </section>
+
+      {!isNativeApp() && (
+        <section className="bg-gradient-to-br from-[#FFF1F2] to-white rounded-3xl border border-[#FCE8EC] shadow-soft p-5 sm:p-6 flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-start gap-3 max-w-lg">
+            <div className="w-10 h-10 rounded-2xl bg-[#C8102E] text-white flex items-center justify-center shrink-0">
+              <Smartphone className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-sm font-extrabold text-[#171717]">{t("app.downloadApk")}</p>
+              <p className="text-xs text-[#737373] mt-0.5 leading-relaxed">
+                {t("app.downloadApkDesc")}
+              </p>
+            </div>
+          </div>
+          <a
+            href="/downloads/HealthPoint.apk"
+            download="HealthPoint.apk"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#C8102E] text-white text-xs sm:text-sm font-bold shadow-brand hover:bg-[#8B1028] transition shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            {t("app.downloadApkShort")}
+          </a>
+        </section>
+      )}
 
       {/* Backend / Demo Status */}
       <section className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-5 sm:p-6 space-y-4">
@@ -183,7 +210,7 @@ export function SettingsPage() {
                 : "bg-[#FFF1F2] text-[#8B1028] border border-[#FCE8EC]"
             }`}
           >
-            {liveDb ? "Supabase Connected" : "Local Demo Store"}
+            {liveDb ? t("settings.supabaseConnected") : t("settings.localDemoStore")}
           </span>
         </div>
 

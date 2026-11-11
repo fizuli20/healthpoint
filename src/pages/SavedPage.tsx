@@ -6,7 +6,7 @@ import { AccessPointCard } from "../components/AccessPointCard";
 import { ReportIssueModal } from "../components/ReportIssueModal";
 import { useHealthPoint } from "../context/HealthPointContext";
 import {
-  useAccessPointsQuery,
+  useLocalizedAccessPointsQuery,
   useSavedIdsQuery,
   useToggleSaveMutation,
 } from "../hooks/useHealthPointData";
@@ -16,7 +16,7 @@ import type { AccessPoint } from "../types/healthpoint";
 export function SavedPage() {
   const { t } = useTranslation();
   const { effectiveOrigin } = useHealthPoint();
-  const { data: points = [], isLoading } = useAccessPointsQuery();
+  const { data: points = [], isLoading } = useLocalizedAccessPointsQuery();
   const { data: savedIds = [] } = useSavedIdsQuery();
   const toggleSave = useToggleSaveMutation();
   const [reportTarget, setReportTarget] = useState<AccessPoint | null>(null);
@@ -56,7 +56,7 @@ export function SavedPage() {
 
       {isLoading ? (
         <div className="bg-white rounded-3xl border border-[#E5E7EB] p-8 text-center text-sm text-[#737373]">
-          Loading saved locations...
+          {t("saved.loading")}
         </div>
       ) : savedPoints.length === 0 ? (
         <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-8 sm:p-10 text-center space-y-4">

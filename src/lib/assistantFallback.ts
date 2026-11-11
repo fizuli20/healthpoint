@@ -1,4 +1,5 @@
 import { haversineDistanceMeters } from "./geo";
+import { localizeEquipmentLabel, localizeStatusLabel } from "./localizePoint";
 import type { AccessPoint, Coordinates, LanguageCode } from "../types/healthpoint";
 
 export interface AssistantResponsePayload {
@@ -79,7 +80,9 @@ export function runDeterministicAssistant(
   const lines = ranked
     .map((r) => {
       const distLabel = r.dist < 1000 ? `${Math.round(r.dist)} m` : `${(r.dist / 1000).toFixed(2)} km`;
-      return `• ${r.point.name} (${distLabel}, ${r.point.operationalStatus}) — ${r.point.equipment.join(", ")}`;
+      const statusText = localizeStatusLabel(r.point.operationalStatus, language);
+      const eqText = r.point.equipment.map((eq) => localizeEquipmentLabel(eq, language)).join(", ");
+      return `• ${r.point.name} (${distLabel}, ${statusText}) — ${eqText}`;
     })
     .join("\n");
 

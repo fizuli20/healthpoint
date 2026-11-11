@@ -4,7 +4,11 @@
     "mission": "Healthcare access, wherever life happens.",
     "demoBanner": "Demo Location — Not a Verified Healthcare Facility",
     "demoModeLabel": "Demo Sandbox (Local DB)",
-    "liveModeLabel": "Live Supabase Database"
+    "liveModeLabel": "Live Supabase Database",
+    "downloadApk": "Download Android App (APK)",
+    "downloadApkShort": "Get APK",
+    "downloadApkDesc": "Apar-style mobile access app with Baku interactive map, 103/112 SOS, and kiosk check-in (v1.0.0).",
+    "apkBannerText": "HealthPoint Android App is ready — download APK directly"
   },
   "nav": {
     "map": "Map",
@@ -44,7 +48,17 @@
     "manualLocation": "Set location manually",
     "sheetTitle": "Nearby Healthcare Access Points",
     "resultsCount": "{{count}} points matched",
-    "nearestRecommended": "Closest suitable access point selected"
+    "nearestRecommended": "Closest suitable access point selected",
+    "tileSlow": "Map tiles loading slowly — markers remain interactive.",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "ariaRegion": "Interactive Healthcare Access Map",
+    "manualLocations": {
+      "sahil": "Sahil / Seaside",
+      "may28": "28 May Metro",
+      "icherisheher": "Icherisheher",
+      "ganjlik": "Ganjlik"
+    }
   },
   "filters": {
     "nearest": "Nearest",
@@ -73,11 +87,31 @@
     "wheelchairYes": "Wheelchair accessible verified",
     "wheelchairNo": "Limited physical step access",
     "audioYes": "Voice audio guidance ready",
+    "audioShort": "Audio",
     "equipmentList": "Available Equipment",
     "maintenanceInfo": "Maintenance & Inspection",
     "notFound": "Access point not found",
     "backToMap": "Back to map",
-    "usageEvents": "Access events"
+    "usageEvents": "Access events",
+    "closeCard": "Close card",
+    "kioskCode": "Station Code",
+    "activateStation": "Activate Station"
+  },
+  "station": {
+    "scanOrCode": "Code / QR",
+    "enterCodeTitle": "Connect to Access Point",
+    "enterCodeSubtitle": "Just like Apar — enter the station code printed on the kiosk (e.g. HP-01) or pick below.",
+    "codePlaceholder": "Example: HP-01",
+    "activateBtn": "Activate Station",
+    "quickSelect": "Quick pick (Demo kiosks)",
+    "activeSessionBadge": "Station Active (Demo Kiosk)",
+    "demoNotice": "Demo Kiosk Simulator: No real physical lock opens; check-ins update local analytics.",
+    "availableModules": "Available Modules & Step Guide",
+    "stepGuide": "Tap an instrument below to view voice/step usage guidance.",
+    "listenVoice": "Listen",
+    "endSession": "End Session",
+    "codeNotFound": "No access point matched that code (try HP-01 to HP-08).",
+    "unavailableWarning": "This station is currently offline for maintenance."
   },
   "report": {
     "title": "Report an Access Point Issue",
@@ -134,6 +168,7 @@
     "voiceInput": "Voice input",
     "voiceUnsupported": "Voice input is not supported in this browser.",
     "clearChat": "Clear History",
+    "searching": "Searching Baku access points...",
     "welcome": "Hello! I am HealthPoint Assistant. I answer using real database records for access points, equipment, and wheelchair accessibility in Baku. I do not diagnose medical conditions — for emergencies call 103 or 112 immediately.",
     "prompts": [
       "Where is the nearest HealthPoint?",
@@ -171,7 +206,12 @@
     "contactPhone": "Phone number",
     "addContact": "Add Contact",
     "savedTitle": "Saved Access Points",
-    "savedEmpty": "No saved locations yet. Bookmark any access point from the map or list."
+    "savedEmpty": "No saved locations yet. Bookmark any access point from the map or list.",
+    "validationName": "Please enter a valid contact name (min 2 characters).",
+    "validationPhone": "Please enter a valid phone number."
+  },
+  "saved": {
+    "loading": "Loading saved locations..."
   },
   "settings": {
     "title": "Application Settings",
@@ -181,6 +221,9 @@
     "privacy": "Location & Privacy Controls",
     "privacyDesc": "Coordinates are processed on-demand; movement history is never tracked by default",
     "backendStatus": "Data Source",
+    "open": "Open →",
+    "supabaseConnected": "Supabase Connected",
+    "localDemoStore": "Local Demo Store",
     "resetDemo": "Reset Demo Sandbox Data",
     "resetDone": "Demo access points and maintenance reports restored."
   },
@@ -194,7 +237,9 @@
     "signOut": "Sign Out",
     "demoAdminBtn": "Enter Demo Admin Session",
     "demoUserBtn": "Enter Demo User Session",
-    "adminRequired": "Administrator authorization is required to manage HealthPoint infrastructure."
+    "adminRequired": "Administrator authorization is required to manage HealthPoint infrastructure.",
+    "validationEmail": "Please enter a valid email address.",
+    "validationPassword": "Password must be at least 6 characters."
   },
   "admin": {
     "title": "Admin Infrastructure Portal",
@@ -215,10 +260,44 @@
     "savePoint": "Save Access Point",
     "reportStatus": "Report Status",
     "assignedTo": "Assigned Technician",
+    "assignedPlaceholder": "Technician",
     "notes": "Maintenance Notes",
+    "notesPlaceholder": "Resolution notes",
     "coverageChart": "Operational Status Distribution",
     "neighborhoodChart": "Usage by Baku Location",
     "reportTrends": "Maintenance Report Breakdown",
-    "gapNotice": "Computed directly from stored database / active demo records."
+    "gapNotice": "Computed directly from stored database / active demo records.",
+    "checkingAuth": "Checking administrator permissions...",
+    "viewAll": "View all ({{count}})",
+    "noReports": "No maintenance reports recorded yet.",
+    "noMatchingReports": "No maintenance reports match this filter.",
+    "all": "All",
+    "updated": "Updated",
+    "equipmentCount": "{{count}} equipment",
+    "reportStatuses": {
+      "open": "Open",
+      "in_progress": "In Progress",
+      "resolved": "Resolved",
+      "dismissed": "Dismissed"
+    },
+    "fields": {
+      "name": "Name",
+      "neighborhood": "Neighborhood",
+      "status": "Status",
+      "address": "Address",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "openingHours": "Opening Hours",
+      "imageUrl": "Image URL (optional)",
+      "description": "Description",
+      "equipment": "Equipment",
+      "wheelchair": "Wheelchair Accessible",
+      "audio": "Audio Guided",
+      "open247": "Open 24/7"
+    },
+    "errors": {
+      "nameAddress": "Name and address must be at least 3 characters.",
+      "coords": "Latitude and longitude must be valid numbers."
+    }
   }
 }

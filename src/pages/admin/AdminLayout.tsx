@@ -17,7 +17,7 @@ export function AdminLayout() {
   if (authLoading) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center text-sm text-[#737373]">
-        Checking administrator permissions...
+        {t("admin.checkingAuth")}
       </div>
     );
   }

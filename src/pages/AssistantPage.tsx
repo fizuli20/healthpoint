@@ -12,7 +12,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../components/StatusBadge";
 import { useHealthPoint } from "../context/HealthPointContext";
-import { useAccessPointsQuery } from "../hooks/useHealthPointData";
+import { useLocalizedAccessPointsQuery } from "../hooks/useHealthPointData";
+import { resolveApiUrl } from "../lib/platform";
 import {
   runDeterministicAssistant,
   type AssistantResponsePayload,
@@ -45,7 +46,7 @@ interface SpeechRecognitionLike {
 export function AssistantPage() {
   const { t } = useTranslation();
   const { language, effectiveOrigin } = useHealthPoint();
-  const { data: points = [] } = useAccessPointsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
 
   const createWelcomeMessage = (): AssistantMessage => ({
     id: "welcome",
@@ -116,7 +117,7 @@ export function AssistantPage() {
 
     let result: AssistantResponsePayload;
     try {
-      const res = await fetch("/api/assistant", {
+      const res = await fetch(resolveApiUrl("/api/assistant"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -342,7 +343,7 @@ export function AssistantPage() {
         {isLoading && (
           <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#FAFAFA] border border-[#E5E7EB] text-xs text-[#737373]">
             <span className="w-2 h-2 rounded-full bg-[#C8102E] animate-ping" />
-            Searching Baku access points...
+            {t("assistant.searching")}
           </div>
         )}
         <div ref={bottomRef} />

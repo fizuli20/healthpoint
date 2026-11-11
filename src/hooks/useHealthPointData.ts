@@ -1,11 +1,15 @@
+import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { useHealthPoint } from "../context/HealthPointContext";
+import { localizeAccessPoint } from "../lib/localizePoint";
 import {
   fetchAccessPointById,
   fetchAccessPoints,
   fetchEmergencyContacts,
   fetchMaintenanceReports,
   fetchSavedPointIds,
+  recordStationActivation,
   toggleSavedPointId,
 } from "../services/healthpointStore";
 
@@ -17,12 +21,32 @@ export function useAccessPointsQuery() {
   });
 }
 
+export function useLocalizedAccessPointsQuery() {
+  const { i18n } = useTranslation();
+  const query = useAccessPointsQuery();
+  const localized = useMemo(
+    () => (query.data ?? []).map((p) => localizeAccessPoint(p, i18n.language)),
+    [query.data, i18n.language]
+  );
+  return { ...query, data: localized };
+}
+
 export function useAccessPointQuery(id: string | undefined) {
   return useQuery({
     queryKey: ["accessPoint", id],
     queryFn: () => (id ? fetchAccessPointById(id) : Promise.resolve(null)),
     enabled: Boolean(id),
   });
+}
+
+export function useLocalizedAccessPointQuery(id: string | undefined) {
+  const { i18n } = useTranslation();
+  const query = useAccessPointQuery(id);
+  const localized = useMemo(
+    () => (query.data ? localizeAccessPoint(query.data, i18n.language) : query.data),
+    [query.data, i18n.language]
+  );
+  return { ...query, data: localized };
 }
 
 export function useSavedIdsQuery() {
@@ -44,6 +68,17 @@ export function useToggleSaveMutation() {
     mutationFn: (pointId: string) => toggleSavedPointId(pointId, uid),
     onSuccess: (nextIds) => {
       queryClient.setQueryData(["savedIds", uid ?? "anon"], nextIds);
+    },
+  });
+}
+
+export function useActivateStationMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (pointId: string) => recordStationActivation(pointId),
+    onSuccess: (_data, pointId) => {
+      void queryClient.invalidateQueries({ queryKey: ["accessPoints"] });
+      void queryClient.invalidateQueries({ queryKey: ["accessPoint", pointId] });
     },
   });
 }

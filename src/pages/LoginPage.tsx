@@ -24,11 +24,11 @@ export function LoginPage() {
     e.preventDefault();
     setError(null);
     if (!email.includes("@")) {
-      setError("Please enter a valid email address.");
+      setError(t("auth.validationEmail"));
       return;
     }
     if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+      setError(t("auth.validationPassword"));
       return;
     }
     setSubmitting(true);

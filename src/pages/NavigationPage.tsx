@@ -16,7 +16,7 @@ import { LeafletMapView } from "../components/LeafletMapView";
 import { MapErrorBoundary } from "../components/MapErrorBoundary";
 import { DemoBadge } from "../components/StatusBadge";
 import { useHealthPoint } from "../context/HealthPointContext";
-import { useAccessPointQuery } from "../hooks/useHealthPointData";
+import { useLocalizedAccessPointQuery } from "../hooks/useHealthPointData";
 import {
   buildGoogleMapsUrl,
   fetchRoute,
@@ -29,7 +29,7 @@ export function NavigationPage() {
   const { id } = useParams<{ id: string }>();
   const { t, i18n } = useTranslation();
   const { effectiveOrigin, userLocation, setManualLocation } = useHealthPoint();
-  const { data: point, isLoading } = useAccessPointQuery(id);
+  const { data: point, isLoading } = useLocalizedAccessPointQuery(id);
 
   const [mode, setMode] = useState<"walking" | "driving">("walking");
   const [wheelchairPriority, setWheelchairPriority] = useState(false);

@@ -511,3 +511,31 @@ export function resetDemoData(): void {
   safeWriteJson(KEYS.POINTS, DEMO_ACCESS_POINTS);
   safeWriteJson(KEYS.REPORTS, DEMO_REPORTS);
 }
+
+export async function recordStationActivation(pointId: string): Promise<void> {
+  if (isSupabaseConfigured() && supabase) {
+    const { data: current } = await supabase
+      .from("access_points")
+      .select("usage_count")
+      .eq("id", pointId)
+      .maybeSingle();
+    const nextCount = Number(current?.usage_count ?? 0) + 1;
+    await supabase
+      .from("access_points")
+      .update({ usage_count: nextCount })
+      .eq("id", pointId);
+    return;
+  }
+
+  const all = getDemoPoints();
+  const idx = all.findIndex((p) => p.id === pointId);
+  if (idx >= 0) {
+    const copy = [...all];
+    copy[idx] = {
+      ...copy[idx],
+      usageCount: (copy[idx].usageCount || 0) + 1,
+      updatedAt: new Date().toISOString(),
+    };
+    safeWriteJson(KEYS.POINTS, copy);
+  }
+}

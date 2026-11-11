@@ -81,11 +81,49 @@ function buildDeterministicReply(
     })
     .slice(0, 3);
 
+const STATUS_LABELS: Record<string, Record<string, string>> = {
+  az: {
+    operational: "İşləkdir",
+    limited: "Məhdud Xidmət",
+    unavailable: "Əlçatmazdır",
+    unknown: "Naməlum",
+  },
+  ru: {
+    operational: "Работает",
+    limited: "Ограниченный сервис",
+    unavailable: "Недоступно",
+    unknown: "Неизвестно",
+  },
+};
+
+const EQUIPMENT_LABELS: Record<string, Record<string, string>> = {
+  az: {
+    "Blood pressure monitor": "Qan təzyiqi cihazı",
+    "Heart rate monitor": "Nəbz ölçən",
+    "Pulse oximeter": "Pulsoksimetr",
+    "First-aid kit": "İlk yardım çantası",
+    "SOS communication button": "SOS çağrı düyməsi",
+    AED: "AED (Defibrilyator)",
+  },
+  ru: {
+    "Blood pressure monitor": "Тонометр",
+    "Heart rate monitor": "Пульсометр",
+    "Pulse oximeter": "Пульсоксиметр",
+    "First-aid kit": "Аптечка",
+    "SOS communication button": "Кнопка вызова SOS",
+    AED: "Дефибриллятор AED",
+  },
+};
+
   const matchedIds = ranked.map((r) => r.point.id);
   const lines = ranked
     .map((r) => {
       const distLabel = r.dist < 1000 ? `${Math.round(r.dist)} m` : `${(r.dist / 1000).toFixed(2)} km`;
-      return `• ${r.point.name} (${distLabel}, ${r.point.operationalStatus}) — ${r.point.equipment.join(", ")}`;
+      const statusText = STATUS_LABELS[language]?.[r.point.operationalStatus] ?? r.point.operationalStatus;
+      const eqText = r.point.equipment
+        .map((eq) => EQUIPMENT_LABELS[language]?.[eq] ?? eq)
+        .join(", ");
+      return `• ${r.point.name} (${distLabel}, ${statusText}) — ${eqText}`;
     })
     .join("\n");
 
@@ -185,7 +223,27 @@ function getConfiguredProvider(): ProviderConfig | null {
   return null;
 }
 
+const ALLOWED_ORIGINS = new Set([
+  "https://healthpoint-tawny.vercel.app",
+  "https://localhost",
+  "capacitor://localhost",
+  "http://localhost",
+  "http://localhost:5173",
+]);
+
 export default async function handler(req: any, res: any) {
+  const origin = req.headers?.origin as string | undefined;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).end();
+    return;
+  }
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;

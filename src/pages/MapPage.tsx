@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, LocateFixed, MapPin, PhoneCall, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, LocateFixed, MapPin, PhoneCall, QrCode, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -8,22 +8,25 @@ import { LeafletMapView } from "../components/LeafletMapView";
 import { MapErrorBoundary } from "../components/MapErrorBoundary";
 import { ReportIssueModal } from "../components/ReportIssueModal";
 import { SearchFilterBar } from "../components/SearchFilterBar";
+import { StationActivateModal } from "../components/StationActivateModal";
 import { DemoBadge, StatusBadge } from "../components/StatusBadge";
 import { useHealthPoint } from "../context/HealthPointContext";
 import {
-  useAccessPointsQuery,
+  useLocalizedAccessPointsQuery,
   useSavedIdsQuery,
   useToggleSaveMutation,
 } from "../hooks/useHealthPointData";
 import { filterAccessPoints, sortAccessPoints } from "../lib/filters";
 import { findNearestSuitablePoint, formatDistance, haversineDistanceMeters } from "../lib/geo";
+import { getKioskCode } from "../lib/localizePoint";
+import { isNativeApp } from "../lib/platform";
 import type { AccessPoint } from "../types/healthpoint";
 
 const MANUAL_BAKU_LOCATIONS = [
-  { label: "Sahil / Seaside", lat: 40.3712, lng: 49.8473 },
-  { label: "28 May Metro", lat: 40.3792, lng: 49.8489 },
-  { label: "Icherisheher", lat: 40.3661, lng: 49.8318 },
-  { label: "Ganjlik", lat: 40.4004, lng: 49.8524 },
+  { labelKey: "map.manualLocations.sahil", lat: 40.3712, lng: 49.8473 },
+  { labelKey: "map.manualLocations.may28", lat: 40.3792, lng: 49.8489 },
+  { labelKey: "map.manualLocations.icherisheher", lat: 40.3661, lng: 49.8318 },
+  { labelKey: "map.manualLocations.ganjlik", lat: 40.4004, lng: 49.8524 },
 ];
 
 export function MapPage() {
@@ -41,12 +44,14 @@ export function MapPage() {
     setSelectedPointId,
   } = useHealthPoint();
 
-  const { data: points = [], isLoading } = useAccessPointsQuery();
+  const { data: points = [], isLoading } = useLocalizedAccessPointsQuery();
   const { data: savedIds = [] } = useSavedIdsQuery();
   const toggleSave = useToggleSaveMutation();
 
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [reportTarget, setReportTarget] = useState<AccessPoint | null>(null);
+  const [activateTarget, setActivateTarget] = useState<AccessPoint | null>(null);
+  const [activateModalOpen, setActivateModalOpen] = useState(false);
   const [nearestBanner, setNearestBanner] = useState(false);
   const [showManualLoc, setShowManualLoc] = useState(false);
 
@@ -100,7 +105,7 @@ export function MapPage() {
         <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-[#E5E7EB] shadow-card p-3 sm:p-4 space-y-2.5">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <DemoBadge />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 flex-wrap">
               <button
                 type="button"
                 onClick={() => setShowManualLoc((v) => !v)}
@@ -119,6 +124,27 @@ export function MapPage() {
                 <LocateFixed className="w-3.5 h-3.5" />
                 {t("map.findNearest")}
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActivateTarget(null);
+                  setActivateModalOpen(true);
+                }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#FFF1F2] border border-[#C8102E] text-[#C8102E] text-xs font-bold hover:bg-[#FCE8EC] transition"
+              >
+                <QrCode className="w-3.5 h-3.5" />
+                {t("station.scanOrCode")}
+              </button>
+              {!isNativeApp() && (
+                <a
+                  href="/downloads/HealthPoint.apk"
+                  download="HealthPoint.apk"
+                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#171717] text-white text-[11px] font-bold hover:bg-[#C8102E] transition"
+                >
+                  <Download className="w-3 h-3" />
+                  {t("app.downloadApkShort")}
+                </a>
+              )}
             </div>
           </div>
 
@@ -129,7 +155,7 @@ export function MapPage() {
               </span>
               {MANUAL_BAKU_LOCATIONS.map((loc) => (
                 <button
-                  key={loc.label}
+                  key={loc.labelKey}
                   type="button"
                   onClick={() => {
                     setManualLocation({ lat: loc.lat, lng: loc.lng });
@@ -137,7 +163,7 @@ export function MapPage() {
                   }}
                   className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#FFF1F2] text-[#8B1028] border border-[#FCE8EC] hover:bg-[#C8102E] hover:text-white transition"
                 >
-                  {loc.label}
+                  {t(loc.labelKey)}
                 </button>
               ))}
             </div>
@@ -189,7 +215,7 @@ export function MapPage() {
               <button
                 type="button"
                 onClick={() => setSelectedPointId(null)}
-                aria-label="Close card"
+                aria-label={t("point.closeCard")}
                 className="absolute -top-2.5 -right-2.5 z-10 w-8 h-8 rounded-full bg-white border border-[#E5E7EB] shadow-soft flex items-center justify-center text-[#171717] hover:text-[#C8102E]"
               >
                 <X className="w-4 h-4" />
@@ -203,6 +229,10 @@ export function MapPage() {
                 isSaved={savedIds.includes(selectedPoint.id)}
                 onToggleSave={(id) => toggleSave.mutate(id)}
                 onReport={(p) => setReportTarget(p)}
+                onActivate={(p) => {
+                  setActivateTarget(p);
+                  setActivateModalOpen(true);
+                }}
               />
             </div>
           </motion.div>
@@ -262,15 +292,31 @@ export function MapPage() {
                       onClick={() => setSelectedPointId(pt.id)}
                       className="flex-1 text-left min-w-0"
                     >
-                      <p className="font-bold text-xs sm:text-sm text-[#171717] truncate">
-                        {pt.name}
-                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="shrink-0 px-1.5 py-0.5 rounded bg-[#FFF1F2] text-[#C8102E] text-[10px] font-extrabold">
+                          {getKioskCode(pt.id)}
+                        </span>
+                        <p className="font-bold text-xs sm:text-sm text-[#171717] truncate">
+                          {pt.name}
+                        </p>
+                      </div>
                       <div className="flex items-center gap-2 mt-1 flex-wrap">
                         <StatusBadge status={pt.operationalStatus} />
                         <span className="text-xs font-semibold text-[#737373]">
                           {formatDistance(dist, i18n.language)}
                         </span>
                       </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActivateTarget(pt);
+                        setActivateModalOpen(true);
+                      }}
+                      aria-label={t("point.activateStation")}
+                      className="shrink-0 p-2 rounded-xl border border-[#FCE8EC] bg-[#FFF1F2] text-[#C8102E] hover:bg-[#C8102E] hover:text-white"
+                    >
+                      <QrCode className="w-3.5 h-3.5" />
                     </button>
                     <Link
                       to={`/navigation/${pt.id}`}
@@ -291,6 +337,13 @@ export function MapPage() {
         accessPointName={reportTarget?.name ?? ""}
         open={Boolean(reportTarget)}
         onClose={() => setReportTarget(null)}
+      />
+
+      <StationActivateModal
+        open={activateModalOpen}
+        points={points}
+        initialPoint={activateTarget}
+        onClose={() => setActivateModalOpen(false)}
       />
     </div>
   );

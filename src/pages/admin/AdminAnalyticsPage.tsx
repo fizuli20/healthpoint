@@ -1,11 +1,11 @@
 import { BarChart3 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
+import { useLocalizedAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
 import { ALL_EQUIPMENT, type OperationalStatus, type ReportStatus } from "../../types/healthpoint";
 
 export function AdminAnalyticsPage() {
   const { t } = useTranslation();
-  const { data: points = [] } = useAccessPointsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
   const { data: reports = [] } = useReportsQuery();
 
   const total = Math.max(points.length, 1);
@@ -148,8 +148,8 @@ export function AdminAnalyticsPage() {
                 key={row.status}
                 className="rounded-2xl bg-[#FAFAFA] border border-[#E5E7EB] p-4 space-y-1"
               >
-                <span className="text-xs font-semibold text-[#737373] uppercase">
-                  {row.status}
+                <span className="text-xs font-semibold text-[#737373]">
+                  {t(`admin.reportStatuses.${row.status}`)}
                 </span>
                 <p className="text-2xl font-extrabold text-[#171717]">{row.count}</p>
               </div>

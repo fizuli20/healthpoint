@@ -3,13 +3,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, ClipboardList } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useReportsQuery } from "../../hooks/useHealthPointData";
+import { useLocalizedAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
 import { updateMaintenanceReport } from "../../services/healthpointStore";
 import type { MaintenanceReport, ReportStatus } from "../../types/healthpoint";
 
 const REPORT_STATUSES: ReportStatus[] = ["open", "in_progress", "resolved", "dismissed"];
 
-function ReportRow({ report }: { report: MaintenanceReport }) {
+function ReportRow({
+  report,
+  pointName,
+}: {
+  report: MaintenanceReport;
+  pointName?: string;
+}) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [status, setStatus] = useState<ReportStatus>(report.status);
@@ -39,7 +45,7 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
             to={`/points/${report.accessPointId}`}
             className="text-sm font-bold text-[#171717] hover:text-[#C8102E]"
           >
-            {report.accessPointName || report.accessPointId}
+            {pointName || report.accessPointName || report.accessPointId}
           </Link>
           <p className="text-xs text-[#737373]">
             {t(`report.types.${report.issueType}`)} •{" "}
@@ -47,7 +53,7 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
           </p>
         </div>
         <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-[#FFF1F2] text-[#C8102E]">
-          {report.status}
+          {t(`admin.reportStatuses.${report.status}`)}
         </span>
       </div>
 
@@ -67,7 +73,7 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
           >
             {REPORT_STATUSES.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {t(`admin.reportStatuses.${s}`)}
               </option>
             ))}
           </select>
@@ -81,7 +87,7 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
             type="text"
             value={assignedTo}
             onChange={(e) => setAssignedTo(e.target.value)}
-            placeholder="Technician"
+            placeholder={t("admin.assignedPlaceholder")}
             className="w-full px-3 py-2 rounded-xl border border-[#E5E7EB] text-xs"
           />
         </div>
@@ -94,7 +100,7 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
             type="text"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Resolution notes"
+            placeholder={t("admin.notesPlaceholder")}
             className="w-full px-3 py-2 rounded-xl border border-[#E5E7EB] text-xs"
           />
         </div>
@@ -105,7 +111,7 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
           {savedNotice && (
             <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              Updated
+              {t("admin.updated")}
             </span>
           )}
         </div>
@@ -125,6 +131,8 @@ function ReportRow({ report }: { report: MaintenanceReport }) {
 export function AdminReportsPage() {
   const { t } = useTranslation();
   const { data: reports = [] } = useReportsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
+  const pointNames = new Map(points.map((p) => [p.id, p.name]));
   const [filterStatus, setFilterStatus] = useState<"all" | ReportStatus>("all");
 
   const filtered =
@@ -150,7 +158,7 @@ export function AdminReportsPage() {
                   : "bg-white text-[#737373] border-[#E5E7EB]"
               }`}
             >
-              {s}
+              {s === "all" ? t("admin.all") : t(`admin.reportStatuses.${s}`)}
             </button>
           ))}
         </div>
@@ -158,12 +166,12 @@ export function AdminReportsPage() {
 
       {filtered.length === 0 ? (
         <div className="bg-white rounded-3xl border border-[#E5E7EB] p-8 text-center text-sm text-[#737373]">
-          No maintenance reports match this filter.
+          {t("admin.noMatchingReports")}
         </div>
       ) : (
         <div className="space-y-3">
           {filtered.map((rep) => (
-            <ReportRow key={rep.id} report={rep} />
+            <ReportRow key={rep.id} report={rep} pointName={pointNames.get(rep.accessPointId)} />
           ))}
         </div>
       )}

@@ -2,12 +2,13 @@ import { AlertTriangle, CheckCircle2, ClipboardList, MapPin, Plus, TrendingUp } 
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../../components/StatusBadge";
-import { useAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
+import { useLocalizedAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
 
 export function AdminOverviewPage() {
   const { t } = useTranslation();
-  const { data: points = [] } = useAccessPointsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
   const { data: reports = [] } = useReportsQuery();
+  const pointNames = new Map(points.map((p) => [p.id, p.name]));
 
   const operationalCount = points.filter((p) => p.operationalStatus === "operational").length;
   const limitedCount = points.filter((p) => p.operationalStatus === "limited").length;
@@ -104,11 +105,11 @@ export function AdminOverviewPage() {
               to="/admin/reports"
               className="text-xs font-bold text-[#C8102E] hover:underline"
             >
-              View all ({reports.length})
+              {t("admin.viewAll", { count: reports.length })}
             </Link>
           </div>
           {reports.length === 0 ? (
-            <p className="text-sm text-[#737373]">No maintenance reports recorded yet.</p>
+            <p className="text-sm text-[#737373]">{t("admin.noReports")}</p>
           ) : (
             <div className="space-y-2.5">
               {reports.slice(0, 5).map((rep) => (
@@ -118,10 +119,10 @@ export function AdminOverviewPage() {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-xs font-bold text-[#171717]">
-                      {rep.accessPointName || rep.accessPointId}
+                      {pointNames.get(rep.accessPointId) || rep.accessPointName || rep.accessPointId}
                     </span>
                     <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#FFF1F2] text-[#C8102E]">
-                      {rep.status}
+                      {t(`admin.reportStatuses.${rep.status}`)}
                     </span>
                   </div>
                   <p className="text-xs text-[#737373] line-clamp-2">{rep.description}</p>

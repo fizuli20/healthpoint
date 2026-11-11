@@ -222,12 +222,12 @@ export function LeafletMapView({
         ref={containerRef}
         className={`h-full w-full z-0 ${layerMode === "minimal" ? "hp-map-minimal" : ""}`}
         role="region"
-        aria-label="Interactive Healthcare Access Map"
+        aria-label={t("map.ariaRegion")}
       />
 
       {tileError && (
         <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[400] bg-white/95 border border-[#FCE8EC] text-[#8B1028] text-xs font-medium px-3 py-1.5 rounded-full shadow-soft">
-          Map tiles loading slowly — markers remain interactive.
+          {t("map.tileSlow")}
         </div>
       )}
 
@@ -236,7 +236,7 @@ export function LeafletMapView({
           <button
             type="button"
             onClick={() => mapRef.current?.zoomIn()}
-            aria-label="Zoom in"
+            aria-label={t("map.zoomIn")}
             className="w-10 h-10 rounded-2xl bg-white border border-[#E5E7EB] shadow-soft flex items-center justify-center text-[#171717] hover:border-[#C8102E] hover:text-[#C8102E] transition"
           >
             <Plus className="w-4 h-4" />
@@ -244,7 +244,7 @@ export function LeafletMapView({
           <button
             type="button"
             onClick={() => mapRef.current?.zoomOut()}
-            aria-label="Zoom out"
+            aria-label={t("map.zoomOut")}
             className="w-10 h-10 rounded-2xl bg-white border border-[#E5E7EB] shadow-soft flex items-center justify-center text-[#171717] hover:border-[#C8102E] hover:text-[#C8102E] transition"
           >
             <Minus className="w-4 h-4" />

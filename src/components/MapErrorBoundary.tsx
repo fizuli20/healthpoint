@@ -24,7 +24,7 @@ export class MapErrorBoundary extends React.Component<
         <div className="w-full h-full min-h-[260px] flex flex-col items-center justify-center bg-[#FAFAFA] border border-[#E5E7EB] p-6 text-center gap-2">
           <AlertTriangle className="w-6 h-6 text-[#C8102E]" />
           <p className="text-sm font-semibold text-[#171717]">
-            {this.props.fallbackMessage || "Interactive map canvas unavailable in this browser."}
+            {this.props.fallbackMessage || "İnteraktiv xəritə bu brauzerdə yüklənə bilmədi."}
           </p>
         </div>
       );

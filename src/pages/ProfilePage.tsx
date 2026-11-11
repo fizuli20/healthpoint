@@ -16,8 +16,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useHealthPoint } from "../context/HealthPointContext";
 import {
-  useAccessPointsQuery,
   useEmergencyContactsQuery,
+  useLocalizedAccessPointsQuery,
   useSavedIdsQuery,
 } from "../hooks/useHealthPointData";
 import {
@@ -31,7 +31,7 @@ export function ProfilePage() {
   const queryClient = useQueryClient();
   const { data: contacts = [] } = useEmergencyContactsQuery();
   const { data: savedIds = [] } = useSavedIdsQuery();
-  const { data: points = [] } = useAccessPointsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
 
   const uid = user && !user.isDemoAuth ? user.id : null;
 
@@ -57,11 +57,11 @@ export function ProfilePage() {
     const cleanName = contactName.trim();
     const cleanPhone = contactPhone.trim();
     if (cleanName.length < 2) {
-      setContactError("Please enter a valid contact name (min 2 characters).");
+      setContactError(t("profile.validationName"));
       return;
     }
     if (!/^[+\d][\d\s-]{2,}$/.test(cleanPhone)) {
-      setContactError("Please enter a valid phone number.");
+      setContactError(t("profile.validationPhone"));
       return;
     }
     setContactError(null);
