@@ -69,6 +69,10 @@ html.hp-reduced-motion *::after {
   background-color: #fafafa;
 }
 
+.hp-map-minimal .leaflet-tile-pane {
+  filter: saturate(0.28) brightness(1.05) contrast(0.93);
+}
+
 .hp-cluster-icon {
   background: #c8102e;
   color: #ffffff;

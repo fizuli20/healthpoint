@@ -123,15 +123,8 @@ export function LeafletMapView({
       map.removeLayer(tileLayerRef.current);
     }
 
-    const tileUrl =
-      layerMode === "minimal"
-        ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-
-    const attribution =
-      layerMode === "minimal"
-        ? '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO'
-        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    const tileUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
     const layer = L.tileLayer(tileUrl, {
       attribution,
@@ -227,7 +220,7 @@ export function LeafletMapView({
     <div className={`relative ${heightClass}`}>
       <div
         ref={containerRef}
-        className="h-full w-full z-0"
+        className={`h-full w-full z-0 ${layerMode === "minimal" ? "hp-map-minimal" : ""}`}
         role="region"
         aria-label="Interactive Healthcare Access Map"
       />
