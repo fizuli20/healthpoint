@@ -64,9 +64,9 @@ function applyAccessibilityToDom(prefs: AccessibilityPreferences): void {
 }
 
 const PAGE_TITLES: Record<LanguageCode, string> = {
-  az: "HealthPoint — Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi",
-  en: "HealthPoint — Healthcare access, wherever life happens",
-  ru: "HealthPoint — Доступ к медицине там, где идёт жизнь",
+  az: "OpenCarePoint — Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi",
+  en: "OpenCarePoint — Healthcare access, wherever life happens",
+  ru: "OpenCarePoint — Доступ к медицине там, где идёт жизнь",
 };
 
 export function HealthPointProvider({ children }: { children: React.ReactNode }) {
@@ -239,7 +239,7 @@ export function HealthPointProvider({ children }: { children: React.ReactNode })
         loggedIn: true,
         isAdmin: false,
         email,
-        fullName: fullName || "Demo User",
+        fullName: fullName || "Demo İstifadəçi",
       });
       setUser(loadLocalUserProfile());
     },
@@ -250,8 +250,8 @@ export function HealthPointProvider({ children }: { children: React.ReactNode })
     setDemoAuthSession({
       loggedIn: true,
       isAdmin: asAdmin,
-      email: asAdmin ? "admin@healthpoint.demo" : "citizen@healthpoint.demo",
-      fullName: asAdmin ? "Baku Ops Admin (Demo)" : "Leyla Aliyeva (Demo)",
+      email: asAdmin ? "admin@opencarepoint.demo" : "vetendas@opencarepoint.demo",
+      fullName: asAdmin ? "Bakı Əməliyyat Admini (Demo)" : "Leyla Əliyeva (Demo)",
     });
     setUser(loadLocalUserProfile());
   }, []);

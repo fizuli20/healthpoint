@@ -110,7 +110,7 @@ export function SearchFilterBar({ compact = false }: { compact?: boolean }) {
             type="button"
             onClick={() => setShowEquipment((s) => !s)}
             aria-expanded={showEquipment}
-            aria-label="Filters"
+            aria-label="Filtrlər"
             className={`px-3 py-2.5 rounded-2xl border text-xs font-semibold inline-flex items-center gap-1.5 shadow-soft transition ${
               activeCount > 0 || showEquipment
                 ? "bg-[#FFF1F2] border-[#C8102E] text-[#C8102E]"

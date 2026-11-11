@@ -181,8 +181,8 @@ export function SettingsPage() {
             </div>
           </div>
           <a
-            href="/downloads/HealthPoint.apk"
-            download="HealthPoint.apk"
+            href="/downloads/OpenCarePoint.apk"
+            download="OpenCarePoint.apk"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#C8102E] text-white text-xs sm:text-sm font-bold shadow-brand hover:bg-[#8B1028] transition shrink-0"
           >
             <Download className="w-4 h-4" />

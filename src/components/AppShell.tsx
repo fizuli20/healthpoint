@@ -61,7 +61,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <HealthPointWordmark compact />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1" aria-label="Primary navigation">
+          <nav className="hidden md:flex items-center gap-1" aria-label="Əsas naviqasiya">
             {desktopNav.map((item) => {
               const Icon = item.icon;
               return (
@@ -138,7 +138,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Mobile Bottom Navigation Bar — safely clear of floating SOS */}
       <nav
-        aria-label="Mobile navigation"
+        aria-label="Mobil naviqasiya"
         className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E5E7EB] safe-pb"
       >
         <div className="flex items-center justify-around px-1 pt-1.5">

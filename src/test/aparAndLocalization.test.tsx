@@ -49,11 +49,11 @@ describe("HealthPoint Azerbaijani default localization & Apar-style kiosk UX", (
     expect(getKioskCode(boulevard.id)).toBe("HP-01");
 
     const azPoint = localizeAccessPoint(boulevard, "az");
-    expect(azPoint.name).toBe("HealthPoint — Dənizkənarı Bulvar");
+    expect(azPoint.name).toBe("OpenCarePoint — Dənizkənarı Bulvar");
     expect(azPoint.neighborhood).toBe("Səbail / Bulvar");
 
     const ruPoint = localizeAccessPoint(boulevard, "ru");
-    expect(ruPoint.name).toBe("HealthPoint — Приморский бульвар");
+    expect(ruPoint.name).toBe("OpenCarePoint — Приморский бульвар");
 
     expect(localizeStatusLabel("operational", "az")).toBe("İşləkdir");
     expect(localizeEquipmentLabel("Blood pressure monitor", "az")).toBe("Qan təzyiqi cihazı");
@@ -63,12 +63,12 @@ describe("HealthPoint Azerbaijani default localization & Apar-style kiosk UX", (
     renderAppAt(["/"]);
 
     expect(await screen.findByText(/Yaxın Sağlamlıq Məntəqələri/i)).toBeInTheDocument();
-    expect(await screen.findByText(/HealthPoint — Dənizkənarı Bulvar/i)).toBeInTheDocument();
+    expect(await screen.findByText(/OpenCarePoint — Dənizkənarı Bulvar/i)).toBeInTheDocument();
     expect(screen.getAllByText("HP-01").length).toBeGreaterThan(0);
     expect(screen.getByRole("button", { name: /Kod \/ QR ilə Başla/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /APK Yüklə/i })).toHaveAttribute(
       "href",
-      "/downloads/HealthPoint.apk"
+      "/downloads/OpenCarePoint.apk"
     );
   });
 

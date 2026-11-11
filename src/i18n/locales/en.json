@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "HealthPoint",
+    "name": "OpenCarePoint",
     "mission": "Healthcare access, wherever life happens.",
     "demoBanner": "Demo Location — Not a Verified Healthcare Facility",
     "demoModeLabel": "Demo Sandbox (Local DB)",
@@ -8,7 +8,7 @@
     "downloadApk": "Download Android App (APK)",
     "downloadApkShort": "Get APK",
     "downloadApkDesc": "Apar-style mobile access app with Baku interactive map, 103/112 SOS, and kiosk check-in (v1.0.0).",
-    "apkBannerText": "HealthPoint Android App is ready — download APK directly"
+    "apkBannerText": "OpenCarePoint Android App is ready — download APK directly"
   },
   "nav": {
     "map": "Map",
@@ -156,10 +156,10 @@
     "confirmShareBtn": "Share Coordinates",
     "copied": "Location link copied to clipboard.",
     "noContacts": "No trusted emergency contacts saved in Profile yet.",
-    "disclaimer": "Important Notice: HealthPoint does not replace ambulances, hospitals, or professional emergency care. Emergency calls are initiated natively from your device; HealthPoint does not verify external dispatch receipt."
+    "disclaimer": "Important Notice: OpenCarePoint does not replace ambulances, hospitals, or professional emergency care. Emergency calls are initiated natively from your device; OpenCarePoint does not verify external dispatch receipt."
   },
   "assistant": {
-    "title": "HealthPoint Assistant",
+    "title": "OpenCarePoint Assistant",
     "subtitle": "Real-database locator for Baku points, equipment & accessibility",
     "badgeAi": "Live Server AI ({{provider}})",
     "badgeDeterministic": "Deterministic DB Assistant (No AI key set)",
@@ -169,9 +169,9 @@
     "voiceUnsupported": "Voice input is not supported in this browser.",
     "clearChat": "Clear History",
     "searching": "Searching Baku access points...",
-    "welcome": "Hello! I am HealthPoint Assistant. I answer using real database records for access points, equipment, and wheelchair accessibility in Baku. I do not diagnose medical conditions — for emergencies call 103 or 112 immediately.",
+    "welcome": "Hello! I am OpenCarePoint Assistant. I answer using real database records for access points, equipment, and wheelchair accessibility in Baku. I do not diagnose medical conditions — for emergencies call 103 or 112 immediately.",
     "prompts": [
-      "Where is the nearest HealthPoint?",
+      "Where is the nearest OpenCarePoint?",
       "Find an access point with a blood pressure monitor.",
       "Show wheelchair-accessible locations.",
       "Find an AED near me."
@@ -237,7 +237,7 @@
     "signOut": "Sign Out",
     "demoAdminBtn": "Enter Demo Admin Session",
     "demoUserBtn": "Enter Demo User Session",
-    "adminRequired": "Administrator authorization is required to manage HealthPoint infrastructure.",
+    "adminRequired": "Administrator authorization is required to manage OpenCarePoint infrastructure.",
     "validationEmail": "Please enter a valid email address.",
     "validationPassword": "Password must be at least 6 characters."
   },

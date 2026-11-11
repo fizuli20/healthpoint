@@ -61,13 +61,13 @@ export function AdminLayout() {
             <div>
               <h1 className="text-lg sm:text-xl font-extrabold text-[#171717]">{t("admin.title")}</h1>
               <p className="text-xs text-[#737373]">
-                {user.fullName || user.email || "Administrator"}
+                {user.fullName || user.email || "Admin"}
               </p>
             </div>
           </div>
         </div>
 
-        <nav className="flex items-center gap-2 overflow-x-auto pb-1" aria-label="Admin sections">
+        <nav className="flex items-center gap-2 overflow-x-auto pb-1" aria-label="Admin bölmələri">
           {ADMIN_TABS.map((tab) => {
             const Icon = tab.icon;
             return (

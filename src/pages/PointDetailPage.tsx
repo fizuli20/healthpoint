@@ -106,7 +106,7 @@ export function PointDetailPage() {
                 <span className="px-2 py-0.5 rounded-md bg-[#C8102E] text-white">
                   {getKioskCode(point.id)}
                 </span>
-                HealthPoint
+                {t("app.name")}
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-[#171717]">
                 {point.name}

@@ -3,7 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, ClipboardList } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useLocalizedAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
+import {
+  useLocalizedAccessPointsQuery,
+  useLocalizedReportsQuery,
+} from "../../hooks/useHealthPointData";
 import { updateMaintenanceReport } from "../../services/healthpointStore";
 import type { MaintenanceReport, ReportStatus } from "../../types/healthpoint";
 
@@ -130,7 +133,7 @@ function ReportRow({
 
 export function AdminReportsPage() {
   const { t } = useTranslation();
-  const { data: reports = [] } = useReportsQuery();
+  const { data: reports = [] } = useLocalizedReportsQuery();
   const { data: points = [] } = useLocalizedAccessPointsQuery();
   const pointNames = new Map(points.map((p) => [p.id, p.name]));
   const [filterStatus, setFilterStatus] = useState<"all" | ReportStatus>("all");

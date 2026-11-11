@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "az.healthpoint.app",
-  appName: "HealthPoint",
+  appId: "az.opencarepoint.app",
+  appName: "OpenCarePoint",
   webDir: "dist",
   android: {
     allowMixedContent: false,

@@ -4,7 +4,7 @@ android {
     namespace = "az.healthpoint.app"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "az.healthpoint.app"
+        applicationId "az.opencarepoint.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

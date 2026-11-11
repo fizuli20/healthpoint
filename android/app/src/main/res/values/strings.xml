@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">HealthPoint</string>
-    <string name="title_activity_main">HealthPoint</string>
-    <string name="package_name">az.healthpoint.app</string>
-    <string name="custom_url_scheme">az.healthpoint.app</string>
+    <string name="app_name">OpenCarePoint</string>
+    <string name="title_activity_main">OpenCarePoint</string>
+    <string name="package_name">az.opencarepoint.app</string>
+    <string name="custom_url_scheme">az.opencarepoint.app</string>
 </resources>

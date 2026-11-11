@@ -2,12 +2,15 @@ import { AlertTriangle, CheckCircle2, ClipboardList, MapPin, Plus, TrendingUp } 
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../../components/StatusBadge";
-import { useLocalizedAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
+import {
+  useLocalizedAccessPointsQuery,
+  useLocalizedReportsQuery,
+} from "../../hooks/useHealthPointData";
 
 export function AdminOverviewPage() {
   const { t } = useTranslation();
   const { data: points = [] } = useLocalizedAccessPointsQuery();
-  const { data: reports = [] } = useReportsQuery();
+  const { data: reports = [] } = useLocalizedReportsQuery();
   const pointNames = new Map(points.map((p) => [p.id, p.name]));
 
   const operationalCount = points.filter((p) => p.operationalStatus === "operational").length;

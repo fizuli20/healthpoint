@@ -36,7 +36,7 @@ export function LoginPage() {
       if (mode === "signin") {
         await signInWithEmail(email.trim(), password);
       } else {
-        await signUpWithEmail(email.trim(), password, fullName.trim() || "HealthPoint User");
+        await signUpWithEmail(email.trim(), password, fullName.trim() || "OpenCarePoint İstifadəçisi");
       }
       navigate("/profile");
     } catch (err) {

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useHealthPoint } from "../context/HealthPointContext";
-import { localizeAccessPoint } from "../lib/localizePoint";
+import { localizeAccessPoint, localizeMaintenanceReport } from "../lib/localizePoint";
 import {
   fetchAccessPointById,
   fetchAccessPoints,
@@ -88,6 +88,16 @@ export function useReportsQuery() {
     queryKey: ["maintenanceReports"],
     queryFn: fetchMaintenanceReports,
   });
+}
+
+export function useLocalizedReportsQuery() {
+  const { i18n } = useTranslation();
+  const query = useReportsQuery();
+  const localized = useMemo(
+    () => (query.data ?? []).map((r) => localizeMaintenanceReport(r, i18n.language)),
+    [query.data, i18n.language]
+  );
+  return { ...query, data: localized };
 }
 
 export function useEmergencyContactsQuery() {

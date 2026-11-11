@@ -96,7 +96,7 @@ export function AdminPointsPage() {
         name: form.name.trim(),
         neighborhood: form.neighborhood.trim() || "Baku",
         address: form.address.trim(),
-        description: form.description.trim() || "Public HealthPoint access station.",
+        description: form.description.trim() || "İctimai OpenCarePoint sağlamlıq məntəqəsi.",
         latitude: lat,
         longitude: lng,
         openingHours: form.openingHours.trim() || "24/7",

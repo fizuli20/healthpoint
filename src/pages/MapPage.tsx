@@ -137,8 +137,8 @@ export function MapPage() {
               </button>
               {!isNativeApp() && (
                 <a
-                  href="/downloads/HealthPoint.apk"
-                  download="HealthPoint.apk"
+                  href="/downloads/OpenCarePoint.apk"
+                  download="OpenCarePoint.apk"
                   className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#171717] text-white text-[11px] font-bold hover:bg-[#C8102E] transition"
                 >
                   <Download className="w-3 h-3" />
@@ -194,7 +194,7 @@ export function MapPage() {
         <Link
           to="/emergency"
           role="button"
-          aria-label="Emergency SOS"
+          aria-label={t("nav.emergency")}
           className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#C8102E] text-white font-extrabold text-sm shadow-brand border-2 border-white hover:bg-[#8B1028] focus:outline-none focus:ring-4 focus:ring-[#FCE8EC] transition"
         >
           <PhoneCall className="w-4 h-4 animate-pulse" />

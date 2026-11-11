@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { useHealthPoint } from "../context/HealthPointContext";
 import {
-  useAccessPointsQuery,
   useEmergencyContactsQuery,
+  useLocalizedAccessPointsQuery,
 } from "../hooks/useHealthPointData";
 import { findNearestSuitablePoint } from "../lib/geo";
 
@@ -21,7 +21,7 @@ export function EmergencyPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { effectiveOrigin, requestLocation, setSelectedPointId } = useHealthPoint();
-  const { data: points = [] } = useAccessPointsQuery();
+  const { data: points = [] } = useLocalizedAccessPointsQuery();
   const { data: contacts = [] } = useEmergencyContactsQuery();
 
   const [shareConfirmOpen, setShareConfirmOpen] = useState(false);
@@ -37,11 +37,11 @@ export function EmergencyPage() {
 
   const executeShare = async () => {
     const url = `https://maps.google.com/?q=${shareCoordsText.replace(/\s+/g, "")}`;
-    const text = `HealthPoint Emergency Location: ${shareCoordsText} (${url})`;
+    const text = `${t("app.name")} — ${shareCoordsText} (${url})`;
     setShareConfirmOpen(false);
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
-        await navigator.share({ title: "HealthPoint Location", text, url });
+        await navigator.share({ title: t("app.name"), text, url });
         return;
       } catch {
         // User cancelled or share unsupported, fall back to clipboard copy

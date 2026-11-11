@@ -3,6 +3,13 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/downloads/HealthPoint.apk",
+      "destination": "/downloads/OpenCarePoint.apk",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/downloads/(.*)\\.apk",
@@ -13,7 +20,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"HealthPoint.apk\""
+          "value": "attachment; filename=\"OpenCarePoint.apk\""
         },
         {
           "key": "Cache-Control",

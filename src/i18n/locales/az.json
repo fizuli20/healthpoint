@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "HealthPoint",
+    "name": "OpenCarePoint",
     "mission": "Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi.",
     "demoBanner": "Demo Məkanı — Təsdiqlənmiş Tibb Müəssisəsi Deyil",
     "demoModeLabel": "Demo Rejimi (Yerli Baza)",
@@ -8,7 +8,7 @@
     "downloadApk": "Android Tətbiqini Yüklə (APK)",
     "downloadApkShort": "APK Yüklə",
     "downloadApkDesc": "Apar üslublu mobil təcrübə: Bakı xəritəsi, 103/112 SOS və oflayn dəstəkli Android paketi (v1.0.0).",
-    "apkBannerText": "HealthPoint Android Tətbiqi hazırdır — birbaşa APK endirin"
+    "apkBannerText": "OpenCarePoint Android Tətbiqi hazırdır — birbaşa APK endirin"
   },
   "nav": {
     "map": "Xəritə",
@@ -156,10 +156,10 @@
     "confirmShareBtn": "Paylaşımı Təsdiqlə",
     "copied": "Mövqe keçidi buferə kopyalandı.",
     "noContacts": "Profil bölməsində hələ etibarlı şəxs əlavə edilməyib.",
-    "disclaimer": "Vacib Qeyd: HealthPoint təcili tibbi yardımı, həkimi və ya xəstəxananı əvəz etmir. Zənglər birbaşa cihazınızdan yığılır; platforma avtomatik dispetçer təsdiqi göndərmir."
+    "disclaimer": "Vacib Qeyd: OpenCarePoint təcili tibbi yardımı, həkimi və ya xəstəxananı əvəz etmir. Zənglər birbaşa cihazınızdan yığılır; platforma avtomatik dispetçer təsdiqi göndərmir."
   },
   "assistant": {
-    "title": "HealthPoint Köməkçisi",
+    "title": "OpenCarePoint Köməkçisi",
     "subtitle": "Bakıdakı məntəqələr, avadanlıq və əlçatanlıq üzrə bələdçi",
     "badgeAi": "Canlı Server AI ({{provider}})",
     "badgeDeterministic": "Deterministik Baza Axtarışı (AI açarı yoxdur)",
@@ -169,9 +169,9 @@
     "voiceUnsupported": "Bu brauzerdə səsli giriş dəstəklənmir.",
     "clearChat": "Tarixçəni Təmizlə",
     "searching": "Bakı məntəqələri yoxlanılır...",
-    "welcome": "Salam! Mən HealthPoint Köməkçisiyəm. Yaxınlıqdakı məntəqələr, AED, qan təzyiqi cihazı və əlil arabası girişi barədə real məntəqə bazasına əsasən cavab verirəm. Tibbi diaqnoz qoymuram — fövqəladə halda dərhal 103 və ya 112-yə zəng edin.",
+    "welcome": "Salam! Mən OpenCarePoint Köməkçisiyəm. Yaxınlıqdakı məntəqələr, AED, qan təzyiqi cihazı və əlil arabası girişi barədə real məntəqə bazasına əsasən cavab verirəm. Tibbi diaqnoz qoymuram — fövqəladə halda dərhal 103 və ya 112-yə zəng edin.",
     "prompts": [
-      "Ən yaxın HealthPoint haradadır?",
+      "Ən yaxın OpenCarePoint haradadır?",
       "Qan təzyiqi cihazı olan məntəqə tap",
       "Əlil arabası üçün əlçatan məntəqələri göstər",
       "Yaxınlıqda AED harada var?"

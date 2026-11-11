@@ -8,7 +8,7 @@ export const BAKU_DEFAULT_CENTER = {
 export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   {
     id: "hp-baku-boulevard",
-    name: "HealthPoint — Baku Boulevard",
+    name: "OpenCarePoint — Baku Boulevard",
     description:
       "Waterfront smart access point along Baku Boulevard with wheelchair-height sensor console, voice prompts, and public SOS call button.",
     neighborhood: "Sabail / Boulevard",
@@ -37,7 +37,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-fountain-square",
-    name: "HealthPoint — Fountain Square",
+    name: "OpenCarePoint — Fountain Square",
     description:
       "Central pedestrian plaza unit offering rapid blood-pressure and pulse checks with multilingual audio instructions.",
     neighborhood: "Fountain Square",
@@ -65,7 +65,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-icherisheher",
-    name: "HealthPoint — Icherisheher",
+    name: "OpenCarePoint — Icherisheher",
     description:
       "Compact step-free station outside Icherisheher Metro serving older residents, pedestrians, and tourists.",
     neighborhood: "Icherisheher",
@@ -92,7 +92,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-28-may",
-    name: "HealthPoint — 28 May Metro",
+    name: "OpenCarePoint — 28 May Metro",
     description:
       "High-traffic transit hub access point directly beside 28 May Metro and bus terminal with AED cabinet.",
     neighborhood: "28 May",
@@ -121,7 +121,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-ganjlik-mall",
-    name: "HealthPoint — Ganjlik Mall",
+    name: "OpenCarePoint — Ganjlik Mall",
     description:
       "Transit corridor kiosk adjacent to Ganjlik Metro bus bay. Pulse oximeter currently under inspection (limited service).",
     neighborhood: "Ganjlik",
@@ -147,7 +147,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-heydar-aliyev-center",
-    name: "HealthPoint — Heydar Aliyev Center",
+    name: "OpenCarePoint — Heydar Aliyev Center",
     description:
       "Park entrance accessible unit with wide paved ramp, AED unit, and high-visibility emergency assistance panel.",
     neighborhood: "Narimanov",
@@ -176,7 +176,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-nizami-street",
-    name: "HealthPoint — Nizami Street",
+    name: "OpenCarePoint — Nizami Street",
     description:
       "Pedestrian street kiosk positioned at wheelchair reach height with basic cardiac & blood-pressure telemetry.",
     neighborhood: "Sabail / Nizami",
@@ -202,7 +202,7 @@ export const DEMO_ACCESS_POINTS: AccessPoint[] = [
   },
   {
     id: "hp-sahil-metro",
-    name: "HealthPoint — Sahil Metro",
+    name: "OpenCarePoint — Sahil Metro",
     description:
       "Station temporarily offline for sensor calibration and ramp lighting upgrade in demo status.",
     neighborhood: "Sahil",
@@ -232,7 +232,7 @@ export const DEMO_REPORTS: MaintenanceReport[] = [
   {
     id: "rep-demo-1",
     accessPointId: "hp-ganjlik-mall",
-    accessPointName: "HealthPoint — Ganjlik Mall",
+    accessPointName: "OpenCarePoint — Ganjlik Mall",
     issueType: "broken_equipment",
     description: "Pulse oximeter finger clip cable shows intermittent disconnect.",
     status: "in_progress",
@@ -244,7 +244,7 @@ export const DEMO_REPORTS: MaintenanceReport[] = [
   {
     id: "rep-demo-2",
     accessPointId: "hp-sahil-metro",
-    accessPointName: "HealthPoint — Sahil Metro",
+    accessPointName: "OpenCarePoint — Sahil Metro",
     issueType: "closed_unavailable",
     description: "Touchscreen display dimmed; preventive calibration maintenance open.",
     status: "open",

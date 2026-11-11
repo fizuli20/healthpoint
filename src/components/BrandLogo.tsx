@@ -23,7 +23,7 @@ export function HealthPointWordmark({ compact = false }: { compact?: boolean }) 
     <span className="inline-flex items-center gap-1.5 sm:gap-2.5 select-none">
       <HealthPointIcon size={compact ? 26 : 34} />
       <span className="font-extrabold tracking-tight text-[#171717] text-base sm:text-xl leading-none">
-        Health<span className="text-[#C8102E]">Point</span>
+        OpenCare<span className="text-[#C8102E]">Point</span>
       </span>
     </span>
   );
@@ -40,7 +40,7 @@ export function LoadingSplash({ message }: { message?: string }) {
         <HealthPointIcon size={52} />
       </div>
       <p className="mt-4 font-extrabold text-xl tracking-tight text-[#171717]">
-        Health<span className="text-[#C8102E]">Point</span>
+        OpenCare<span className="text-[#C8102E]">Point</span>
       </p>
       {message && <p className="mt-1.5 text-sm text-[#737373]">{message}</p>}
     </div>

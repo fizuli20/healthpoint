@@ -1,7 +1,8 @@
 {
-  "name": "HealthPoint",
-  "short_name": "HealthPoint",
-  "description": "Healthcare access, wherever life happens.",
+  "name": "OpenCarePoint",
+  "short_name": "OpenCarePoint",
+  "description": "Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi.",
+  "lang": "az",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",

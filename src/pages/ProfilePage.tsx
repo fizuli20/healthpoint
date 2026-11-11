@@ -233,7 +233,7 @@ export function ProfilePage() {
                 <div className="flex items-center gap-2">
                   <a
                     href={`tel:${c.phoneNumber}`}
-                    aria-label={`Call ${c.contactName}`}
+                    aria-label={`${t("emergency.callNow")}: ${c.contactName}`}
                     className="p-2 rounded-xl bg-white border border-[#E5E7EB] text-[#C8102E] hover:bg-[#FFF1F2]"
                   >
                     <Phone className="w-4 h-4" />
@@ -241,7 +241,7 @@ export function ProfilePage() {
                   <button
                     type="button"
                     onClick={() => void handleDeleteContact(c.id)}
-                    aria-label={`Remove ${c.contactName}`}
+                    aria-label={`Sil: ${c.contactName}`}
                     className="p-2 rounded-xl bg-white border border-[#E5E7EB] text-[#737373] hover:text-[#C8102E]"
                   >
                     <Trash2 className="w-4 h-4" />
