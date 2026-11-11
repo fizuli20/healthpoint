@@ -1,0 +1,16 @@
+{
+  "name": "HealthPoint",
+  "short_name": "HealthPoint",
+  "description": "Healthcare access, wherever life happens.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#C8102E",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

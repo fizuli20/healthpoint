@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --hp-red: #c8102e;
+  --hp-action: #e11d48;
+  --hp-burgundy: #8b1028;
+  --hp-soft: #fff1f2;
+  --hp-blush: #fce8ec;
+  --hp-text: #171717;
+  --hp-muted: #737373;
+  --hp-border: #e5e7eb;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+html.hp-font-large {
+  font-size: 18px;
+}
+
+html.hp-font-xlarge {
+  font-size: 20px;
+}
+
+html.hp-easy-access {
+  font-size: 18px;
+}
+
+html.hp-easy-access button,
+html.hp-easy-access a[role="button"] {
+  min-height: 48px;
+}
+
+html.hp-high-contrast body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+html.hp-high-contrast .hp-card {
+  border-color: #171717 !important;
+  border-width: 2px !important;
+}
+
+html.hp-reduced-motion *,
+html.hp-reduced-motion *::before,
+html.hp-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 9999px;
+}
+
+/* Leaflet overrides matching HealthPoint design */
+.leaflet-container {
+  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  background-color: #fafafa;
+}
+
+.hp-cluster-icon {
+  background: #c8102e;
+  color: #ffffff;
+  border: 3px solid #ffffff;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.35);
+}
+
+.hp-marker-wrapper {
+  background: transparent;
+  border: none;
+}
+
+.safe-pb {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
