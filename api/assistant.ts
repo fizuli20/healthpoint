@@ -1,5 +1,7 @@
 import type { AccessPoint } from "../src/types/healthpoint";
 
+declare const process: { env: Record<string, string | undefined> };
+
 interface AssistantRequestBody {
   query?: string;
   language?: string;
