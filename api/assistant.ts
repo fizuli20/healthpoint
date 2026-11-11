@@ -232,9 +232,9 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 export default async function handler(req: any, res: any) {
-  const origin = req.headers?.origin as string | undefined;
-  if (origin && ALLOWED_ORIGINS.has(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
+  const requestOrigin = req.headers?.origin as string | undefined;
+  if (requestOrigin && ALLOWED_ORIGINS.has(requestOrigin)) {
+    res.setHeader("Access-Control-Allow-Origin", requestOrigin);
     res.setHeader("Vary", "Origin");
   }
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
