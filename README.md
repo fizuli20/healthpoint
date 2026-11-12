@@ -1,102 +1,101 @@
-# HealthPoint
+# OpenCare Point 2.0
 
-> **Healthcare access, wherever life happens.**
+> **Sağlamlığa daha yaxın şəhər.**  
+> **Human-Centered Cities Hackathon, Azerbaijan • Team CiviCore**
 
-HealthPoint is a mobile-first, accessible smart-city healthcare accessibility platform built to help citizens, older adults, persons with disabilities, and tourists locate nearby public Healthcare Access Points in Baku, verify equipment & wheelchair accessibility, initiate turn-by-turn or straight-line fallback navigation, and reach emergency numbers (`103` / `112`) immediately.
+OpenCare Point is an urban public healthcare infrastructure platform designed around accessible physical touchscreen kiosks. It provides citizens in public spaces with immediate, free, and anonymous pulse measurement, accessible emergency assistance, and optional NFC-based doctor voice-call handoff — **without requiring a smartphone or payment**.
 
-> **Important Notice**: HealthPoint access points and this platform do **not** replace ambulances, hospitals, physicians, or professional emergency medical treatment. Seeded Baku locations carry an explicit **"Demo Location — Not a Verified Healthcare Facility"** label until replaced by live municipal records.
-
----
-
-## Features
-
-- **Red & White Accessible Design System**: High-clarity `#FFFFFF` surfaces with `#C8102E` / `#E11D48` / `#8B1028` / `#FFF1F2` accents, Plus Jakarta Sans & Inter typography, distinct operational status badges, and safe-area mobile layout.
-- **Interactive Clustered Map (`/`) & List Directory (`/nearby`)**:
-  - React Leaflet + `leaflet.markercluster` with custom Red/Status pin markers, layer switcher (Standard Map & Minimal Light), geolocation permission & manual Baku origin setting, "Find Nearest", search & equipment/wheelchair/24-7 filters, and slide-up mobile sheet.
-- **Access Point Detail (`/points/:id`) & Navigation (`/navigation/:id`)**:
-  - Full station metadata, equipment inventory (`Blood pressure monitor`, `Heart rate monitor`, `Pulse oximeter`, `First-aid kit`, `SOS communication button`, `AED`), opening hours, last verified timestamp, issue reporting modal, live OSRM walking/driving route polyline with automatic straight-line fallback warning if OSRM is unreachable, and "Open in Google Maps" handoff.
-- **Emergency SOS (`/emergency`)**:
-  - Requires no authentication. Direct native `tel:103` and `tel:112` calling links, nearest suitable access point finder, private trusted emergency contact caller, and explicit confirmation dialog before sharing GPS coordinates.
-- **AI / Deterministic Assistant (`/assistant`)**:
-  - Uses Vercel serverless `/api/assistant` with server-side `OPENROUTER_API_KEY`, `NVIDIA_API_KEY`, `XAI_API_KEY`, `OPENAI_API_KEY`, or `GEMINI_API_KEY` when configured.
-  - When no external AI key is configured (or locally offline), explicitly runs as a **Deterministic DB Assistant** matching queried equipment/accessibility against stored access points without fabricating responses or clinical diagnoses.
-  - Supports browser Web Speech voice input (with graceful notice where unsupported).
-- **Accessibility & Multi-Language (`/accessibility`, `/settings`)**:
-  - Azerbaijani (`az`, default), English (`en`), and Russian (`ru`).
-  - WCAG 2.2 AA targeted controls including **Easy Access Mode**, Large / Extra Large typography, High Contrast Mode, Reduced Motion, and Simple Language Mode.
-- **Saved Bookmarks & Private Profile (`/saved`, `/profile`, `/login`)**:
-  - Bookmark stations, manage private trusted emergency contacts (RLS-protected per user in Supabase, or local storage in Sandbox mode), and optional email/password login.
-- **Role-Protected Admin Portal (`/admin`, `/admin/points`, `/admin/reports`, `/admin/analytics`)**:
-  - Live KPI overview, full Access Point Create/Edit/Delete CRUD with delete confirmation, citizen Maintenance Report triage (`open` / `in_progress` / `resolved` / `dismissed`, technician assignment, notes), and computed analytics charts.
+- **Live Production URL**: [https://healthpoint-tawny.vercel.app](https://healthpoint-tawny.vercel.app)
+- **Repository**: [https://github.com/fizuli20/healthpoint](https://github.com/fizuli20/healthpoint)
+- **Android APK**: [OpenCarePoint.apk](https://healthpoint-tawny.vercel.app/downloads/OpenCarePoint.apk) (Signed Release APK)
 
 ---
 
-## Tech Stack
+## 1. Product Ecosystem (Three Connected Products)
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, React Router v7, TanStack Query, React Leaflet, `leaflet.markercluster`, i18next, Lucide Icons
-- **Serverless / API**: Vercel Serverless Functions (`api/assistant.ts`) with per-IP rate limiting
-- **Database & Auth Schema**: Supabase PostgreSQL + Row-Level Security (`supabase/migrations/001_init_healthpoint.sql`, `supabase/seed.sql`) with Demo Sandbox localStorage fallback when credentials are omitted
-- **Testing**: Vitest, Testing Library, jsdom
+### 1. OpenCare Kiosk (`/kiosk`, `/kiosk/:stationId`)
+A standalone landscape touchscreen application (1920×1080 / 1280×800) designed for public kiosks:
+- **Core User Sequence**: *"Cihazı götür → Nəbzini ölç → Nəticəni gör → Lazım olduqda yardım istə"*
+- **Full State Machine**: `idle`, `instructions`, `device_preparation`, `connecting`, `ready`, `measuring`, `checking_signal`, `poor_signal`, `result`, `completed`.
+- **Deterministic Signal Quality Check**: Synthetic PPG waveform evaluated via morphology and peak regularity. Zero vitals returned if motion artifacts or loose contact are detected (`poor_signal`).
+- **Result Transparency**: Large BPM display, explicit `"Nümunə nəticə — real tibbi ölçmə deyil"` badge, signal quality index (SQI 97%), and **strictly no green "you are healthy" verdict**.
+- **Independent Kiosk Emergency SOS**: Direct simulated emergency dispatch attaching kiosk GPS and code (`HP-10`) with request ID and dispatcher acknowledgement. Real 103 phone instructions provided.
+- **NFC Doctor Voice-Call Simulation**: Smartphone tap simulation initiating a private tele-consultation audio interface.
+- **Privacy by Default**: Anonymous, ephemeral sessions with automated inactivity countdown and complete session memory wipe.
+
+### 2. OpenCare Connect (`/map`, `/nearby`, `/points/:id`, `/navigation/:id`)
+A mobile-first citizen discovery application:
+- 15 Baku stations across Metro, parks, transit hubs, universities, and shopping centers.
+- Filters for wheelchair accessibility, voice guidance, equipment, and placement zones.
+- Safe location handling with manual Baku center fallback (no automatic geolocation prompts).
+- Integrated Android APK download and turn-by-turn walking route navigation.
+
+### 3. OpenCare City (`/admin`, `/admin/points`, `/admin/reports`, `/admin/analytics`)
+A municipal infrastructure command center for city operators and 103 dispatchers:
+- **Real-Time Telemetry Event Bus**: Connected via `BroadcastChannel` and `localStorage` to receive live kiosk events (`kiosk_session_started`, `measurement_quality_accepted`, `measurement_quality_rejected`, `emergency_request_simulated`).
+- **Real-Time Operational KPIs**: Total stations, active kiosks, session volume, retry rate, and simulated emergency calls.
+- **Pilot Planning & Validation Criteria**: SOS discovery time (<5s), unassisted completion rate (>92%), and retry rate (<15%).
+- **Maintenance Ticket Triage**: `open` → `in_progress` → `resolved`.
 
 ---
 
-## Local Development
+## 2. Dedicated Judge Demonstration Mode (`/demo`)
+
+A guided presentation console for hackathon evaluators featuring 4 reproducible scenarios:
+- **Scenario A (Citizen without a smartphone)**: 67-year-old retired teacher Tofiq dayı at Narimanov Park measures pulse and requests emergency help directly from HP-10.
+- **Scenario B (Signal quality failure & retry)**: Noisy PPG signal rejected (54% SQI, zero false vitals), device re-adjusted, second measurement succeeds (74 BPM, 97% SQI).
+- **Scenario C (NFC doctor handoff)**: Master's student Nigar taps personal phone at HP-11 (Elmlər) to initiate simulated voice call with Dr. Samirə Vəliyeva.
+- **Scenario D (Municipal operator)**: Live telemetry monitor updates in real-time, displays retry metrics, and triages maintenance tickets.
+
+---
+
+## 3. Technology Architecture & Waveforms (`/technology`)
+
+- **System Data Flow**: Sensor → BLE (proposed) → Kiosk Edge → SQI Deterministic Filter → Result Screen → User Support.
+- **Live Interactive PPG Comparison**: Real-time canvas comparing clean arterial pulse waveform vs motion-corrupted wave.
+- **Capability Registry**: Full transparent matrix distinguishing implemented software, simulated prototypes, and planned hardware/partner integrations.
+
+---
+
+## 4. Municipal Pilot & Business Model (`/partners`)
+
+- **B2G Infrastructure Packages**: Kiosk installation, routine maintenance, and software updates.
+- **B2B Transit Deployments**: Metro stations, rail hubs, shopping malls.
+- **Citizen Access Guarantee**: Core pulse measurement and emergency help are **100% free**.
+- **4-Phase Pilot Roadmap**: Laboratory validation → Narimanov Park pilot (3 kiosks) → TƏBİB 103 integration → Baku 15-station expansion.
+
+---
+
+## 5. Tech Stack & Engineering Standards
+
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, React Router v7, TanStack Query, React Leaflet, Lucide Icons, Framer Motion
+- **Sound Design**: Procedural Web Audio API synthesizer (heartbeat `lub-dub`, NFC chime, ECG beep, emergency alert)
+- **Mobile Packaging**: Capacitor Android with Docker-based signed release builds (`healthpoint-sdk:36`)
+- **Event Bus**: Cross-tab `BroadcastChannel` with persistent fallback
+- **Testing**: Vitest, Testing Library, jsdom (36 unit & integration tests)
+- **Accessibility**: Targeted WCAG 2.2 AA (high contrast mode, large text mode, voice guidance fallback, 56–72px touch targets)
+- **Localization**: Azerbaijani (`az`, default), English (`en`), and Russian (`ru`)
+
+---
+
+## 6. Verification & Build Commands
 
 ```bash
+# Install dependencies
 npm install
-npm run dev
-```
 
-### Verification Commands
-
-```bash
+# TypeScript type checking (0 errors)
 npm run typecheck
+
+# Execute Vitest test suite (36/36 tests passing)
 npm test
+
+# Build production web bundle
 npm run build
 ```
 
 ---
 
-## Demo Sandbox vs Live Supabase Setup
+## 7. Disclaimer & Prototype Status
 
-Out of the box (without `.env` secrets), HealthPoint runs in **Demo Sandbox (Local DB)** mode:
-- All 8 realistic Baku demo access points are seeded in `localStorage` and labeled as demo locations.
-- `/login` offers explicit **Enter Demo User Session** and **Enter Demo Admin Session** buttons so reviewers can test all citizen and admin workflows without external accounts.
-
-To connect a dedicated Supabase project:
-1. Create a new Supabase project.
-2. Run [`supabase/migrations/001_init_healthpoint.sql`](supabase/migrations/001_init_healthpoint.sql) in the SQL Editor to create `profiles`, `access_points`, `saved_access_points`, `emergency_contacts`, `maintenance_reports`, `usage_events`, and strict RLS policies.
-3. Optionally seed the 8 Baku demo points via [`supabase/seed.sql`](supabase/seed.sql).
-4. Set client env vars in `.env` (or Vercel Environment Variables):
-
-```env
-VITE_SUPABASE_URL=https://your-project-ref.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-```
-
----
-
-## Server-Side AI Configuration (Optional)
-
-Configure **only** on the server / Vercel Environment Variables (never prefix with `VITE_`):
-
-```env
-OPENROUTER_API_KEY=
-NVIDIA_API_KEY=
-XAI_API_KEY=
-OPENAI_API_KEY=
-GEMINI_API_KEY=
-```
-
-If none are present, `/api/assistant` responds in explicitly labeled `mode: "deterministic"` using real stored access point records.
-
----
-
-## Vercel Deployment
-
-The repository includes [`vercel.json`](vercel.json) with SPA fallback rewrites preserving `/api/*`:
-
-```bash
-npm run build
-vercel --prod
-```
+OpenCare Point is a smart-city technology prototype created for the Human-Centered Cities Hackathon, Azerbaijan. Simulated pulse measurements, emergency dispatch requests, and doctor calls are local demonstration adapters designed to showcase urban healthcare infrastructure. They do not place real emergency calls, replace certified medical diagnosis, or substitute professional clinicians.
