@@ -27,6 +27,9 @@ const MANUAL_BAKU_LOCATIONS = [
   { labelKey: "map.manualLocations.may28", lat: 40.3792, lng: 49.8489 },
   { labelKey: "map.manualLocations.icherisheher", lat: 40.3661, lng: 49.8318 },
   { labelKey: "map.manualLocations.ganjlik", lat: 40.4004, lng: 49.8524 },
+  { labelKey: "map.manualLocations.koroglu", lat: 40.4209, lng: 49.9182 },
+  { labelKey: "map.manualLocations.elmler", lat: 40.3754, lng: 49.8152 },
+  { labelKey: "map.manualLocations.ahmedli", lat: 40.3855, lng: 49.9542 },
 ];
 
 export function MapPage() {
@@ -63,6 +66,15 @@ export function MapPage() {
         "distance"
       ),
     [points, filter, effectiveOrigin]
+  );
+
+  const operationalCount = useMemo(
+    () => points.filter((p) => p.operationalStatus === "operational").length,
+    [points]
+  );
+  const aedCount = useMemo(
+    () => points.filter((p) => p.equipment.includes("AED")).length,
+    [points]
   );
 
   const selectedPoint = useMemo(
@@ -261,7 +273,12 @@ export function MapPage() {
             <div>
               <h2 className="font-bold text-sm text-[#171717]">{t("map.sheetTitle")}</h2>
               <p className="text-xs text-[#737373]">
-                {isLoading ? "..." : t("map.resultsCount", { count: filteredPoints.length })}
+                {isLoading
+                  ? "..."
+                  : `${t("map.resultsCount", { count: filteredPoints.length })} • ${t("map.networkMeta", {
+                      operational: operationalCount,
+                      aed: aedCount,
+                    })}`}
               </p>
             </div>
             <span className="p-1.5 rounded-full bg-[#FAFAFA] text-[#171717]">

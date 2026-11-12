@@ -6,6 +6,7 @@ import type {
   SortMode,
 } from "../types/healthpoint";
 import { haversineDistanceMeters } from "./geo";
+import { getKioskCode } from "./localizePoint";
 
 export const DEFAULT_FILTER: AccessPointFilter = {
   search: "",
@@ -14,6 +15,7 @@ export const DEFAULT_FILTER: AccessPointFilter = {
   open247Only: false,
   wheelchairOnly: false,
   equipment: [],
+  zone: "all",
 };
 
 const STATUS_PRIORITY: Record<OperationalStatus, number> = {
@@ -40,16 +42,21 @@ export function filterAccessPoints(
     if (filter.wheelchairOnly && !point.wheelchairAccessible) {
       return false;
     }
+    if (filter.zone && filter.zone !== "all" && point.placementZone !== filter.zone) {
+      return false;
+    }
     if (filter.equipment.length > 0) {
       const hasAll = filter.equipment.every((eq) => point.equipment.includes(eq));
       if (!hasAll) return false;
     }
     if (query.length > 0) {
       const haystack = [
+        getKioskCode(point.id),
         point.name,
         point.address,
         point.neighborhood,
         point.description,
+        point.placementReason ?? "",
         ...point.equipment,
         point.wheelchairAccessible ? "wheelchair accessible əlil pandus коляска" : "",
       ]
@@ -106,6 +113,7 @@ export function countActiveFilters(filter: AccessPointFilter): number {
   if (filter.operationalOnly) count += 1;
   if (filter.open247Only) count += 1;
   if (filter.wheelchairOnly) count += 1;
+  if (filter.zone && filter.zone !== "all") count += 1;
   count += filter.equipment.length;
   return count;
 }

@@ -28,7 +28,10 @@ const KEYS = {
   VITALS: "hp_vital_readings_v1",
   PARTNER_INQUIRIES: "hp_partner_inquiries_v1",
   MEDICAL_CARD: "hp_medical_card_v1",
+  SEED_VERSION: "hp_seed_version_v1",
 };
+
+const CURRENT_SEED_VERSION = "15_v1";
 
 export const DEFAULT_ACCESSIBILITY: AccessibilityPreferences = {
   easyAccessMode: false,
@@ -103,17 +106,58 @@ function toPointDbRow(point: Partial<AccessPoint>): Record<string, unknown> {
 
 export function getDemoPoints(): AccessPoint[] {
   const stored = safeReadJson<AccessPoint[] | null>(KEYS.POINTS, null);
+  const seedVersion = window.localStorage.getItem(KEYS.SEED_VERSION);
   if (stored && Array.isArray(stored) && stored.length > 0) {
-    return stored;
+    if (seedVersion === CURRENT_SEED_VERSION) {
+      return stored;
+    }
+    const seedById = new Map(DEMO_ACCESS_POINTS.map((p) => [p.id, p]));
+    const existingIds = new Set(stored.map((p) => p.id));
+    const upgraded = stored.map((pt) => {
+      const seed = seedById.get(pt.id);
+      if (!seed) return pt;
+      return {
+        ...pt,
+        placementZone: pt.placementZone ?? seed.placementZone,
+        placementReason: pt.placementReason ?? seed.placementReason,
+      };
+    });
+    for (const seed of DEMO_ACCESS_POINTS) {
+      if (!existingIds.has(seed.id)) {
+        upgraded.push(seed);
+      }
+    }
+    safeWriteJson(KEYS.POINTS, upgraded);
+    try {
+      window.localStorage.setItem(KEYS.SEED_VERSION, CURRENT_SEED_VERSION);
+    } catch {
+      // ignore storage errors
+    }
+    return upgraded;
   }
   safeWriteJson(KEYS.POINTS, DEMO_ACCESS_POINTS);
+  try {
+    window.localStorage.setItem(KEYS.SEED_VERSION, CURRENT_SEED_VERSION);
+  } catch {
+    // ignore storage errors
+  }
   return DEMO_ACCESS_POINTS;
 }
 
 export function getDemoReports(): MaintenanceReport[] {
   const stored = safeReadJson<MaintenanceReport[] | null>(KEYS.REPORTS, null);
   if (stored && Array.isArray(stored)) {
-    return stored;
+    const existingIds = new Set(stored.map((r) => r.id));
+    let changed = false;
+    const merged = [...stored];
+    for (const rep of DEMO_REPORTS) {
+      if (!existingIds.has(rep.id)) {
+        merged.push(rep);
+        changed = true;
+      }
+    }
+    if (changed) safeWriteJson(KEYS.REPORTS, merged);
+    return merged;
   }
   safeWriteJson(KEYS.REPORTS, DEMO_REPORTS);
   return DEMO_REPORTS;
@@ -516,6 +560,11 @@ export function setDemoAuthSession(session: {
 export function resetDemoData(): void {
   safeWriteJson(KEYS.POINTS, DEMO_ACCESS_POINTS);
   safeWriteJson(KEYS.REPORTS, DEMO_REPORTS);
+  try {
+    window.localStorage.setItem(KEYS.SEED_VERSION, CURRENT_SEED_VERSION);
+  } catch {
+    // ignore storage errors
+  }
 }
 
 export async function recordStationActivation(pointId: string): Promise<void> {

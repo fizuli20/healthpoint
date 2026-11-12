@@ -23,7 +23,7 @@ export function PlansPage() {
   const queryClient = useQueryClient();
   const { data: inquiries = [] } = usePartnerInquiriesQuery();
 
-  const [kiosks, setKiosks] = useState(10);
+  const [kiosks, setKiosks] = useState(15);
   const [dailyChecks, setDailyChecks] = useState(80);
 
   const [orgName, setOrgName] = useState("");

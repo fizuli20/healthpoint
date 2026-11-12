@@ -53,13 +53,23 @@
     "tileSlow": "Map tiles loading slowly — markers remain interactive.",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
+    "fitAll": "Fit All Baku (15)",
+    "networkMeta": "{{operational}} Operational • {{aed}} AED",
     "ariaRegion": "Interactive Healthcare Access Map",
     "manualLocations": {
       "sahil": "Sahil / Seaside",
       "may28": "28 May Metro",
       "icherisheher": "Icherisheher",
-      "ganjlik": "Ganjlik"
+      "ganjlik": "Ganjlik",
+      "koroglu": "Koroglu Hub",
+      "elmler": "Elmlar / BSU",
+      "ahmedli": "Ahmadli"
     }
+  },
+  "nearby": {
+    "strategyTitle": "{{count}}-Point Baku Network — Placement Rationale",
+    "strategyBody": "Stations expand beyond downtown across major metro interchanges (28 May, Koroglu, Memar Ajami), senior-dense residential neighborhoods (Narimanov, Ahmadli), university campuses (Elmlar/BSU), waterfront parks (Boulevard, White City), and business hubs (Port Baku).",
+    "allZones": "All zones"
   },
   "filters": {
     "nearest": "Nearest",
@@ -101,7 +111,9 @@
     "usageEvents": "Access events",
     "closeCard": "Close card",
     "kioskCode": "Station Code",
-    "activateStation": "Activate Station"
+    "activateStation": "Activate Station",
+    "whyShort": "Why here",
+    "whyTitle": "Urban Placement Justification"
   },
   "station": {
     "scanOrCode": "Code / QR",
@@ -116,7 +128,7 @@
     "stepGuide": "Tap an instrument below to view voice/step usage guidance.",
     "listenVoice": "Listen",
     "endSession": "End Session",
-    "codeNotFound": "No access point matched that code (try HP-01 to HP-08).",
+    "codeNotFound": "No access point matched that code (try HP-01 to HP-15).",
     "unavailableWarning": "This station is currently offline for maintenance.",
     "sessionTimer": "Session",
     "passSelectTitle": "B2C Session Pass (Demo Payment Simulator)",
@@ -143,6 +155,7 @@
     "bpm": "Pulse",
     "spo2": "SpO2",
     "bp": "Blood Pressure",
+    "bpPlusOnly": "Plus Pass",
     "savedToHistory": "Reading saved to Profile history",
     "passDisclaimer": "Note: Live payment processing and live doctor calls are simulated.",
     "connectRingBtn": "Connect NFC / RingXCare Ring (Demo)",
@@ -372,7 +385,11 @@
     "b2gTitle": "B2G & Municipal SLA Metrics (Demo)",
     "b2gUptime": "Network Uptime (SLA)",
     "b2gAvgUsage": "Avg. Station Check-ins",
-    "b2gChecks": "Recorded Sensor Readings"
+    "b2gChecks": "Recorded Sensor Readings",
+    "b2gAedAnd247": "AED & 24/7 Readiness",
+    "zoneChartTitle": "Placement Rationale by Urban Zone",
+    "zoneChartSubtitle": "Each station balances commuter throughput, senior density, and 103 ambulance response gaps.",
+    "zoneShareSuffix": "network share"
   },
   "plans": {
     "title": "B2C Pay-Per-Use & B2G City Infrastructure",

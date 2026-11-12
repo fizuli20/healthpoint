@@ -434,7 +434,7 @@ export function StationActivateModal({
                             {latestReading.bloodPressure ??
                               (SESSION_PASS_CATALOG[selectedPass].includesBloodPressure
                                 ? "—"
-                                : "0 AZN")}
+                                : t("station.bpPlusOnly"))}
                           </p>
                         </div>
                       </div>

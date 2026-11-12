@@ -44,7 +44,7 @@ describe("HealthPoint store & user/admin flows", () => {
 
   it("supports admin CRUD lifecycle and resetDemoData in demo store", async () => {
     const initial = await fetchAccessPoints();
-    expect(initial).toHaveLength(8);
+    expect(initial).toHaveLength(15);
     expect(initial.every((p) => p.isDemo)).toBe(true);
 
     const created = await createAccessPoint({
@@ -179,6 +179,6 @@ describe("HealthPoint store & user/admin flows", () => {
     renderAppAt(["/"]);
 
     expect(await screen.findByText(/Nearby Healthcare Access Points/i)).toBeInTheDocument();
-    expect(await screen.findByText(/8 points matched/i)).toBeInTheDocument();
+    expect(await screen.findByText(/15 points matched/i)).toBeInTheDocument();
   });
 });

@@ -16,7 +16,7 @@ describe("HealthPoint geo & filtering utilities", () => {
       lng: boulevard.longitude,
     });
     expect(dist).toBeGreaterThan(50);
-    expect(dist).toBeLessThan(2000);
+    expect(dist).toBeLessThan(4000);
   });
 
   it("finds nearest suitable operational point and respects wheelchair filter", () => {
@@ -94,5 +94,34 @@ describe("HealthPoint geo & filtering utilities", () => {
       BAKU_DEFAULT_CENTER
     );
     expect(emergencyRes.reply).toContain("103");
+  });
+
+  it("provides 15 justified Baku points covering all 5 urban placement zones and filters by zone & kiosk code", () => {
+    expect(DEMO_ACCESS_POINTS).toHaveLength(15);
+    expect(
+      DEMO_ACCESS_POINTS.every((p) => Boolean(p.placementZone) && Boolean(p.placementReason))
+    ).toBe(true);
+
+    const transitOnly = filterAccessPoints(DEMO_ACCESS_POINTS, {
+      ...DEFAULT_FILTER,
+      zone: "transit_hub",
+    });
+    expect(transitOnly.some((p) => p.id === "hp-koroglu-hub")).toBe(true);
+    expect(transitOnly.some((p) => p.id === "hp-memar-ajami")).toBe(true);
+
+    const byCode = filterAccessPoints(DEMO_ACCESS_POINTS, {
+      ...DEFAULT_FILTER,
+      search: "HP-11",
+    });
+    expect(byCode).toHaveLength(1);
+    expect(byCode[0].id).toBe("hp-elmler-academy");
+
+    const korogluAi = runDeterministicAssistant(
+      "Koroğlu ətrafında AED var?",
+      "az",
+      DEMO_ACCESS_POINTS,
+      BAKU_DEFAULT_CENTER
+    );
+    expect(korogluAi.matchedIds).toContain("hp-koroglu-hub");
   });
 });

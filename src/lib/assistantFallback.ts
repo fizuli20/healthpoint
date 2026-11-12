@@ -47,12 +47,40 @@ export function runDeterministicAssistant(
     return true;
   });
 
-  // Narrow further if user mentioned a specific place token that matches subset
-  const specificMatches = candidates.filter((p) => {
-    const hay = `${p.name} ${p.address} ${p.neighborhood}`.toLowerCase();
-    return tokens.some((tok) => hay.includes(tok));
+  // Narrow further if user mentioned a specific place/district name
+  const LOCATION_ALIASES: Record<string, string[]> = {
+    boulevard: ["bulvar", "boulevard", "dənizkənarı", "приморский", "бульвар"],
+    fountain: ["fəvvarə", "fountain", "фонтанов"],
+    icherisheher: ["içərişəhər", "icherisheher", "ичеришехер"],
+    may28: ["28 may", "28 мая"],
+    ganjlik: ["gənclik", "ganjlik", "гянджлик"],
+    heydar: ["heydər", "heydar", "гейдара"],
+    nizami: ["nizami", "низами"],
+    sahil: ["sahil", "сахиль"],
+    koroglu: ["koroğlu", "koroglu", "кёроглу"],
+    ahmedli: ["əhmədli", "ehmedli", "ahmadli", "ahmedli", "ахмедли"],
+    elmler: ["elmlər", "elmler", "bdu", "bsu", "yasamal", "эльмляр", "ясамал"],
+    ajami: ["əcəmi", "ecemi", "memar", "ajami", "аджеми", "мемар"],
+    whitecity: ["ağ şəhər", "ag seher", "white city", "xətai", "xetai", "белый город", "хатаи"],
+    narimanov: ["nərimanov", "narimanov", "нариманов"],
+    portbaku: ["port baku", "порт баку"],
+  };
+  const aliasMatches = candidates.filter((p) => {
+    const placeHay = `${p.name} ${p.address} ${p.neighborhood}`.toLowerCase();
+    return Object.values(LOCATION_ALIASES).some(
+      (aliases) => aliases.some((a) => q.includes(a)) && aliases.some((a) => placeHay.includes(a))
+    );
   });
-  if (specificMatches.length > 0 && tokens.length > 0 && !wantWheelchair && !wantBp && !wantAed && !wantHr) {
+  const STOPWORDS = new Set(["aed", "var", "near", "find", "with", "tap", "yaxın", "üçün", "for", "and", "the"]);
+  const specificTokens = tokens.filter((t) => !STOPWORDS.has(t));
+  const specificMatches =
+    aliasMatches.length > 0
+      ? aliasMatches
+      : candidates.filter((p) => {
+          const placeHay = `${p.name} ${p.address} ${p.neighborhood}`.toLowerCase();
+          return specificTokens.some((tok) => placeHay.includes(tok));
+        });
+  if (specificMatches.length > 0 && tokens.length > 0) {
     candidates = specificMatches;
   }
 

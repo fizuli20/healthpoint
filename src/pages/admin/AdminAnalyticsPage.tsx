@@ -5,10 +5,16 @@ import {
   useLocalizedReportsQuery,
   useVitalReadingsQuery,
 } from "../../hooks/useHealthPointData";
-import { ALL_EQUIPMENT, type OperationalStatus, type ReportStatus } from "../../types/healthpoint";
+import { localizePlacementZone } from "../../lib/localizePoint";
+import {
+  ALL_EQUIPMENT,
+  ALL_PLACEMENT_ZONES,
+  type OperationalStatus,
+  type ReportStatus,
+} from "../../types/healthpoint";
 
 export function AdminAnalyticsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: points = [] } = useLocalizedAccessPointsQuery();
   const { data: reports = [] } = useLocalizedReportsQuery();
   const { data: vitals = [] } = useVitalReadingsQuery();
@@ -58,6 +64,14 @@ export function AdminAnalyticsPage() {
     count: points.filter((p) => p.equipment.includes(item)).length,
   }));
 
+  const zoneCoverage = ALL_PLACEMENT_ZONES.map((zone) => ({
+    zone,
+    count: points.filter((p) => p.placementZone === zone).length,
+  }));
+
+  const aedTotal = points.filter((p) => p.equipment.includes("AED")).length;
+  const open247Total = points.filter((p) => p.open247).length;
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -71,7 +85,7 @@ export function AdminAnalyticsPage() {
       </div>
 
       {/* B2G Municipal SLA Summary Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-4">
           <p className="text-xs font-semibold text-[#737373]">{t("admin.b2gUptime")}</p>
           <p className="text-2xl font-extrabold text-emerald-700 mt-1">{uptimePct}%</p>
@@ -83,6 +97,12 @@ export function AdminAnalyticsPage() {
         <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-4">
           <p className="text-xs font-semibold text-[#737373]">{t("admin.b2gChecks")}</p>
           <p className="text-2xl font-extrabold text-[#C8102E] mt-1">{vitals.length}</p>
+        </div>
+        <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-4">
+          <p className="text-xs font-semibold text-[#737373]">{t("admin.b2gAedAnd247")}</p>
+          <p className="text-2xl font-extrabold text-[#171717] mt-1">
+            {aedTotal} AED • {open247Total} 24/7
+          </p>
         </div>
       </div>
 
@@ -181,6 +201,33 @@ export function AdminAnalyticsPage() {
                 <p className="text-2xl font-extrabold text-[#171717]">{row.count}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* 15-Point Urban Placement Justification Breakdown */}
+        <section className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-5 space-y-4 lg:col-span-2">
+          <div className="space-y-1">
+            <h3 className="text-sm font-bold text-[#171717]">{t("admin.zoneChartTitle")}</h3>
+            <p className="text-xs text-[#737373]">{t("admin.zoneChartSubtitle")}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {zoneCoverage.map((row) => {
+              const pct = Math.round((row.count / total) * 100);
+              return (
+                <div
+                  key={row.zone}
+                  className="rounded-2xl bg-[#FAFAFA] border border-[#E5E7EB] p-4 space-y-1.5"
+                >
+                  <span className="text-xs font-bold text-[#8B1028] block">
+                    {localizePlacementZone(row.zone, i18n.language)}
+                  </span>
+                  <p className="text-2xl font-extrabold text-[#171717]">{row.count}</p>
+                  <p className="text-[11px] font-semibold text-[#737373]">
+                    {pct}% {t("admin.zoneShareSuffix")}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>

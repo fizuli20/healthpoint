@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet.markercluster";
-import { Compass, Layers, Minus, Plus } from "lucide-react";
+import { Compass, Layers, Maximize2, Minus, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { BAKU_DEFAULT_CENTER } from "../data/bakuDemoPoints";
 import type { AccessPoint, Coordinates, OperationalStatus } from "../types/healthpoint";
@@ -62,7 +62,7 @@ export function LeafletMapView({
   onSelectPoint,
   userLocation,
   center = BAKU_DEFAULT_CENTER,
-  zoom = 13,
+  zoom = 12,
   routeCoordinates,
   showControls = true,
   heightClass = "h-full w-full",
@@ -216,6 +216,13 @@ export function LeafletMapView({
     map.setView([target.lat, target.lng], 14, { animate: true });
   };
 
+  const handleFitAll = () => {
+    const map = mapRef.current;
+    if (!map || points.length === 0) return;
+    const bounds = L.latLngBounds(points.map((p) => [p.latitude, p.longitude] as [number, number]));
+    map.fitBounds(bounds, { padding: [56, 56], maxZoom: 14 });
+  };
+
   return (
     <div className={`relative ${heightClass}`}>
       <div
@@ -257,6 +264,15 @@ export function LeafletMapView({
             className="w-10 h-10 rounded-2xl bg-white border border-[#E5E7EB] shadow-soft flex items-center justify-center text-[#C8102E] hover:bg-[#FFF1F2] transition"
           >
             <Compass className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={handleFitAll}
+            aria-label={t("map.fitAll")}
+            title={t("map.fitAll")}
+            className="w-10 h-10 rounded-2xl bg-white border border-[#E5E7EB] shadow-soft flex items-center justify-center text-[#171717] hover:border-[#C8102E] hover:text-[#C8102E] transition"
+          >
+            <Maximize2 className="w-4 h-4" />
           </button>
           <button
             type="button"

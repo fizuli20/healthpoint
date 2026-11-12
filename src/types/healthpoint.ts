@@ -31,6 +31,21 @@ export type LanguageCode = "az" | "en" | "ru";
 
 export type SortMode = "distance" | "availability" | "equipment";
 
+export type PlacementZone =
+  | "transit_hub"
+  | "residential"
+  | "recreation"
+  | "university"
+  | "business";
+
+export const ALL_PLACEMENT_ZONES: PlacementZone[] = [
+  "transit_hub",
+  "residential",
+  "recreation",
+  "university",
+  "business",
+];
+
 export interface Coordinates {
   lat: number;
   lng: number;
@@ -54,6 +69,8 @@ export interface AccessPoint {
   imageUrl?: string | null;
   isDemo: boolean;
   usageCount: number;
+  placementZone?: PlacementZone;
+  placementReason?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -105,6 +122,7 @@ export interface AccessPointFilter {
   open247Only: boolean;
   wheelchairOnly: boolean;
   equipment: EquipmentItem[];
+  zone?: PlacementZone | "all";
 }
 
 export interface RouteResult {

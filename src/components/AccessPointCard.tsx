@@ -2,7 +2,7 @@ import { Accessibility, Bookmark, Clock, Flag, MapPin, Navigation, QrCode, Volum
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { formatDistance, estimateDurationSeconds, formatDurationMinutes } from "../lib/geo";
-import { getKioskCode } from "../lib/localizePoint";
+import { getKioskCode, localizePlacementZone } from "../lib/localizePoint";
 import type { AccessPoint } from "../types/healthpoint";
 import { DemoBadge, StatusBadge } from "./StatusBadge";
 
@@ -48,7 +48,23 @@ export function AccessPointCard({
           <StatusBadge status={point.operationalStatus} />
         </div>
 
-        {point.isDemo && <DemoBadge />}
+        {point.isDemo && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <DemoBadge />
+            {point.placementZone && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[#FAFAFA] border border-[#E5E7EB] text-[10px] font-bold text-[#737373]">
+                {localizePlacementZone(point.placementZone, i18n.language)}
+              </span>
+            )}
+          </div>
+        )}
+
+        {!compact && point.placementReason && (
+          <p className="text-xs text-[#737373] bg-[#FAFAFA] border border-[#F5F5F5] rounded-xl px-2.5 py-2 leading-relaxed">
+            <span className="font-bold text-[#8B1028]">{t("point.whyShort")}: </span>
+            {point.placementReason}
+          </p>
+        )}
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-[#737373] pt-0.5">
           {distanceMeters !== undefined && (

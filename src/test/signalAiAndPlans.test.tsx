@@ -182,4 +182,32 @@ describe("OpenCarePoint Signal AI, B2C/B2G Plans & Quick Triage", () => {
       within(dialog).getByRole("button", { name: /NFC \/ RingXCare Üzük Qoş/i })
     ).toBeInTheDocument();
   });
+
+  it("upgrades legacy 8-point storage to 15 points and renders urban justification on detail & nearby pages", async () => {
+    // Simulate legacy visitor with only first 8 stations stored before the 15-point expansion
+    const { DEMO_ACCESS_POINTS } = await import("../data/bakuDemoPoints");
+    const { getDemoPoints } = await import("../services/healthpointStore");
+    localStorage.setItem("hp_demo_points_v1", JSON.stringify(DEMO_ACCESS_POINTS.slice(0, 8)));
+    localStorage.removeItem("hp_seed_version_v1");
+
+    const upgraded = getDemoPoints();
+    expect(upgraded).toHaveLength(15);
+
+    const detailView = renderAppAt(["/points/hp-koroglu-hub"]);
+    expect(await screen.findByText("HP-09")).toBeInTheDocument();
+    expect(screen.getByText(/Şəhər Yerləşdirmə Əsaslandırması/i)).toBeInTheDocument();
+    expect(screen.getByText(/şərq nəqliyyat qovşağı/i)).toBeInTheDocument();
+    detailView.unmount();
+
+    const nearbyView = renderAppAt(["/nearby"]);
+    expect(
+      await screen.findByText(/15 Məntəqəlik Bakı Şəbəkəsi — Yerləşdirmə Əsaslandırması/i)
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Universitet \/ Təhsil/i }));
+    await waitFor(() => {
+      expect(screen.getByText(/OpenCarePoint — Elmlər Akademiyası \/ BDU/i)).toBeInTheDocument();
+      expect(screen.queryByText(/OpenCarePoint — Əhmədli Metrosu/i)).not.toBeInTheDocument();
+    });
+    nearbyView.unmount();
+  });
 });

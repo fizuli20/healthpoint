@@ -34,7 +34,7 @@ import {
   formatDurationMinutes,
   haversineDistanceMeters,
 } from "../lib/geo";
-import { getKioskCode } from "../lib/localizePoint";
+import { getKioskCode, localizePlacementZone } from "../lib/localizePoint";
 import { trackAccessPointView } from "../services/healthpointStore";
 
 export function PointDetailPage() {
@@ -125,12 +125,28 @@ export function PointDetailPage() {
         <div className="p-6 space-y-6">
           <div className="flex flex-wrap items-center gap-2.5">
             <StatusBadge status={point.operationalStatus} />
+            {point.placementZone && (
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#FFF1F2] border border-[#FCE8EC] text-[#8B1028] text-xs font-bold">
+                {localizePlacementZone(point.placementZone, i18n.language)}
+              </span>
+            )}
             {point.isDemo && <DemoBadge />}
           </div>
 
           <p className="text-sm sm:text-base text-[#171717] leading-relaxed">
             {point.description}
           </p>
+
+          {point.placementReason && (
+            <div className="rounded-2xl bg-[#FFF1F2]/70 border border-[#FCE8EC] p-4 space-y-1">
+              <p className="text-xs font-extrabold uppercase tracking-wide text-[#8B1028]">
+                {t("point.whyTitle")}
+              </p>
+              <p className="text-sm text-[#171717] leading-relaxed">
+                {point.placementReason}
+              </p>
+            </div>
+          )}
 
           {/* Metrics Row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

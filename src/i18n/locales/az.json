@@ -53,13 +53,23 @@
     "tileSlow": "Xəritə yüklənir — məntəqə işarələri aktivdir.",
     "zoomIn": "Yaxınlaşdır",
     "zoomOut": "Uzaqlaşdır",
+    "fitAll": "Bütün Bakını Göstər (15)",
+    "networkMeta": "{{operational}} İşlək • {{aed}} AED",
     "ariaRegion": "İnteraktiv Sağlamlıq Məntəqələri Xəritəsi",
     "manualLocations": {
       "sahil": "Sahil / Dənizkənarı",
       "may28": "28 May Metrosu",
       "icherisheher": "İçərişəhər",
-      "ganjlik": "Gənclik"
+      "ganjlik": "Gənclik",
+      "koroglu": "Koroğlu Qovşağı",
+      "elmler": "Elmlər / BDU",
+      "ahmedli": "Əhmədli"
     }
+  },
+  "nearby": {
+    "strategyTitle": "{{count}} Məntəqəlik Bakı Şəbəkəsi — Yerləşdirmə Əsaslandırması",
+    "strategyBody": "Məntəqələr yalnız mərkəzlə məhdudlaşmır: əsas metro-avtobus qovşaqları (28 May, Koroğlu, Memar Əcəmi), yaşlı sakinlərin sıx olduğu massivlər (Nərimanov, Əhmədli), universitet kampusu (Elmlər/BDU), sahil parkları (Bulvar, Ağ Şəhər) və biznes dəhlizləri (Port Baku, Gənclik) arasında balanslı bölüşdürülüb.",
+    "allZones": "Bütün zonalar"
   },
   "filters": {
     "nearest": "Ən yaxın",
@@ -101,7 +111,9 @@
     "usageEvents": "İstifadə sayı",
     "closeCard": "Kartı bağla",
     "kioskCode": "Məntəqə kodu",
-    "activateStation": "Məntəqəni Aktiv Et"
+    "activateStation": "Məntəqəni Aktiv Et",
+    "whyShort": "Niyə bu məkan",
+    "whyTitle": "Şəhər Yerləşdirmə Əsaslandırması"
   },
   "station": {
     "scanOrCode": "Kod / QR ilə Başla",
@@ -116,7 +128,7 @@
     "stepGuide": "İstədiyiniz cihazı seçin — addım-addım təlimat açılacaq.",
     "listenVoice": "Səsli oxu",
     "endSession": "Sessiyanı Bitir",
-    "codeNotFound": "Bu kodla məntəqə tapılmadı (məs. HP-01 — HP-08).",
+    "codeNotFound": "Bu kodla məntəqə tapılmadı (məs. HP-01 — HP-15).",
     "unavailableWarning": "Bu məntəqə texniki xidmətə görə hazırda əlçatmazdır.",
     "sessionTimer": "Seans",
     "passSelectTitle": "B2C İstifadə Paketi (Demo Ödəniş Simulyasiyası)",
@@ -143,6 +155,7 @@
     "bpm": "Nəbz",
     "spo2": "SpO2",
     "bp": "Təzyiq",
+    "bpPlusOnly": "Plus tələb edir",
     "savedToHistory": "Ölçüm Profil tarixçəsinə əlavə edildi",
     "passDisclaimer": "Qeyd: Real bank ödənişi və canlı həkim qoşulması simulyasiya olunur.",
     "connectRingBtn": "NFC / RingXCare Üzük Qoş (Demo)",
@@ -372,7 +385,11 @@
     "b2gTitle": "B2G & Şəhər Əməliyyat Göstəriciləri (Demo)",
     "b2gUptime": "Şəbəkə Aktivliyi (SLA)",
     "b2gAvgUsage": "Orta Məntəqə İstifadəsi",
-    "b2gChecks": "Qeydə Alınan Sensor Seansı"
+    "b2gChecks": "Qeydə Alınan Sensor Seansı",
+    "b2gAedAnd247": "AED & 24/7 Hazırlıq",
+    "zoneChartTitle": "Şəhər Zonaları üzrə Məntəqə Balansı",
+    "zoneChartSubtitle": "Hər məntəqə sərnişin axını, yaşlı sakin sıxlığı və təcili yardım (103) çatma müddəti nəzərə alınaraq yerləşdirilib.",
+    "zoneShareSuffix": "şəbəkə payı"
   },
   "plans": {
     "title": "B2C Birdəfəlik Tariflər & B2G Şəhər Modeli",

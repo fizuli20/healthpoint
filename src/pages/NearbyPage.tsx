@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowUpDown, LocateFixed, QrCode } from "lucide-react";
+import { ArrowUpDown, Compass, LocateFixed, QrCode } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AccessPointCard } from "../components/AccessPointCard";
 import { ReportIssueModal } from "../components/ReportIssueModal";
@@ -13,11 +13,17 @@ import {
 } from "../hooks/useHealthPointData";
 import { filterAccessPoints, sortAccessPoints } from "../lib/filters";
 import { haversineDistanceMeters } from "../lib/geo";
-import type { AccessPoint, SortMode } from "../types/healthpoint";
+import { localizePlacementZone } from "../lib/localizePoint";
+import {
+  ALL_PLACEMENT_ZONES,
+  type AccessPoint,
+  type PlacementZone,
+  type SortMode,
+} from "../types/healthpoint";
 
 export function NearbyPage() {
-  const { t } = useTranslation();
-  const { effectiveOrigin, filter, resetFilters, requestLocation } = useHealthPoint();
+  const { t, i18n } = useTranslation();
+  const { effectiveOrigin, filter, setFilter, resetFilters, requestLocation } = useHealthPoint();
   const { data: points = [], isLoading } = useLocalizedAccessPointsQuery();
   const { data: savedIds = [] } = useSavedIdsQuery();
   const toggleSave = useToggleSaveMutation();
@@ -83,6 +89,54 @@ export function NearbyPage() {
       </div>
 
       <SearchFilterBar />
+
+      {/* 15-Point Urban Placement Strategy & Zone Filter */}
+      <section className="rounded-3xl bg-[#FFF1F2]/60 border border-[#FCE8EC] p-4 space-y-3">
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="space-y-1 max-w-3xl">
+            <h2 className="text-xs sm:text-sm font-extrabold text-[#8B1028] flex items-center gap-1.5">
+              <Compass className="w-4 h-4 text-[#C8102E]" />
+              {t("nearby.strategyTitle", { count: points.length })}
+            </h2>
+            <p className="text-xs text-[#737373] leading-relaxed">
+              {t("nearby.strategyBody")}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setFilter((p) => ({ ...p, zone: "all" }))}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold border transition ${
+              !filter.zone || filter.zone === "all"
+                ? "bg-[#C8102E] text-white border-[#C8102E]"
+                : "bg-white text-[#171717] border-[#E5E7EB] hover:border-[#C8102E]"
+            }`}
+          >
+            {t("nearby.allZones")} ({points.length})
+          </button>
+          {ALL_PLACEMENT_ZONES.map((zone: PlacementZone) => {
+            const count = points.filter((pt) => pt.placementZone === zone).length;
+            const active = filter.zone === zone;
+            return (
+              <button
+                key={zone}
+                type="button"
+                onClick={() =>
+                  setFilter((p) => ({ ...p, zone: p.zone === zone ? "all" : zone }))
+                }
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
+                  active
+                    ? "bg-[#C8102E] text-white border-[#C8102E]"
+                    : "bg-white text-[#171717] border-[#E5E7EB] hover:border-[#C8102E]"
+                }`}
+              >
+                {localizePlacementZone(zone, i18n.language)} ({count})
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
       {visiblePoints.length === 0 && !isLoading ? (
         <div className="rounded-3xl border border-[#E5E7EB] bg-[#FAFAFA] p-10 text-center space-y-3">
