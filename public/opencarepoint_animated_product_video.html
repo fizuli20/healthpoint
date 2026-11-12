@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenCarePoint & RingXCare — Məhsul Videosu (Animasiyalı Təqdimat)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1.05); }
+      42% { transform: scale(1.2); }
+      70% { transform: scale(1); }
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.25); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(1000%); }
+    }
+    @keyframes floatWalk {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-4px) rotate(0.8deg); }
+      75% { transform: translateY(-2px) rotate(-0.8deg); }
+    }
+    @keyframes ppgWave {
+      0% { stroke-dashoffset: 600; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .heart-beat { animation: heartbeat 1.1s ease-in-out infinite; }
+    .pulse-ring { animation: pulseRing 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+    .scan-line { animation: scanline 3s linear infinite; }
+    .character-bounce { animation: floatWalk 1.8s ease-in-out infinite; }
+    .ppg-animate {
+      stroke-dasharray: 600;
+      animation: ppgWave 2.8s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-[#0B0F19] text-white antialiased min-h-screen flex flex-col justify-between p-3 sm:p-6 font-sans select-none">
+
+  <!-- Top Brand & Mode Bar -->
+  <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-3 mb-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-[#C8102E] flex items-center justify-center shadow-lg shadow-red-900/40">
+        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg font-black tracking-tight text-white">OpenCare<span class="text-[#EF4444]">Point</span></span>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-red-950/80 border border-red-700/60 text-red-300">RingXCare AI</span>
+        </div>
+        <p class="text-xs text-gray-400">Rəsmi İnteraktiv Məhsul Videosu • Həqiqi İstifadəçi Ssenariləri</p>
+      </div>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-2">
+      <button id="audioToggleBtn" class="px-3 py-1.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-xs font-bold flex items-center gap-1.5 transition">
+        <span id="audioIcon">🔊</span>
+        <span id="audioLabel">Səs: Açıq</span>
+      </button>
+      <button id="voiceoverToggleBtn" class="px-3 py-1.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-xs font-bold flex items-center gap-1.5 transition">
+        <span>🗣️</span>
+        <span id="voiceLabel">Diksiya: Aktiv</span>
+      </button>
+      <div class="inline-flex rounded-xl bg-gray-900 border border-gray-800 p-0.5 text-xs font-bold">
+        <button class="langBtn px-2 py-1 rounded-lg bg-red-600 text-white" data-lang="az">AZ</button>
+        <button class="langBtn px-2 py-1 rounded-lg text-gray-400 hover:text-white" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cinema Container (16:9 Aspect Video Simulation) -->
+  <main class="max-w-6xl w-full mx-auto flex-1 flex flex-col justify-center">
+    <div class="relative w-full aspect-[16/9] rounded-3xl overflow-hidden bg-gradient-to-b from-[#131B2E] via-[#0E1424] to-[#080C16] border border-gray-800 shadow-2xl flex flex-col justify-between">
+
+      <!-- Scene Stage Canvas / Animated View -->
+      <div id="stageArea" class="relative w-full h-full overflow-hidden flex items-center justify-center p-4 sm:p-8">
+        <!-- Dynamic Scene Content injected here via JS -->
+      </div>
+
+      <!-- Live Closed Captions Overlay -->
+      <div class="absolute bottom-16 left-6 right-6 z-20 pointer-events-none flex justify-center">
+        <div id="subtitlesBox" class="bg-black/85 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-white/10 text-center max-w-3xl shadow-xl transition-all duration-300">
+          <p id="subtitlesText" class="text-xs sm:text-sm md:text-base font-semibold text-white tracking-wide"></p>
+        </div>
+      </div>
+
+      <!-- Video Control Bar -->
+      <div class="relative z-30 bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-6 pb-3 px-4 sm:px-6 flex flex-col gap-2">
+        <!-- Scrubbing Progress Bar -->
+        <div id="timelineTrack" class="relative w-full h-2 rounded-full bg-gray-700/70 hover:h-3 cursor-pointer transition-all">
+          <div id="timelineProgress" class="absolute left-0 top-0 bottom-0 rounded-full bg-gradient-to-r from-red-600 via-rose-500 to-amber-400 w-0 transition-all duration-100"></div>
+          <div id="timelineThumb" class="absolute -top-1 w-4 h-4 rounded-full bg-white shadow-md border-2 border-red-600 -ml-2 hidden"></div>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="flex items-center justify-between gap-3 text-xs sm:text-sm">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <button id="playPauseBtn" class="w-9 h-9 rounded-xl bg-red-600 hover:bg-red-500 flex items-center justify-center text-white font-bold transition shadow-md">
+              <span id="playIcon">⏸</span>
+            </button>
+            <button id="restartBtn" class="p-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800 transition" title="Yenidən Başlat">
+              ↺
+            </button>
+            <span id="timecode" class="text-xs font-mono font-bold text-gray-300">00:00 / 01:30</span>
+            <div class="hidden md:flex items-center gap-1.5 ml-2">
+              <span id="sceneBadge" class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-red-950 border border-red-800 text-red-300">Səhnə 1/6</span>
+              <span id="sceneTitle" class="text-xs font-bold text-gray-200">Problem: İctimai məkanda qəfil narahatlıq</span>
+            </div>
+          </div>
+
+          <!-- Scene Quick Pickers -->
+          <div class="flex items-center gap-1">
+            <button class="scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 transition" data-scene="0">1</button>
+            <button class="scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 transition" data-scene="1">2</button>
+            <button class="scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 transition" data-scene="2">3</button>
+            <button class="scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 transition" data-scene="3">4</button>
+            <button class="scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 transition" data-scene="4">5</button>
+            <button class="scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 transition" data-scene="5">6</button>
+            <button id="speedBtn" class="ml-2 px-2.5 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-bold text-gray-200">1.0x</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Interactive Real-User Cast & Scene Index -->
+  <footer class="max-w-6xl w-full mx-auto mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-3 flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center text-sm font-bold">TQ</div>
+      <div class="min-w-0">
+        <p class="text-xs font-bold text-white truncate">Tofiq dayı, 67 yaş</p>
+        <p class="text-[11px] text-gray-400 truncate">Nərimanov Parkı • Təqaüdçü</p>
+      </div>
+    </div>
+    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-3 flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 flex items-center justify-center text-sm font-bold">NƏ</div>
+      <div class="min-w-0">
+        <p class="text-xs font-bold text-white truncate">Nigar, 24 yaş</p>
+        <p class="text-[11px] text-gray-400 truncate">Elmlər / BDU • Magistr</p>
+      </div>
+    </div>
+    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-3 flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/40 text-blue-300 flex items-center justify-center text-sm font-bold">RM</div>
+      <div class="min-w-0">
+        <p class="text-xs font-bold text-white truncate">Rəşad, 38 yaş</p>
+        <p class="text-[11px] text-gray-400 truncate">28 May & Koroğlu • Sərnişin</p>
+      </div>
+    </div>
+    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-3 flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-sm font-bold">SV</div>
+      <div class="min-w-0">
+        <p class="text-xs font-bold text-white truncate">Dr. Samirə Vəliyeva</p>
+        <p class="text-[11px] text-gray-400 truncate">103 Təcili Yardım Həkimi</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- SCENE SCRIPT & DATA ---
+    const SCENES = [
+      {
+        id: 0,
+        titleAz: "Səhnə 1: Problem — Şəhərdə qəfil narahatlıq",
+        titleEn: "Scene 1: The Problem — Sudden Distress in Public Space",
+        duration: 15,
+        narrationAz: "Bakı, Nərimanov Parkı. 67 yaşlı Tofiq dayı səhər gəzintisində qəfil başgicəllənmə və sinə sıxıntısı hiss edir. Ən yaxın poliklinika uzaqdır, tıxac var, telefonunun zaryatkası bitmək üzrədir.",
+        narrationEn: "Baku, Narimanov Park. 67-year-old retired teacher Tofiq feels sudden dizziness and chest tightness during his morning walk. The nearest clinic is far, traffic is heavy, and his phone battery is low.",
+        render: () => `
+          <div class="w-full h-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+            <div class="space-y-4 max-w-md text-left">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 border border-amber-400/40 text-amber-300">
+                ⚠️ HƏQİQİ PROBLEM
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                İctimai məkanda halı pisləşən insan hara üz tutmalıdır?
+              </h2>
+              <p class="text-sm text-gray-300 leading-relaxed">
+                Tofiq dayı, 67 yaş. Narahatlıq anında yaxınlıqda təzyiq və nəbzi yoxlamaq üçün heç bir əlçatan məntəqə tapmaq mümkün olmur. Təcili yardıma müraciət gecikir.
+              </p>
+              <div class="flex items-center gap-4 text-xs font-bold text-gray-400">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Yüksək Təzyiq Riski</span>
+                <span>•</span>
+                <span>Gecikmiş Müdaxilə Təhlükəsi</span>
+              </div>
+            </div>
+
+            <!-- Animated Character Illustration -->
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+              <div class="absolute inset-0 rounded-full bg-red-600/10 blur-2xl pulse-ring"></div>
+              <!-- Baku Park & User Vector -->
+              <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+                <!-- Park Bench & Tree Silhouette -->
+                <circle cx="160" cy="90" r="32" fill="#1E293B" opacity="0.6"/>
+                <rect x="156" y="90" width="8" height="60" fill="#0F172A"/>
+                <path d="M40 145 L170 145" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+                <!-- Tofiq dayı (Distressed Senior) -->
+                <g class="character-bounce">
+                  <!-- Torso & Coat -->
+                  <path d="M90 140 L90 98 Q90 85 105 85 Q120 85 120 98 L120 140 Z" fill="#475569"/>
+                  <!-- Head -->
+                  <circle cx="105" cy="65" r="16" fill="#F87171"/>
+                  <path d="M93 58 Q105 48 117 58" stroke="#E2E8F0" stroke-width="3" fill="none"/> <!-- Grey hair -->
+                  <!-- Hand over heart -->
+                  <path d="M92 105 Q105 110 110 102" stroke="#F87171" stroke-width="6" stroke-linecap="round"/>
+                  <!-- Heart pulse icon near chest -->
+                  <g class="heart-beat" transform="translate(112, 95)">
+                    <circle cx="0" cy="0" r="10" fill="#EF4444" opacity="0.3"/>
+                    <path d="M-6 -2 C-6 -7 0 -7 0 -3 C0 -7 6 -7 6 -2 C6 3 0 7 0 7 C0 7 -6 3 -6 -2 Z" fill="#EF4444"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 1,
+        titleAz: "Səhnə 2: Həll — Apar üslublu OpenCarePoint məntəqəsi",
+        titleEn: "Scene 2: Solution — Apar-style OpenCarePoint Kiosk",
+        duration: 15,
+        narrationAz: "Həll: Şəhər boyu metro çıxışlarında və parklarda əlçatan OpenCarePoint məntəqələri. Tofiq dayı bir neçə metr yaxınlıqda Nərimanov Parkı məntəqəsini (HP-10) görür — pilləsiz pandus, 24/7 işıqlı nişan və səsli təlimat.",
+        narrationEn: "Solution: Accessible OpenCarePoint stations across Baku metro exits and parks. Tofiq spots HP-10 right in Narimanov Park: step-free ramp, 24/7 illuminated beacon, and voice prompts.",
+        render: () => `
+          <div class="w-full h-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+            <div class="space-y-4 max-w-md text-left">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 border border-emerald-400/40 text-emerald-300">
+                ✅ APAR ÜSLUBLU ŞƏHƏR İNFRASTRUKTURU
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                Məntəqə HP-10: Nərimanov Parkı
+              </h2>
+              <p class="text-sm text-gray-300 leading-relaxed">
+                Şəxsi telefon, abunə və ya xüsusi tətbiq olmadan dərhal yaxınlaşın. Tək toxunuşla və ya QR/NFC ilə pulsuz əsas nəbz və təzyiq seansı başlayır.
+              </p>
+              <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700 text-gray-200">♿ Əlil arabası pandusu</div>
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700 text-gray-200">🔊 Səsli bələdçi</div>
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700 text-gray-200">❤️ 24/7 AED Defibrilyator</div>
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700 text-gray-200">🚨 Birbaşa 103 Çağrısı</div>
+              </div>
+            </div>
+
+            <!-- Animated Smart Kiosk Vector -->
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+              <svg viewBox="0 0 200 220" class="w-full h-full drop-shadow-2xl">
+                <!-- Base Platform -->
+                <ellipse cx="100" cy="200" rx="70" ry="12" fill="#1E293B"/>
+                <path d="M35 198 L70 190 L130 190 L165 198 Z" fill="#334155"/>
+                <!-- Kiosk Pillar -->
+                <rect x="70" y="30" width="60" height="165" rx="14" fill="#0F172A" stroke="#EF4444" stroke-width="3"/>
+                <!-- Top Header Glow -->
+                <rect x="76" y="38" width="48" height="18" rx="6" fill="#EF4444"/>
+                <text x="100" y="50" font-size="8" font-weight="900" fill="#FFFFFF" text-anchor="middle">HP-10</text>
+                <!-- Touch Screen Display -->
+                <rect x="76" y="65" width="48" height="60" rx="8" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+                <!-- Screen Content Simulation -->
+                <rect x="80" y="70" width="40" height="8" rx="3" fill="#EF4444" opacity="0.8"/>
+                <path d="M82 92 Q90 85 95 95 T108 92" fill="none" stroke="#38BDF8" stroke-width="2"/>
+                <circle cx="100" cy="112" r="6" fill="#10B981" class="animate-pulse"/>
+                <!-- Pulse Sensor Pad & Ring Reader -->
+                <rect x="80" y="135" width="40" height="20" rx="6" fill="#334155"/>
+                <circle cx="100" cy="145" r="5" fill="#EF4444" class="heart-beat"/>
+                <text x="100" y="162" font-size="6" font-weight="bold" fill="#CBD5E1" text-anchor="middle">NFC / RingXCare</text>
+                <!-- Emergency SOS Button on Kiosk -->
+                <circle cx="100" cy="178" r="8" fill="#DC2626" stroke="#FFFFFF" stroke-width="1.5" class="animate-ping"/>
+                <circle cx="100" cy="178" r="8" fill="#DC2626" stroke="#FFFFFF" stroke-width="1.5"/>
+                <text x="100" y="181" font-size="6" font-weight="900" fill="#FFFFFF" text-anchor="middle">SOS</text>
+              </svg>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        titleAz: "Səhnə 3: RingXCare Ağıllı Üzük & NFC Toxunuşu",
+        titleEn: "Scene 3: RingXCare Smart Ring & NFC Pairing",
+        duration: 15,
+        narrationAz: "RingXCare innovasiyası: Tələbə Nigar kömək edir. Optik sensor və ya NFC ağıllı üzüyü məntəqə panelinə bircə toxunuşla qoşulur. Heç bir mürəkkəb qeydiyyat tələb olunmur.",
+        narrationEn: "RingXCare innovation: Student volunteer Nigar assists. The optical ring sensor or finger reader connects with a single contactless NFC tap. No tedious logins or downloads required.",
+        render: () => `
+          <div class="w-full h-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+            <div class="space-y-4 max-w-md text-left">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-500/20 border border-blue-400/40 text-blue-300">
+                💍 RINGXCARE BLE & NFC TEXNOLOGİYASI
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                Tək toxunuşla sensor bağlantısı
+              </h2>
+              <p class="text-sm text-gray-300 leading-relaxed">
+                Tofiq dayı barmağını optik manşetə yerləşdirir. Yüngül foto-pletizmoqrafiya (PPG) sensoru nəbz və kapilyar qan dövranı dalğasını saniyələr içində qeydə alır.
+              </p>
+              <div class="p-3.5 rounded-2xl bg-blue-950/50 border border-blue-800/60 flex items-center gap-3">
+                <span class="text-2xl">📡</span>
+                <div>
+                  <p class="text-xs font-bold text-blue-200">BLE 5.2 & Yüksək Dəqiqlikli Optik LED</p>
+                  <p class="text-[11px] text-gray-400">98% etibarlı təmas aşkarlayıcı mikro-modul</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Animated Ring & Sensor Tap Vector -->
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+              <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+                <!-- Glowing Target Waves -->
+                <circle cx="100" cy="100" r="70" fill="none" stroke="#38BDF8" stroke-width="1.5" opacity="0.2" class="pulse-ring"/>
+                <circle cx="100" cy="100" r="50" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.4" class="pulse-ring"/>
+                <circle cx="100" cy="100" r="30" fill="#0284C7" opacity="0.2"/>
+                <!-- Sensor Dock -->
+                <rect x="65" y="65" width="70" height="70" rx="20" fill="#0F172A" stroke="#38BDF8" stroke-width="2.5"/>
+                <!-- RingXCare Smart Ring -->
+                <g transform="translate(100, 100)">
+                  <circle cx="0" cy="0" r="22" fill="none" stroke="#F59E0B" stroke-width="8" stroke-linecap="round"/>
+                  <circle cx="0" cy="0" r="22" fill="none" stroke="#FEF3C7" stroke-width="2" stroke-dasharray="8 6"/>
+                  <!-- Sensor Gem / LED -->
+                  <circle cx="0" cy="-22" r="5" fill="#EF4444" class="animate-ping"/>
+                  <circle cx="0" cy="-22" r="5" fill="#EF4444"/>
+                </g>
+                <text x="100" y="160" font-size="9" font-weight="bold" fill="#38BDF8" text-anchor="middle">✓ NFC Qoşuldu</text>
+              </svg>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        titleAz: "Səhnə 4: Edge AI Siqnal Keyfiyyəti (SQI) Analizi",
+        titleEn: "Scene 4: Cost-Efficient Edge AI Signal Quality (SQI)",
+        duration: 15,
+        narrationAz: "Xərcə qənaətli süni intellekt: Ağır bulud modelləri əvəzinə cihazdaxili yüngül Edge AI modeli işləyir. Hərəkət xətasını və zəif sensor təmasını dərhal aşkarlayır (SQI 97% • Etibarlı siqnal).",
+        narrationEn: "Cost-efficient AI: Instead of expensive cloud LLMs, lightweight on-device Edge AI validates PPG signals in real-time, detecting weak skin contact with 97% Signal Quality Index.",
+        render: () => `
+          <div class="w-full h-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+            <div class="space-y-4 max-w-md text-left">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-purple-500/20 border border-purple-400/40 text-purple-300">
+                ⚡ İNNOVATİV & İQTİSADİ SÜNİ İNTELLEKT
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                Lokal Edge AI: SQI 97%
+              </h2>
+              <p class="text-sm text-gray-300 leading-relaxed">
+                Server xərci yoxdur (~0.0001 AZN/ölçüm). Model barmağın və ya üzüyün hərəkət etdiyini anlayır, yanlış nəticənin qarşısını alır və ölçümü dəqiq təsdiqləyir.
+              </p>
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700">
+                  <p class="text-[10px] text-gray-400 font-bold">NƏBZ</p>
+                  <p class="text-lg font-black text-red-400">108 bpm</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700">
+                  <p class="text-[10px] text-gray-400 font-bold">SpO2</p>
+                  <p class="text-lg font-black text-emerald-400">96%</p>
+                </div>
+                <div class="p-2.5 rounded-xl bg-gray-800/80 border border-gray-700">
+                  <p class="text-[10px] text-gray-400 font-bold">TƏZYİQ</p>
+                  <p class="text-lg font-black text-amber-400">145/92</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Animated Real-time PPG Waveform Display -->
+            <div class="relative w-full max-w-sm h-64 rounded-3xl bg-gray-900 border border-purple-500/40 p-5 flex flex-col justify-between shadow-2xl overflow-hidden">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-purple-300 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> PPG SİQNAL ANALİZİ
+                </span>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-950 text-emerald-300 border border-emerald-700">
+                  SQI: 97% • Etibarlı
+                </span>
+              </div>
+
+              <!-- PPG SVG Waveform Loop -->
+              <div class="relative h-28 w-full flex items-center">
+                <svg viewBox="0 0 300 80" class="w-full h-full">
+                  <polyline
+                    fill="none"
+                    stroke="#EF4444"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="ppg-animate"
+                    points="0,40 25,40 35,40 45,15 55,65 65,30 75,45 85,40 115,40 125,40 135,15 145,65 155,30 165,45 175,40 205,40 215,40 225,15 235,65 245,30 255,45 265,40 300,40"
+                  />
+                </svg>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-gray-400 pt-2 border-t border-gray-800">
+                <span>Siqnal-Küy (SNR): 24 dB</span>
+                <span class="text-amber-400 font-bold">⚠️ Təzyiq yüksəkdir: 103 tövsiyə olunur</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 4,
+        titleAz: "Səhnə 5: Təcili Reaksiya — 110 BPM CPR & SOS 103 Koordinatı",
+        titleEn: "Scene 5: Emergency Response — 110 BPM CPR Pacer & SOS 103",
+        duration: 15,
+        narrationAz: "Təhlükə anında saniyələr önəmlidir. Yüksək təzyiq və aritmiya aşkarlanarsa, məntəqə dərhal 103 Təcili Yardıma dəqiq koordinatları ötürür, ekranda isə 110 BPM ilk yardım paceri bələdçilik edir.",
+        narrationEn: "Seconds save lives. When elevated pressure and arrhythmia are detected, OpenCarePoint dispatches exact GPS coordinates to 103 emergency teams while guiding with the 110 BPM CPR pacer.",
+        render: () => `
+          <div class="w-full h-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+            <div class="space-y-4 max-w-md text-left">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-red-500/20 border border-red-400/40 text-red-300">
+                🚨 TƏCİLİ PROTOKOL
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                103 Dispetçerinə Dəqiq Məkan: HP-10
+              </h2>
+              <p class="text-sm text-gray-300 leading-relaxed">
+                Tofiq dayının koordinatları (40.4029° N, 49.8706° E) və ölçüm çeki birbaşa 103 briqadasına ötürülür. Dr. Samirə yoldadır; yaxındakı vətəndaş Rəşad isə CPR ritminə baxır.
+              </p>
+              <div class="p-3 rounded-2xl bg-red-950/60 border border-red-700/60 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center font-black text-sm animate-pulse">
+                  110
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">110 BPM CPR Ritm Bələdçisi</p>
+                  <p class="text-[11px] text-red-300">Sinə mərkəzinə hər siqnalda bərabər kompressiya</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Animated 103 Dispatch & CPR Simulation Card -->
+            <div class="relative w-full max-w-sm rounded-3xl bg-gray-900 border-2 border-red-600/80 p-5 space-y-4 shadow-2xl">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
+                  <span class="text-xs font-extrabold text-white">103 TƏCİLİ YARDIM BAĞLANTISI</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-black bg-red-600 text-white">Aktiv Çağrı</span>
+              </div>
+
+              <!-- Dispatch Details -->
+              <div class="p-3 rounded-xl bg-black/60 border border-gray-800 text-xs space-y-1.5 font-mono text-left">
+                <p class="text-gray-400">Ünvan: <span class="text-white font-bold">Nərimanov Parkı, Təbriz küç. 44</span></p>
+                <p class="text-gray-400">Pasiyent: <span class="text-amber-300 font-bold">Tofiq Qasımov (A+ • Penisilin allergiyası)</span></p>
+                <p class="text-gray-400">Göstərici: <span class="text-red-400 font-bold">145/92 mmHg • 108 bpm</span></p>
+                <p class="text-emerald-400 font-bold">🚑 Briqada #14 yoldadır (Təxmini 4 dəq)</p>
+              </div>
+
+              <!-- CPR Metronome Bar -->
+              <div class="space-y-1">
+                <div class="flex justify-between text-[11px] font-bold text-gray-300">
+                  <span>CPR Ritm Sayğacı</span>
+                  <span class="text-red-400">110 BPM</span>
+                </div>
+                <div class="w-full h-3 rounded-full bg-gray-800 overflow-hidden relative">
+                  <div class="h-full bg-red-600 rounded-full animate-pulse w-3/4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        titleAz: "Səhnə 6: Yekun — 15 Məntəqəlik Ağıllı Bakı Şəbəkəsi & B2G Modeli",
+        titleEn: "Scene 6: Vision — 15-Station Baku Smart City Grid & B2G",
+        duration: 15,
+        narrationAz: "OpenCarePoint və RingXCare: Şəhər üçün davamlı B2G modeli, vətəndaş üçün Apar rahatlığı. 15 strateji məntəqə ilə Bakının hər guşəsində həyat qorunur. Sağlamlıq hər kəs üçün əlçatan olsun!",
+        narrationEn: "OpenCarePoint & RingXCare: Sustainable B2G model for municipalities, Apar-level simplicity for citizens. 15 strategic stations safeguarding lives across Baku. Healthcare everywhere life happens!",
+        render: () => `
+          <div class="w-full h-full flex flex-col items-center justify-center text-center px-4 max-w-3xl mx-auto space-y-5">
+            <div class="w-16 h-16 rounded-3xl bg-[#C8102E] flex items-center justify-center shadow-xl shadow-red-600/40 heart-beat">
+              <svg class="w-9 h-9 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+
+            <div class="space-y-2">
+              <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                Həyatın baş verdiyi hər yerdə sağlamlıq dəstəyi.
+              </h2>
+              <p class="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                15 Bakı məntəqəsi • Bulvar, 28 May, Koroğlu, Elmlər, Əhmədli, Memar Əcəmi, Ağ Şəhər... Vətəndaş üçün 0 AZN əsas skrininq, bələdiyyə üçün 24/7 telemetriya və xilasedici sürət.
+              </p>
+            </div>
+
+            <!-- 5 Zone Badges -->
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <span class="px-3 py-1.5 rounded-xl bg-gray-800 border border-gray-700 text-xs font-bold text-gray-200">🚇 5 Nəqliyyat Qovşağı</span>
+              <span class="px-3 py-1.5 rounded-xl bg-gray-800 border border-gray-700 text-xs font-bold text-gray-200">🌳 5 İstirahət & Bulvar</span>
+              <span class="px-3 py-1.5 rounded-xl bg-gray-800 border border-gray-700 text-xs font-bold text-gray-200">🏘️ 2 Yaşayış Massivi</span>
+              <span class="px-3 py-1.5 rounded-xl bg-gray-800 border border-gray-700 text-xs font-bold text-gray-200">🎓 1 Universitet Kampusu</span>
+              <span class="px-3 py-1.5 rounded-xl bg-gray-800 border border-gray-700 text-xs font-bold text-gray-200">🏢 2 İş Mərkəzi</span>
+            </div>
+
+            <!-- Call to Actions -->
+            <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <a href="https://healthpoint-tawny.vercel.app" target="_blank" class="px-6 py-2.5 rounded-xl bg-[#C8102E] hover:bg-red-700 text-white font-extrabold text-sm transition shadow-lg shadow-red-900/40">
+                Canlı Tətbiqi Aç
+              </a>
+              <a href="https://healthpoint-tawny.vercel.app/downloads/OpenCarePoint.apk" download class="px-6 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-bold text-sm transition">
+                Android APK Yüklə (3.4 MB)
+              </a>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    // --- STATE & AUDIO SYNTHESIS ENGINE ---
+    let currentSceneIdx = 0;
+    let isPlaying = true;
+    let playbackSpeed = 1.0;
+    let sceneTimer = null;
+    let sceneElapsed = 0; // seconds in current scene
+    let currentLang = "az";
+    let audioMuted = false;
+    let voiceoverEnabled = true;
+
+    // Web Audio Synthesizer
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioCtx = new AudioClass();
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playBeep(freq = 440, type = "sine", duration = 0.1, gainVal = 0.08) {
+      if (audioMuted) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {
+        // audio error ignored
+      }
+    }
+
+    function playHeartbeatSound() {
+      if (audioMuted) return;
+      playBeep(90, "sine", 0.09, 0.2);
+      setTimeout(() => playBeep(70, "sine", 0.12, 0.15), 180);
+    }
+
+    function playNfcChime() {
+      if (audioMuted) return;
+      playBeep(523.25, "triangle", 0.12, 0.12);
+      setTimeout(() => playBeep(659.25, "triangle", 0.12, 0.12), 100);
+      setTimeout(() => playBeep(783.99, "triangle", 0.25, 0.15), 200);
+    }
+
+    function playEmergencyPulse() {
+      if (audioMuted) return;
+      playBeep(880, "sawtooth", 0.08, 0.08);
+      setTimeout(() => playBeep(660, "sawtooth", 0.15, 0.08), 90);
+    }
+
+    // Voiceover Narration via SpeechSynthesis
+    function speakNarration(text) {
+      if (!voiceoverEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = currentLang === "az" ? "az-AZ" : "en-US";
+        utter.rate = playbackSpeed * 1.02;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    // --- RENDER CURRENT SCENE ---
+    const stageArea = document.getElementById("stageArea");
+    const subtitlesText = document.getElementById("subtitlesText");
+    const sceneBadge = document.getElementById("sceneBadge");
+    const sceneTitle = document.getElementById("sceneTitle");
+    const timecode = document.getElementById("timecode");
+    const timelineProgress = document.getElementById("timelineProgress");
+    const playIcon = document.getElementById("playIcon");
+
+    function renderScene(idx) {
+      currentSceneIdx = idx;
+      sceneElapsed = 0;
+      const scene = SCENES[currentSceneIdx];
+
+      stageArea.innerHTML = scene.render();
+      const narration = currentLang === "az" ? scene.narrationAz : scene.narrationEn;
+      const title = currentLang === "az" ? scene.titleAz : scene.titleEn;
+
+      subtitlesText.textContent = narration;
+      sceneBadge.textContent = `Səhnə ${idx + 1}/6`;
+      sceneTitle.textContent = title;
+
+      // Update button highlights
+      document.querySelectorAll(".scenePickBtn").forEach((btn) => {
+        const sNum = parseInt(btn.getAttribute("data-scene"), 10);
+        if (sNum === idx) {
+          btn.className = "scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white transition";
+        } else {
+          btn.className = "scenePickBtn px-2 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 text-gray-300 transition";
+        }
+      });
+
+      // Sound triggers for scene highlights
+      if (idx === 0) playHeartbeatSound();
+      if (idx === 2) playNfcChime();
+      if (idx === 3) playBeep(784, "sine", 0.15, 0.1);
+      if (idx === 4) playEmergencyPulse();
+
+      speakNarration(narration);
+      updateTimeline();
+    }
+
+    function calculateTotalSeconds() {
+      return SCENES.reduce((acc, s) => acc + s.duration, 0);
+    }
+
+    function calculateElapsedTotal() {
+      let total = 0;
+      for (let i = 0; i < currentSceneIdx; i++) {
+        total += SCENES[i].duration;
+      }
+      return total + sceneElapsed;
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function updateTimeline() {
+      const total = calculateTotalSeconds();
+      const elapsed = calculateElapsedTotal();
+      const pct = Math.min((elapsed / total) * 100, 100);
+      timelineProgress.style.width = `${pct}%`;
+      timecode.textContent = `${formatTime(elapsed)} / ${formatTime(total)}`;
+    }
+
+    // --- PLAYBACK TICKER ---
+    function tick() {
+      if (!isPlaying) return;
+      sceneElapsed += 0.5 * playbackSpeed;
+      const curScene = SCENES[currentSceneIdx];
+
+      // Audio effects during playback
+      if (currentSceneIdx === 0 && Math.floor(sceneElapsed) % 3 === 0) {
+        playHeartbeatSound();
+      }
+      if (currentSceneIdx === 4 && Math.floor(sceneElapsed) % 2 === 0) {
+        playEmergencyPulse();
+      }
+
+      if (sceneElapsed >= curScene.duration) {
+        if (currentSceneIdx < SCENES.length - 1) {
+          renderScene(currentSceneIdx + 1);
+        } else {
+          // Loop or pause at end
+          renderScene(0);
+        }
+      } else {
+        updateTimeline();
+      }
+    }
+
+    function startPlayback() {
+      isPlaying = true;
+      playIcon.textContent = "⏸";
+      if (sceneTimer) clearInterval(sceneTimer);
+      sceneTimer = setInterval(tick, 500);
+    }
+
+    function pausePlayback() {
+      isPlaying = false;
+      playIcon.textContent = "▶";
+      if (sceneTimer) clearInterval(sceneTimer);
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.pause();
+      }
+    }
+
+    // --- EVENT LISTENERS ---
+    document.getElementById("playPauseBtn").addEventListener("click", () => {
+      getAudioContext();
+      if (isPlaying) {
+        pausePlayback();
+      } else {
+        if (typeof window !== "undefined" && "speechSynthesis" in window && window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        }
+        startPlayback();
+      }
+    });
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      getAudioContext();
+      renderScene(0);
+      startPlayback();
+    });
+
+    document.querySelectorAll(".scenePickBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        getAudioContext();
+        const s = parseInt(btn.getAttribute("data-scene"), 10);
+        renderScene(s);
+      });
+    });
+
+    document.getElementById("timelineTrack").addEventListener("click", (e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      const totalSec = calculateTotalSeconds();
+      const targetSec = pct * totalSec;
+
+      // Find scene for this time
+      let accumulated = 0;
+      for (let i = 0; i < SCENES.length; i++) {
+        if (targetSec <= accumulated + SCENES[i].duration || i === SCENES.length - 1) {
+          currentSceneIdx = i;
+          sceneElapsed = targetSec - accumulated;
+          renderScene(i);
+          break;
+        }
+        accumulated += SCENES[i].duration;
+      }
+    });
+
+    const speedBtn = document.getElementById("speedBtn");
+    speedBtn.addEventListener("click", () => {
+      if (playbackSpeed === 1.0) playbackSpeed = 1.5;
+      else if (playbackSpeed === 1.5) playbackSpeed = 2.0;
+      else playbackSpeed = 1.0;
+      speedBtn.textContent = `${playbackSpeed.toFixed(1)}x`;
+    });
+
+    // Audio & Voiceover Toggles
+    const audioToggleBtn = document.getElementById("audioToggleBtn");
+    audioToggleBtn.addEventListener("click", () => {
+      audioMuted = !audioMuted;
+      document.getElementById("audioIcon").textContent = audioMuted ? "🔇" : "🔊";
+      document.getElementById("audioLabel").textContent = audioMuted ? "Səs: Səssiz" : "Səs: Açıq";
+    });
+
+    const voiceoverToggleBtn = document.getElementById("voiceoverToggleBtn");
+    voiceoverToggleBtn.addEventListener("click", () => {
+      voiceoverEnabled = !voiceoverEnabled;
+      document.getElementById("voiceLabel").textContent = voiceoverEnabled ? "Diksiya: Aktiv" : "Diksiya: Söndürülüb";
+      if (!voiceoverEnabled && typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      } else if (voiceoverEnabled) {
+        const scene = SCENES[currentSceneIdx];
+        speakNarration(currentLang === "az" ? scene.narrationAz : scene.narrationEn);
+      }
+    });
+
+    // Language buttons
+    document.querySelectorAll(".langBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const l = btn.getAttribute("data-lang");
+        currentLang = l;
+        document.querySelectorAll(".langBtn").forEach((b) => {
+          b.className = b.getAttribute("data-lang") === l
+            ? "langBtn px-2 py-1 rounded-lg bg-red-600 text-white"
+            : "langBtn px-2 py-1 rounded-lg text-gray-400 hover:text-white";
+        });
+        renderScene(currentSceneIdx);
+      });
+    });
+
+    // Keyboard controls
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (isPlaying) pausePlayback(); else startPlayback();
+      } else if (e.code === "ArrowRight") {
+        if (currentSceneIdx < SCENES.length - 1) renderScene(currentSceneIdx + 1);
+      } else if (e.code === "ArrowLeft") {
+        if (currentSceneIdx > 0) renderScene(currentSceneIdx - 1);
+      }
+    });
+
+    // Auto-init on load
+    window.addEventListener("DOMContentLoaded", () => {
+      renderScene(0);
+      startPlayback();
+    });
+  </script>
+</body>
+</html>

@@ -15,6 +15,7 @@
     "nearby": "Yaxınlıqda",
     "assistant": "Köməkçi",
     "plans": "Tariflər & B2G",
+    "video": "Video Təqdimat",
     "saved": "Saxlanılanlar",
     "emergency": "SOS",
     "profile": "Profil",
@@ -440,5 +441,14 @@
     "notesLabel": "Qeyd / Məntəqə yeri",
     "submitInquiry": "Pilot Təklifi Göndər (Demo)",
     "inquirySuccess": "Müraciətiniz lokal demo reyestrə qeyd olundu ({{count}} ümumi müraciət)."
+  },
+  "video": {
+    "badge": "Animasiyalı Məhsul Videosu • Real Bakı İstifadəçiləri",
+    "title": "OpenCarePoint & RingXCare — Məhsul Videosu",
+    "subtitle": "Apar üslublu şəhər sağlamlıq məntəqələrimizin real istifadəçi həyatına təsiri: 6 dinamik səhnə, Web Audio səs dizaynı və Edge AI siqnal simulyasiyası.",
+    "fullscreen": "Tam Ekran",
+    "castTitle": "Həqiqi İstifadəçi Ssenariləri & Əsaslandırma",
+    "castSubtitle": "Hər bir səhnə Bakının müxtəlif yerlərində ictimai sağlamlıq və təcili yardım ehtiyacını həll edən real insan hekayəsini canlandırır.",
+    "timelineTitle": "Video Xronometrajı & Struktur (6 Səhnə)"
   }
 }

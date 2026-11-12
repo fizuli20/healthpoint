@@ -11,6 +11,7 @@ import { NavigationPage } from "./pages/NavigationPage";
 import { NearbyPage } from "./pages/NearbyPage";
 import { PlansPage } from "./pages/PlansPage";
 import { PointDetailPage } from "./pages/PointDetailPage";
+import { ProductVideoPage } from "./pages/ProductVideoPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { SavedPage } from "./pages/SavedPage";
 import { SettingsPage } from "./pages/SettingsPage";
@@ -42,6 +43,7 @@ export function AppRoutes() {
         <Route path="/navigation/:id" element={<NavigationPage />} />
         <Route path="/assistant" element={<AssistantPage />} />
         <Route path="/plans" element={<PlansPage />} />
+        <Route path="/video" element={<ProductVideoPage />} />
         <Route path="/saved" element={<SavedPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/settings" element={<SettingsPage />} />

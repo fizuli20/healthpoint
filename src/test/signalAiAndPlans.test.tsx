@@ -210,4 +210,17 @@ describe("OpenCarePoint Signal AI, B2C/B2G Plans & Quick Triage", () => {
     });
     nearbyView.unmount();
   });
+
+  it("renders animated product video showcase on /video with real-user cast breakdown", async () => {
+    const { unmount } = renderAppAt(["/video"]);
+    expect(
+      await screen.findByText(/OpenCarePoint & RingXCare — Məhsul Videosu/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Tofiq Qasımov/i)).toBeInTheDocument();
+    expect(screen.getByText(/Nigar Əliyeva/i)).toBeInTheDocument();
+    expect(screen.getByText(/Rəşad Məmmədov/i)).toBeInTheDocument();
+    expect(screen.getByText(/Dr. Samirə Vəliyeva/i)).toBeInTheDocument();
+    expect(screen.getByTitle(/OpenCarePoint Animated Product Video/i)).toBeInTheDocument();
+    unmount();
+  });
 });

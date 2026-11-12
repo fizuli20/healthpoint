@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, Download, LocateFixed, MapPin, PhoneCall, QrCode, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Film, LocateFixed, MapPin, PhoneCall, QrCode, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -162,6 +162,13 @@ export function MapPage() {
                 className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white border border-[#E5E7EB] text-[#171717] text-[11px] font-bold hover:border-[#C8102E] hover:text-[#C8102E] transition"
               >
                 {t("nav.plans")}
+              </Link>
+              <Link
+                to="/video"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#FFF1F2] border border-[#FCE8EC] text-[#8B1028] text-[11px] font-bold hover:bg-[#C8102E] hover:text-white transition"
+              >
+                <Film className="w-3 h-3 text-[#C8102E]" />
+                {t("nav.video")}
               </Link>
             </div>
           </div>

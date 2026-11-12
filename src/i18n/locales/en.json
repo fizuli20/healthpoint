@@ -15,6 +15,7 @@
     "nearby": "Nearby",
     "assistant": "Assistant",
     "plans": "Plans & B2G",
+    "video": "Product Video",
     "saved": "Saved",
     "emergency": "SOS",
     "profile": "Profile",
@@ -440,5 +441,14 @@
     "notesLabel": "Notes / Target Locations",
     "submitInquiry": "Submit Pilot Inquiry (Demo)",
     "inquirySuccess": "Inquiry logged in local demo registry ({{count}} total submissions)."
+  },
+  "video": {
+    "badge": "Animated Product Video • Real Baku Users",
+    "title": "OpenCarePoint & RingXCare — Product Video",
+    "subtitle": "How our Apar-style urban health kiosks transform real citizens' lives: 6 dynamic scenes, Web Audio sound design, and Edge AI signal validation.",
+    "fullscreen": "Fullscreen",
+    "castTitle": "Real User Scenarios & Rationale",
+    "castSubtitle": "Each scene showcases a real human journey across Baku addressing public health and rapid triage needs.",
+    "timelineTitle": "Video Timeline & Structure (6 Scenes)"
   }
 }
