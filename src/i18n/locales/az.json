@@ -14,6 +14,7 @@
     "map": "Xəritə",
     "nearby": "Yaxınlıqda",
     "assistant": "Köməkçi",
+    "plans": "Tariflər & B2G",
     "saved": "Saxlanılanlar",
     "emergency": "SOS",
     "profile": "Profil",
@@ -71,7 +72,12 @@
     "sortBy": "Sırala",
     "sortDistance": "Məsafəyə görə",
     "sortAvailability": "Statusa görə",
-    "sortEquipment": "Avadanlığa görə"
+    "sortEquipment": "Avadanlığa görə",
+    "quickNeedLabel": "Vəziyyətə görə sürətli seçim:",
+    "needBp": "Başgicəllənmə / Təzyiq",
+    "needHr": "Ürək döyüntüsü / Nəbz",
+    "needO2": "Nəfəs darlığı / Oksigen",
+    "needAed": "Fövqəladə / AED"
   },
   "point": {
     "navigate": "Marşrut",
@@ -111,7 +117,34 @@
     "listenVoice": "Səsli oxu",
     "endSession": "Sessiyanı Bitir",
     "codeNotFound": "Bu kodla məntəqə tapılmadı (məs. HP-01 — HP-08).",
-    "unavailableWarning": "Bu məntəqə texniki xidmətə görə hazırda əlçatmazdır."
+    "unavailableWarning": "Bu məntəqə texniki xidmətə görə hazırda əlçatmazdır.",
+    "sessionTimer": "Seans",
+    "passSelectTitle": "B2C İstifadə Paketi (Demo Ödəniş Simulyasiyası)",
+    "passFreeTitle": "Əsas Ölçüm",
+    "passFreePrice": "0 AZN • Pulsuz",
+    "passFreeDesc": "Nəbz + SpO2 + SOS çıxışı",
+    "passPaidTitle": "Birdəfəlik Tam Yoxlanış",
+    "passPaidPrice": "1.00 AZN • Demo",
+    "passPaidDesc": "Nəbz + SpO2 + Qan təzyiqi + Tarixçə",
+    "passTeleTitle": "Həkimə Göndəriş",
+    "passTelePrice": "5.00 AZN • Demo",
+    "passTeleDesc": "Tam ölçüm + Klinikaya sorğu (simulyasiya)",
+    "sensorTitle": "RingXCare Optik Sensor & AI Siqnal Yoxlaması",
+    "sensorSubtitle": "Yüngül ML/SQI modeli zəif təması aşkarlayıb ölçümü təkrarlamağı tövsiyə edir.",
+    "measureNormalBtn": "Ölçümü Başlat (Normal)",
+    "measurePoorBtn": "Zəif Siqnal Testi (AI)",
+    "retryMeasureBtn": "Ölçümü Təkrarla",
+    "sqiLabel": "AI Siqnal Keyfiyyəti (SQI)",
+    "sqiGood": "Etibarlı siqnal",
+    "sqiPoor": "Zəif siqnal / Hərəkət aşkarlandı",
+    "aiOkMsg": "Siqnal sabitdir ({{score}}%). Optik nəbz göstəricisi Profil tarixçəsinə saxlanıldı.",
+    "aiPoorMsg": "Sensor təması zəifdir və ya hərəkət aşkarlandı ({{score}}%). Zəhmət olmasa barmağınızı/üzüyü sabit saxlayıb ölçümü təkrarlayın.",
+    "aiElevatedMsg": "Nəbz bir qədər yüksəkdir ({{score}}% siqnal). Sakit oturun; narahatlıq davam edərsə 103 ilə əlaqə saxlayın.",
+    "bpm": "Nəbz",
+    "spo2": "SpO2",
+    "bp": "Təzyiq",
+    "savedToHistory": "Ölçüm Profil tarixçəsinə əlavə edildi",
+    "passDisclaimer": "Qeyd: Real bank ödənişi və canlı həkim qoşulması simulyasiya olunur."
   },
   "report": {
     "title": "Məntəqə ilə bağlı problem bildir",
@@ -208,7 +241,10 @@
     "savedTitle": "Saxlanılan Məntəqələr",
     "savedEmpty": "Hələ heç bir məntəqə saxlanılmayıb. Xəritədən və ya siyahıdan məntəqə əlavə edin.",
     "validationName": "Ən azı 2 simvoldan ibarət ad daxil edin.",
-    "validationPhone": "Düzgün telefon nömrəsi daxil edin."
+    "validationPhone": "Düzgün telefon nömrəsi daxil edin.",
+    "vitalsTitle": "Ölçüm Tarixçəm (Demo Sensor)",
+    "vitalsEmpty": "Hələ heç bir sensor ölçümü aparılmayıb. Xəritədən bir məntəqəni aktiv edib ölçüm aparın.",
+    "clearVitals": "Tarixçəni Təmizlə"
   },
   "saved": {
     "loading": "Saxlanılan məntəqələr yüklənir..."
@@ -298,6 +334,60 @@
     "errors": {
       "nameAddress": "Ad və ünvan ən azı 3 simvol olmalıdır.",
       "coords": "Enlik və uzunluq düzgün rəqəm olmalıdır."
-    }
+    },
+    "b2gTitle": "B2G & Şəhər Əməliyyat Göstəriciləri (Demo)",
+    "b2gUptime": "Şəbəkə Aktivliyi (SLA)",
+    "b2gAvgUsage": "Orta Məntəqə İstifadəsi",
+    "b2gChecks": "Qeydə Alınan Sensor Seansı"
+  },
+  "plans": {
+    "title": "B2C Birdəfəlik Tariflər & B2G Şəhər Modeli",
+    "subtitle": "Vətəndaşlar üçün Apar üslublu birdəfəlik giriş, bələdiyyələr və məkan operatorları üçün davamlı B2G/B2B infrastrukturu.",
+    "demoBadge": "Planlaşdırılan Biznes Modeli — Canlı ödəniş şlüzü aktiv deyil",
+    "b2cHeading": "B2C Vətəndaş Paketləri (Birdəfəlik İstifadə)",
+    "b2cItems": {
+      "freeName": "Əsas Nəbz & SOS Çıxışı",
+      "freePrice": "0 AZN",
+      "freeNote": "Hər kəs üçün ödənişsiz",
+      "freeDesc": "NFC/QR ilə sürətli nəbz və SpO2 skrininqi, səsli təlimat və birbaşa 103/112 SOS bağlantısı.",
+      "fullName": "Tam Birdəfəlik Yoxlanış",
+      "fullPrice": "1–2 AZN / istifadə",
+      "fullNote": "Apar tipli birdəfəlik ödəniş",
+      "fullDesc": "Qan təzyiqi, nəbz, SpO2 ölçümü, AI siqnal keyfiyyəti yoxlaması və profil tarixçəsinə qeyd.",
+      "teleName": "Onlayn Həkim Bağlantısı",
+      "telePrice": "5–10 AZN / seans",
+      "teleNote": "Klinik tərəfdaş konsultasiyası",
+      "teleDesc": "Məntəqə ekranından birbaşa həkimə ölçüm nəticələrinin ötürülməsi və yönləndirmə."
+    },
+    "b2gHeading": "B2G Dövlət / Metro & B2B Operator Modeli",
+    "b2gCards": {
+      "pilotName": "B2G Şəhər & Metro Pilotu",
+      "pilotPrice": "Quraşdırma + 290 AZN / məntəqə (aylıq)",
+      "pilotDesc": "Bələdiyyə və metro operatorları üçün cihaz quraşdırılması, 24/7 telemetriya, texniki servis SLA-i və vətəndaş üçün pulsuz əsas skrininq.",
+      "mallName": "B2B Ticarət Mərkəzi & Kampus",
+      "mallPrice": "450 AZN / ay və ya gəlir bölgüsü",
+      "mallDesc": "Ziyarətçi təhlükəsizliyi, brendli sağlamlıq məntəqəsi, B2C birdəfəlik seanslardan ortaq gəlir modeli.",
+      "aiName": "Xərcə Qənaətli Edge AI Memarlığı",
+      "aiPrice": "Cihazdaxili (~0.0001 AZN/seans)",
+      "aiDesc": "Ağır bulud LLM yerinə yüngül lokal Siqnal Keyfiyyəti (SQI) alqoritmi zəif sensor təmasını dərhal aşkarlayıb ölçümü təkrarlatdırır."
+    },
+    "calcTitle": "İnteraktiv B2G / B2C Pilot Hesablayıcısı",
+    "calcKiosks": "Məntəqə sayı",
+    "calcDaily": "Məntəqə başına gündəlik vətəndaş istifadəsi",
+    "calcMonthlyScreenings": "Aylıq ümumi yoxlanış",
+    "calcB2gMonthly": "Təxmini B2G/B2B aylıq xidmət haqqı",
+    "calcB2cShare": "Əlavə B2C birdəfəlik gəlir potensialı (~20% ödənişli)",
+    "calcNote": "Planlaşdırma simulyasiyası: metro/ticarət mərkəzi pilotu üçün təxmini göstəricilər.",
+    "inquiryTitle": "B2G / Tərəfdaşlıq Pilot Müraciəti",
+    "orgLabel": "Qurum və ya Şirkət adı",
+    "orgPlaceholder": "Məsələn: Bakı Metropoliteni / Gənclik Mall",
+    "sectorLabel": "Tərəfdaşlıq növü",
+    "sectorB2g": "B2G — Dövlət Qurumu / Bələdiyyə / Metro",
+    "sectorB2b": "B2B — Ticarət Mərkəzi / Universitet / Ofis",
+    "sectorClinic": "Tibb Mərkəzi / Telemed Tərəfdaşı",
+    "emailLabel": "Əlaqə E-poçtu",
+    "notesLabel": "Qeyd / Məntəqə yeri",
+    "submitInquiry": "Pilot Təklifi Göndər (Demo)",
+    "inquirySuccess": "Müraciətiniz lokal demo reyestrə qeyd olundu ({{count}} ümumi müraciət)."
   }
 }

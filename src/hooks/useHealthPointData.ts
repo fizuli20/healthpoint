@@ -8,10 +8,14 @@ import {
   fetchAccessPoints,
   fetchEmergencyContacts,
   fetchMaintenanceReports,
+  fetchPartnerInquiries,
   fetchSavedPointIds,
+  fetchVitalReadings,
   recordStationActivation,
+  saveVitalReading,
   toggleSavedPointId,
 } from "../services/healthpointStore";
+import type { VitalReadingRecord } from "../types/healthpoint";
 
 export function useAccessPointsQuery() {
   return useQuery({
@@ -98,6 +102,30 @@ export function useLocalizedReportsQuery() {
     [query.data, i18n.language]
   );
   return { ...query, data: localized };
+}
+
+export function useVitalReadingsQuery() {
+  return useQuery({
+    queryKey: ["vitalReadings"],
+    queryFn: fetchVitalReadings,
+  });
+}
+
+export function useSaveVitalReadingMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (record: VitalReadingRecord) => saveVitalReading(record),
+    onSuccess: (next) => {
+      queryClient.setQueryData(["vitalReadings"], next);
+    },
+  });
+}
+
+export function usePartnerInquiriesQuery() {
+  return useQuery({
+    queryKey: ["partnerInquiries"],
+    queryFn: fetchPartnerInquiries,
+  });
 }
 
 export function useEmergencyContactsQuery() {

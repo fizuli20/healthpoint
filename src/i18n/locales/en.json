@@ -14,6 +14,7 @@
     "map": "Map",
     "nearby": "Nearby",
     "assistant": "Assistant",
+    "plans": "Plans & B2G",
     "saved": "Saved",
     "emergency": "SOS",
     "profile": "Profile",
@@ -71,7 +72,12 @@
     "sortBy": "Sort by",
     "sortDistance": "Distance",
     "sortAvailability": "Availability",
-    "sortEquipment": "Equipment"
+    "sortEquipment": "Equipment",
+    "quickNeedLabel": "Quick symptom triage:",
+    "needBp": "Dizziness / BP",
+    "needHr": "Heart Rate / Pulse",
+    "needO2": "Shortness of Breath / O2",
+    "needAed": "Emergency / AED"
   },
   "point": {
     "navigate": "Navigate",
@@ -111,7 +117,34 @@
     "listenVoice": "Listen",
     "endSession": "End Session",
     "codeNotFound": "No access point matched that code (try HP-01 to HP-08).",
-    "unavailableWarning": "This station is currently offline for maintenance."
+    "unavailableWarning": "This station is currently offline for maintenance.",
+    "sessionTimer": "Session",
+    "passSelectTitle": "B2C Session Pass (Demo Payment Simulator)",
+    "passFreeTitle": "Basic Screening",
+    "passFreePrice": "0 AZN • Free",
+    "passFreeDesc": "Pulse + SpO2 + SOS access",
+    "passPaidTitle": "One-Time Full Check",
+    "passPaidPrice": "1.00 AZN • Demo",
+    "passPaidDesc": "Pulse + SpO2 + Blood Pressure + History",
+    "passTeleTitle": "Tele-Doctor Referral",
+    "passTelePrice": "5.00 AZN • Demo",
+    "passTeleDesc": "Full check + Clinic handoff (simulated)",
+    "sensorTitle": "RingXCare Optical Sensor & AI Signal Check",
+    "sensorSubtitle": "Lightweight ML/SQI classifier detects weak contact and prompts a retry.",
+    "measureNormalBtn": "Start Reading (Good Signal)",
+    "measurePoorBtn": "Weak Signal Test (AI Check)",
+    "retryMeasureBtn": "Retry Reading",
+    "sqiLabel": "AI Signal Quality (SQI)",
+    "sqiGood": "Reliable signal",
+    "sqiPoor": "Weak contact / Motion detected",
+    "aiOkMsg": "Signal is stable ({{score}}%). Optical vitals saved to your Profile history.",
+    "aiPoorMsg": "Weak sensor contact or motion artifact detected ({{score}}%). Hold your finger/ring steady and repeat.",
+    "aiElevatedMsg": "Pulse is slightly elevated ({{score}}% SQI). Stay seated and call 103 if symptoms persist.",
+    "bpm": "Pulse",
+    "spo2": "SpO2",
+    "bp": "Blood Pressure",
+    "savedToHistory": "Reading saved to Profile history",
+    "passDisclaimer": "Note: Live payment processing and live doctor calls are simulated."
   },
   "report": {
     "title": "Report an Access Point Issue",
@@ -208,7 +241,10 @@
     "savedTitle": "Saved Access Points",
     "savedEmpty": "No saved locations yet. Bookmark any access point from the map or list.",
     "validationName": "Please enter a valid contact name (min 2 characters).",
-    "validationPhone": "Please enter a valid phone number."
+    "validationPhone": "Please enter a valid phone number.",
+    "vitalsTitle": "My Check-In Vitals History (Demo Sensor)",
+    "vitalsEmpty": "No kiosk sensor checks recorded yet. Activate any station on the map to run a check.",
+    "clearVitals": "Clear History"
   },
   "saved": {
     "loading": "Loading saved locations..."
@@ -298,6 +334,60 @@
     "errors": {
       "nameAddress": "Name and address must be at least 3 characters.",
       "coords": "Latitude and longitude must be valid numbers."
-    }
+    },
+    "b2gTitle": "B2G & Municipal SLA Metrics (Demo)",
+    "b2gUptime": "Network Uptime (SLA)",
+    "b2gAvgUsage": "Avg. Station Check-ins",
+    "b2gChecks": "Recorded Sensor Readings"
+  },
+  "plans": {
+    "title": "B2C Pay-Per-Use & B2G City Infrastructure",
+    "subtitle": "Apar-style one-time citizen passes paired with sustainable B2G municipal and venue licensing.",
+    "demoBadge": "Planned Business Model — No Live Payment Gateway Configured",
+    "b2cHeading": "B2C Citizen Passes (One-Time Use)",
+    "b2cItems": {
+      "freeName": "Core Pulse & SOS Access",
+      "freePrice": "0 AZN",
+      "freeNote": "Always free for citizens",
+      "freeDesc": "NFC/QR quick pulse and SpO2 screening, voice guidance, and instant 103/112 SOS escalation.",
+      "fullName": "One-Time Full Check",
+      "fullPrice": "1–2 AZN / use",
+      "fullNote": "Apar-style single-use pass",
+      "fullDesc": "Blood pressure, pulse, SpO2 reading, Edge AI signal verification, and saved check-in receipt.",
+      "teleName": "Tele-Doctor Consultation",
+      "telePrice": "5–10 AZN / session",
+      "teleNote": "Partner clinic referral",
+      "teleDesc": "Transmits structured station vitals directly to an on-call physician partner."
+    },
+    "b2gHeading": "B2G Government / Metro & B2B Operator Model",
+    "b2gCards": {
+      "pilotName": "B2G City & Metro Pilot",
+      "pilotPrice": "Setup + 290 AZN / kiosk / mo",
+      "pilotDesc": "Turnkey hardware deployment for municipalities & metro stations, 24/7 SLA telemetry, and free citizen screening.",
+      "mallName": "B2B Mall & Campus Package",
+      "mallPrice": "450 AZN / mo or revenue share",
+      "mallDesc": "Co-branded health access point for malls and campuses with shared B2C one-time session revenue.",
+      "aiName": "Cost-Efficient Edge AI",
+      "aiPrice": "On-device (~0.0001 AZN/check)",
+      "aiDesc": "Instead of costly cloud LLMs, an on-device Signal Quality Index (SQI) filter catches noisy sensor contact and prompts an instant re-scan."
+    },
+    "calcTitle": "Interactive B2G / B2C Pilot Calculator",
+    "calcKiosks": "Deployed access points",
+    "calcDaily": "Daily citizen checks per point",
+    "calcMonthlyScreenings": "Monthly public screenings",
+    "calcB2gMonthly": "Est. B2G/B2B monthly service fee",
+    "calcB2cShare": "Additional B2C one-time revenue (~20% paid)",
+    "calcNote": "Planning simulation for Baku metro and shopping-mall pilot deployments.",
+    "inquiryTitle": "B2G / Venue Pilot Inquiry",
+    "orgLabel": "Organization / Municipality",
+    "orgPlaceholder": "e.g. Baku Metro / Ganjlik Mall",
+    "sectorLabel": "Partnership Sector",
+    "sectorB2g": "B2G — Municipality / Ministry / Metro",
+    "sectorB2b": "B2B — Shopping Mall / University / Campus",
+    "sectorClinic": "Medical Clinic / Telemed Partner",
+    "emailLabel": "Contact Email",
+    "notesLabel": "Notes / Target Locations",
+    "submitInquiry": "Submit Pilot Inquiry (Demo)",
+    "inquirySuccess": "Inquiry logged in local demo registry ({{count}} total submissions)."
   }
 }

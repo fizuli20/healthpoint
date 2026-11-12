@@ -124,3 +124,36 @@ export interface AssistantMessage {
   matchedIds?: string[];
   createdAt: string;
 }
+
+export type SessionPassType = "free_basic" | "one_time_full" | "tele_consult";
+
+export type SignalQualityStatus = "good" | "poor";
+
+export interface VitalReadingRecord {
+  id: string;
+  accessPointId: string;
+  accessPointName: string;
+  kioskCode: string;
+  passType: SessionPassType;
+  priceAzn: number;
+  heartRateBpm: number | null;
+  spo2Percent: number | null;
+  bloodPressure: string | null;
+  signalQualityScore: number;
+  signalStatus: SignalQualityStatus;
+  snrDb: number;
+  aiRecommendationKey: "signalOk" | "signalPoorRetry" | "elevatedFollowUp";
+  waveform: number[];
+  isDemo: boolean;
+  createdAt: string;
+}
+
+export interface PartnerInquiry {
+  id: string;
+  organizationName: string;
+  sector: "b2g_municipality" | "b2b_mall_metro" | "clinic_partner";
+  contactEmail: string;
+  kioskCount: number;
+  notes: string;
+  createdAt: string;
+}

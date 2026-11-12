@@ -145,6 +145,12 @@ export function MapPage() {
                   {t("app.downloadApkShort")}
                 </a>
               )}
+              <Link
+                to="/plans"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white border border-[#E5E7EB] text-[#171717] text-[11px] font-bold hover:border-[#C8102E] hover:text-[#C8102E] transition"
+              >
+                {t("nav.plans")}
+              </Link>
             </div>
           </div>
 

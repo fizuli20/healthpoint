@@ -9,6 +9,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { MapPage } from "./pages/MapPage";
 import { NavigationPage } from "./pages/NavigationPage";
 import { NearbyPage } from "./pages/NearbyPage";
+import { PlansPage } from "./pages/PlansPage";
 import { PointDetailPage } from "./pages/PointDetailPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { SavedPage } from "./pages/SavedPage";
@@ -40,6 +41,7 @@ export function AppRoutes() {
         <Route path="/points/:id" element={<PointDetailPage />} />
         <Route path="/navigation/:id" element={<NavigationPage />} />
         <Route path="/assistant" element={<AssistantPage />} />
+        <Route path="/plans" element={<PlansPage />} />
         <Route path="/saved" element={<SavedPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/settings" element={<SettingsPage />} />

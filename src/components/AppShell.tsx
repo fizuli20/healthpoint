@@ -3,6 +3,7 @@ import {
   Accessibility,
   Bookmark,
   Bot,
+  CreditCard,
   List,
   Map as MapIcon,
   PhoneCall,
@@ -27,6 +28,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     { to: "/", label: t("nav.map"), icon: MapIcon },
     { to: "/nearby", label: t("nav.nearby"), icon: List },
     { to: "/assistant", label: t("nav.assistant"), icon: Bot },
+    { to: "/plans", label: t("nav.plans"), icon: CreditCard },
     { to: "/saved", label: t("nav.saved"), icon: Bookmark },
     ...(accessibility.easyAccessMode
       ? []

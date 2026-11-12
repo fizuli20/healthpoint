@@ -1,12 +1,17 @@
 import { BarChart3 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useLocalizedAccessPointsQuery, useReportsQuery } from "../../hooks/useHealthPointData";
+import {
+  useLocalizedAccessPointsQuery,
+  useLocalizedReportsQuery,
+  useVitalReadingsQuery,
+} from "../../hooks/useHealthPointData";
 import { ALL_EQUIPMENT, type OperationalStatus, type ReportStatus } from "../../types/healthpoint";
 
 export function AdminAnalyticsPage() {
   const { t } = useTranslation();
   const { data: points = [] } = useLocalizedAccessPointsQuery();
-  const { data: reports = [] } = useReportsQuery();
+  const { data: reports = [] } = useLocalizedReportsQuery();
+  const { data: vitals = [] } = useVitalReadingsQuery();
 
   const total = Math.max(points.length, 1);
 
@@ -42,6 +47,12 @@ export function AdminAnalyticsPage() {
     count: reports.filter((r) => r.status === s).length,
   }));
 
+  const availablePoints = points.filter((p) => p.operationalStatus !== "unavailable").length;
+  const uptimePct = Math.round((availablePoints / Math.max(points.length, 1)) * 100);
+  const avgUsage = Math.round(
+    points.reduce((acc, p) => acc + (p.usageCount || 0), 0) / Math.max(points.length, 1)
+  );
+
   const equipmentCoverage = ALL_EQUIPMENT.map((item) => ({
     item,
     count: points.filter((p) => p.equipment.includes(item)).length,
@@ -57,6 +68,22 @@ export function AdminAnalyticsPage() {
         <span className="text-xs font-medium text-[#737373] bg-white px-3 py-1.5 rounded-full border border-[#E5E7EB]">
           {t("admin.gapNotice")}
         </span>
+      </div>
+
+      {/* B2G Municipal SLA Summary Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-4">
+          <p className="text-xs font-semibold text-[#737373]">{t("admin.b2gUptime")}</p>
+          <p className="text-2xl font-extrabold text-emerald-700 mt-1">{uptimePct}%</p>
+        </div>
+        <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-4">
+          <p className="text-xs font-semibold text-[#737373]">{t("admin.b2gAvgUsage")}</p>
+          <p className="text-2xl font-extrabold text-[#171717] mt-1">{avgUsage}</p>
+        </div>
+        <div className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-4">
+          <p className="text-xs font-semibold text-[#737373]">{t("admin.b2gChecks")}</p>
+          <p className="text-2xl font-extrabold text-[#C8102E] mt-1">{vitals.length}</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

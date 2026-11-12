@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  Activity,
   Bookmark,
   CheckCircle2,
   Lock,
@@ -19,9 +20,11 @@ import {
   useEmergencyContactsQuery,
   useLocalizedAccessPointsQuery,
   useSavedIdsQuery,
+  useVitalReadingsQuery,
 } from "../hooks/useHealthPointData";
 import {
   addEmergencyContact,
+  clearVitalReadings,
   deleteEmergencyContact,
 } from "../services/healthpointStore";
 
@@ -32,6 +35,7 @@ export function ProfilePage() {
   const { data: contacts = [] } = useEmergencyContactsQuery();
   const { data: savedIds = [] } = useSavedIdsQuery();
   const { data: points = [] } = useLocalizedAccessPointsQuery();
+  const { data: vitalReadings = [] } = useVitalReadingsQuery();
 
   const uid = user && !user.isDemoAuth ? user.id : null;
 
@@ -246,6 +250,60 @@ export function ProfilePage() {
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* Vitals & B2C Check-In History */}
+      <section className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-5 sm:p-6 space-y-3">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <h2 className="text-lg font-bold text-[#171717] flex items-center gap-2">
+            <Activity className="w-5 h-5 text-[#C8102E]" />
+            {t("profile.vitalsTitle")} ({vitalReadings.length})
+          </h2>
+          <div className="flex items-center gap-3">
+            <Link to="/plans" className="text-xs font-bold text-[#C8102E] hover:underline">
+              {t("nav.plans")}
+            </Link>
+            {vitalReadings.length > 0 && (
+              <button
+                type="button"
+                onClick={async () => {
+                  await clearVitalReadings();
+                  await queryClient.invalidateQueries({ queryKey: ["vitalReadings"] });
+                }}
+                className="text-xs font-semibold text-[#737373] hover:text-[#C8102E]"
+              >
+                {t("profile.clearVitals")}
+              </button>
+            )}
+          </div>
+        </div>
+        {vitalReadings.length === 0 ? (
+          <p className="text-sm text-[#737373]">{t("profile.vitalsEmpty")}</p>
+        ) : (
+          <ul className="space-y-2.5">
+            {vitalReadings.map((vr) => (
+              <li
+                key={vr.id}
+                className="flex items-center justify-between gap-3 flex-wrap px-4 py-3 rounded-2xl bg-[#FAFAFA] border border-[#E5E7EB]"
+              >
+                <div>
+                  <p className="text-xs font-extrabold text-[#C8102E]">
+                    {vr.kioskCode} • {vr.accessPointName}
+                  </p>
+                  <p className="text-xs font-bold text-[#171717] mt-0.5">
+                    {vr.heartRateBpm ?? "--"} bpm • SpO2 {vr.spo2Percent ?? "--"}%
+                    {vr.bloodPressure ? ` • ${vr.bloodPressure}` : ""}
+                  </p>
+                  <p className="text-[11px] text-[#737373] mt-0.5">
+                    SQI {vr.signalQualityScore}% •{" "}
+                    {vr.priceAzn === 0 ? "0 AZN" : `${vr.priceAzn.toFixed(2)} AZN (Demo)`} •{" "}
+                    {new Date(vr.createdAt).toLocaleString()}
+                  </p>
                 </div>
               </li>
             ))}

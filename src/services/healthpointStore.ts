@@ -9,8 +9,10 @@ import type {
   LanguageCode,
   MaintenanceReport,
   OperationalStatus,
+  PartnerInquiry,
   ReportStatus,
   UserProfile,
+  VitalReadingRecord,
 } from "../types/healthpoint";
 
 const KEYS = {
@@ -22,6 +24,8 @@ const KEYS = {
   ACCESSIBILITY: "hp_accessibility_v1",
   LANGUAGE: "hp_language_v1",
   DEMO_AUTH: "hp_demo_auth_v1",
+  VITALS: "hp_vital_readings_v1",
+  PARTNER_INQUIRIES: "hp_partner_inquiries_v1",
 };
 
 export const DEFAULT_ACCESSIBILITY: AccessibilityPreferences = {
@@ -538,4 +542,36 @@ export async function recordStationActivation(pointId: string): Promise<void> {
     };
     safeWriteJson(KEYS.POINTS, copy);
   }
+}
+
+export async function fetchVitalReadings(): Promise<VitalReadingRecord[]> {
+  return safeReadJson<VitalReadingRecord[]>(KEYS.VITALS, []);
+}
+
+export async function saveVitalReading(record: VitalReadingRecord): Promise<VitalReadingRecord[]> {
+  const current = safeReadJson<VitalReadingRecord[]>(KEYS.VITALS, []);
+  const next = [record, ...current].slice(0, 30);
+  safeWriteJson(KEYS.VITALS, next);
+  return next;
+}
+
+export async function clearVitalReadings(): Promise<void> {
+  safeWriteJson(KEYS.VITALS, []);
+}
+
+export async function fetchPartnerInquiries(): Promise<PartnerInquiry[]> {
+  return safeReadJson<PartnerInquiry[]>(KEYS.PARTNER_INQUIRIES, []);
+}
+
+export async function submitPartnerInquiry(
+  input: Omit<PartnerInquiry, "id" | "createdAt">
+): Promise<PartnerInquiry> {
+  const created: PartnerInquiry = {
+    ...input,
+    id: `pi-${Date.now().toString(36)}`,
+    createdAt: new Date().toISOString(),
+  };
+  const current = safeReadJson<PartnerInquiry[]>(KEYS.PARTNER_INQUIRIES, []);
+  safeWriteJson(KEYS.PARTNER_INQUIRIES, [created, ...current]);
+  return created;
 }

@@ -5,6 +5,13 @@ import { useHealthPoint } from "../context/HealthPointContext";
 import { countActiveFilters } from "../lib/filters";
 import { ALL_EQUIPMENT, type EquipmentItem } from "../types/healthpoint";
 
+const QUICK_TRIAGE_ITEMS: { key: string; equipment: EquipmentItem }[] = [
+  { key: "filters.needBp", equipment: "Blood pressure monitor" },
+  { key: "filters.needHr", equipment: "Heart rate monitor" },
+  { key: "filters.needO2", equipment: "Pulse oximeter" },
+  { key: "filters.needAed", equipment: "AED" },
+];
+
 interface SpeechRecognitionLike {
   lang: string;
   interimResults: boolean;
@@ -160,15 +167,30 @@ export function SearchFilterBar({ compact = false }: { compact?: boolean }) {
       </div>
 
       {showEquipment && (
-        <div className="flex flex-wrap gap-1.5">
-          {ALL_EQUIPMENT.map((item) => (
-            <FilterChip
-              key={item}
-              active={filter.equipment.includes(item)}
-              onClick={() => toggleEquipment(item)}
-              label={t(`equipment.${item}`)}
-            />
-          ))}
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] font-bold text-[#737373] pr-1">
+              {t("filters.quickNeedLabel")}
+            </span>
+            {QUICK_TRIAGE_ITEMS.map((item) => (
+              <FilterChip
+                key={item.key}
+                active={filter.equipment.includes(item.equipment)}
+                onClick={() => toggleEquipment(item.equipment)}
+                label={t(item.key)}
+              />
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {ALL_EQUIPMENT.map((item) => (
+              <FilterChip
+                key={item}
+                active={filter.equipment.includes(item)}
+                onClick={() => toggleEquipment(item)}
+                label={t(`equipment.${item}`)}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>
