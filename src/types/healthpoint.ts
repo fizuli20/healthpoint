@@ -53,6 +53,7 @@ export interface Coordinates {
 
 export interface AccessPoint {
   id: string;
+  code?: string;
   name: string;
   description: string;
   neighborhood: string;

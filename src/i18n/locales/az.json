@@ -12,6 +12,10 @@
   },
   "nav": {
     "map": "Xəritə",
+    "kiosk": "Köşk",
+    "demo": "Demo",
+    "technology": "Texnologiya",
+    "partners": "Tərəfdaşlıq",
     "nearby": "Yaxınlıqda",
     "assistant": "Köməkçi",
     "plans": "Tariflər & B2G",
@@ -21,8 +25,15 @@
     "profile": "Profil",
     "settings": "Ayarlar",
     "accessibility": "Əlçatanlıq",
-    "admin": "Admin",
+    "admin": "OpenCare City",
     "login": "Giriş"
+  },
+  "kiosk": {
+    "welcomeSubtitle": "İctimai məkanlarda nəbzinizi ölçə, nəticəni ekranda görə və tibbi yardım istəyə biləcəyiniz məntəqə.",
+    "sampleNotice": "Nümunə nəticə — real tibbi ölçmə deyil",
+    "demoModeBadge": "Demo Rejimi",
+    "sosButton": "SOS 103 Təcili",
+    "reset": "Sıfırla"
   },
   "status": {
     "operational": "İşləkdir",

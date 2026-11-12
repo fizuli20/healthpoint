@@ -214,12 +214,12 @@ export function HealthPointProvider({ children }: { children: React.ReactNode })
       if (error) throw new Error(error.message);
       return;
     }
-    const isAdmin = email.toLowerCase().includes("admin");
+    // Strict security rule: never permit admin access based on email containing 'admin' string
     setDemoAuthSession({
       loggedIn: true,
-      isAdmin,
+      isAdmin: false,
       email,
-      fullName: isAdmin ? "Demo Admin" : email.split("@")[0] || "Demo User",
+      fullName: email.split("@")[0] || "Demo Vətəndaş",
     });
     setUser(loadLocalUserProfile());
   }, []);

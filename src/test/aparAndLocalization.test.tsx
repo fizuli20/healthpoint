@@ -59,8 +59,8 @@ describe("HealthPoint Azerbaijani default localization & Apar-style kiosk UX", (
     expect(localizeEquipmentLabel("Blood pressure monitor", "az")).toBe("Qan təzyiqi cihazı");
   });
 
-  it("renders main map route (/) in Azerbaijani by default with Apar QR button & APK pill", async () => {
-    renderAppAt(["/"]);
+  it("renders main map route (/map) in Azerbaijani by default with Apar QR button & APK pill", async () => {
+    renderAppAt(["/map"]);
 
     expect(await screen.findByText(/Yaxın Sağlamlıq Məntəqələri/i)).toBeInTheDocument();
     expect(await screen.findByText(/OpenCarePoint — Dənizkənarı Bulvar/i)).toBeInTheDocument();
@@ -77,7 +77,7 @@ describe("HealthPoint Azerbaijani default localization & Apar-style kiosk UX", (
     const initialUsage =
       beforePoints.find((p) => p.id === "hp-baku-boulevard")?.usageCount ?? 0;
 
-    renderAppAt(["/"]);
+    renderAppAt(["/map"]);
 
     const openModalBtn = await screen.findByRole("button", { name: /Kod \/ QR ilə Başla/i });
     fireEvent.click(openModalBtn);
@@ -102,7 +102,7 @@ describe("HealthPoint Azerbaijani default localization & Apar-style kiosk UX", (
   });
 
   it("blocks activating unavailable kiosk code HP-08 with an Azerbaijani warning", async () => {
-    renderAppAt(["/"]);
+    renderAppAt(["/map"]);
 
     const openModalBtn = await screen.findByRole("button", { name: /Kod \/ QR ilə Başla/i });
     fireEvent.click(openModalBtn);

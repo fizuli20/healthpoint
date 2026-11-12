@@ -12,6 +12,10 @@
   },
   "nav": {
     "map": "Map",
+    "kiosk": "Kiosk",
+    "demo": "Demo",
+    "technology": "Technology",
+    "partners": "Partners",
     "nearby": "Nearby",
     "assistant": "Assistant",
     "plans": "Plans & B2G",
@@ -21,8 +25,15 @@
     "profile": "Profile",
     "settings": "Settings",
     "accessibility": "Access",
-    "admin": "Admin",
+    "admin": "OpenCare City",
     "login": "Login"
+  },
+  "kiosk": {
+    "welcomeSubtitle": "A smart public kiosk to measure pulse, view results on screen, and request medical help.",
+    "sampleNotice": "Sample result — not a clinical measurement",
+    "demoModeBadge": "Demo Mode",
+    "sosButton": "SOS 103 Emergency",
+    "reset": "Reset"
   },
   "status": {
     "operational": "Operational",

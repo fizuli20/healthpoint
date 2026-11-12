@@ -7,6 +7,7 @@ import {
   Clock,
   Flag,
   MapPin,
+  Monitor,
   Navigation,
   QrCode,
   ShieldAlert,
@@ -179,6 +180,14 @@ export function PointDetailPage() {
               <QrCode className="w-4 h-4" />
               {t("point.activateStation")}
             </button>
+            <Link
+              to={`/kiosk/${point.id}`}
+              role="button"
+              className="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#C8102E] text-white font-bold hover:bg-[#8B1028] shadow-brand transition"
+            >
+              <Monitor className="w-4 h-4" />
+              <span>Köşk İnterfeysi</span>
+            </Link>
             <Link
               to={`/navigation/${point.id}`}
               role="button"

@@ -1,15 +1,17 @@
 import React from "react";
 import {
   Accessibility,
-  Bookmark,
   Bot,
-  CreditCard,
+  Building2,
+  Cpu,
   Film,
   List,
   Map as MapIcon,
+  Monitor,
   PhoneCall,
   Settings,
   ShieldCheck,
+  Sparkles,
   User,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -22,38 +24,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const { accessibility, language, setLanguage, user } = useHealthPoint();
   const location = useLocation();
-  const isMapHome = location.pathname === "/";
+  const isMapRoute = location.pathname === "/map";
   const isEmergency = location.pathname === "/emergency";
 
   const desktopNav = [
-    { to: "/", label: t("nav.map"), icon: MapIcon },
-    { to: "/nearby", label: t("nav.nearby"), icon: List },
-    { to: "/assistant", label: t("nav.assistant"), icon: Bot },
-    { to: "/plans", label: t("nav.plans"), icon: CreditCard },
-    { to: "/video", label: t("nav.video"), icon: Film },
-    { to: "/saved", label: t("nav.saved"), icon: Bookmark },
+    { to: "/map", label: t("nav.map", "Xəritə"), icon: MapIcon },
+    { to: "/kiosk", label: t("nav.kiosk", "Köşk"), icon: Monitor },
+    { to: "/demo", label: t("nav.demo", "Demo"), icon: Sparkles },
+    { to: "/technology", label: t("nav.technology", "Texnologiya"), icon: Cpu },
+    { to: "/partners", label: t("nav.partners", "Tərəfdaşlıq"), icon: Building2 },
+    { to: "/video", label: t("nav.video", "Video"), icon: Film },
+    { to: "/nearby", label: t("nav.nearby", "Yaxınlıqda"), icon: List },
+    { to: "/assistant", label: t("nav.assistant", "Bələdçi AI"), icon: Bot },
     ...(accessibility.easyAccessMode
       ? []
       : [
-          { to: "/accessibility", label: t("nav.accessibility"), icon: Accessibility },
-          { to: "/settings", label: t("nav.settings"), icon: Settings },
+          { to: "/accessibility", label: t("nav.accessibility", "Əlçatanlıq"), icon: Accessibility },
+          { to: "/settings", label: t("nav.settings", "Tənzimləmələr"), icon: Settings },
         ]),
-    ...(user?.isAdmin ? [{ to: "/admin", label: t("nav.admin"), icon: ShieldCheck }] : []),
+    ...(user?.isAdmin ? [{ to: "/admin", label: t("nav.admin", "OpenCare City"), icon: ShieldCheck }] : []),
   ];
 
   const mobileNav = accessibility.easyAccessMode
     ? [
-        { to: "/", label: t("nav.map"), icon: MapIcon },
-        { to: "/nearby", label: t("nav.nearby"), icon: List },
-        { to: "/emergency", label: t("nav.emergency"), icon: PhoneCall, isSos: true },
-        { to: "/accessibility", label: t("nav.accessibility"), icon: Accessibility },
+        { to: "/map", label: t("nav.map", "Xəritə"), icon: MapIcon },
+        { to: "/kiosk", label: t("nav.kiosk", "Köşk"), icon: Monitor },
+        { to: "/emergency", label: t("nav.emergency", "SOS"), icon: PhoneCall, isSos: true },
+        { to: "/accessibility", label: t("nav.accessibility", "Əlçatanlıq"), icon: Accessibility },
       ]
     : [
-        { to: "/", label: t("nav.map"), icon: MapIcon },
-        { to: "/nearby", label: t("nav.nearby"), icon: List },
-        { to: "/assistant", label: t("nav.assistant"), icon: Bot },
-        { to: "/saved", label: t("nav.saved"), icon: Bookmark },
-        { to: "/profile", label: t("nav.profile"), icon: User },
+        { to: "/map", label: t("nav.map", "Xəritə"), icon: MapIcon },
+        { to: "/kiosk", label: t("nav.kiosk", "Köşk"), icon: Monitor },
+        { to: "/demo", label: t("nav.demo", "Demo"), icon: Sparkles },
+        { to: "/assistant", label: t("nav.assistant", "AI"), icon: Bot },
+        { to: "/profile", label: t("nav.profile", "Profil"), icon: User },
       ];
 
   return (
@@ -65,7 +69,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <HealthPointWordmark compact />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1" aria-label="Əsas naviqasiya">
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Əsas naviqasiya">
             {desktopNav.map((item) => {
               const Icon = item.icon;
               return (
@@ -74,7 +78,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   to={item.to}
                   end={item.to === "/"}
                   className={({ isActive }) =>
-                    `inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition ${
+                    `inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition ${
                       isActive
                         ? "bg-[#FFF1F2] text-[#C8102E]"
                         : "text-[#737373] hover:text-[#171717] hover:bg-[#FAFAFA]"
@@ -136,14 +140,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main Page Body */}
-      <main className={`flex-1 ${isMapHome ? "relative" : "pb-24 md:pb-10"}`}>
+      <main className={`flex-1 ${isMapRoute ? "relative" : "pb-24 md:pb-10"}`}>
         {children}
       </main>
 
       {/* Mobile Bottom Navigation Bar — safely clear of floating SOS */}
       <nav
         aria-label="Mobil naviqasiya"
-        className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E5E7EB] safe-pb"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E5E7EB] safe-pb"
       >
         <div className="flex items-center justify-around px-1 pt-1.5">
           {mobileNav.map((item) => {
@@ -155,16 +159,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 to={item.to}
                 end={item.to === "/"}
                 className={({ isActive }) =>
-                  `flex flex-col items-center justify-center px-2.5 py-1.5 rounded-xl text-[11px] font-semibold transition ${
+                  `flex flex-col items-center justify-center px-2 py-1 rounded-xl text-[10px] sm:text-[11px] font-semibold transition ${
                     isSos
-                      ? "text-white bg-[#C8102E] px-4"
+                      ? "text-white bg-[#C8102E] px-3.5"
                       : isActive
                         ? "text-[#C8102E]"
                         : "text-[#737373]"
                   }`
                 }
               >
-                <Icon className="w-5 h-5 mb-0.5" />
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5 mb-0.5" />
                 <span>{item.label}</span>
               </NavLink>
             );

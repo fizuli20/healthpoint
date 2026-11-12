@@ -175,8 +175,8 @@ describe("HealthPoint store & user/admin flows", () => {
     fetchSpy.mockRestore();
   });
 
-  it("mounts main map home route (/) cleanly with Leaflet MarkerCluster maxZoom configured", async () => {
-    renderAppAt(["/"]);
+  it("mounts main map route (/map) cleanly with Leaflet MarkerCluster maxZoom configured", async () => {
+    renderAppAt(["/map"]);
 
     expect(await screen.findByText(/Nearby Healthcare Access Points/i)).toBeInTheDocument();
     expect(await screen.findByText(/15 points matched/i)).toBeInTheDocument();

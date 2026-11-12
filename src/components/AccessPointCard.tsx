@@ -1,4 +1,4 @@
-import { Accessibility, Bookmark, Clock, Flag, MapPin, Navigation, QrCode, Volume2 } from "lucide-react";
+import { Accessibility, Bookmark, Clock, Flag, MapPin, Monitor, Navigation, QrCode, Volume2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { formatDistance, estimateDurationSeconds, formatDurationMinutes } from "../lib/geo";
@@ -117,9 +117,18 @@ export function AccessPointCard({
         <Link
           to={`/points/${point.id}`}
           role="button"
-          className="flex-1 min-w-[100px] inline-flex items-center justify-center px-3.5 py-2.5 rounded-xl bg-white border border-[#C8102E] text-[#C8102E] text-xs sm:text-sm font-semibold hover:bg-[#FFF1F2] focus:outline-none focus:ring-2 focus:ring-[#C8102E] transition"
+          className="flex-1 min-w-[90px] inline-flex items-center justify-center px-3 py-2.5 rounded-xl bg-white border border-[#C8102E] text-[#C8102E] text-xs font-semibold hover:bg-[#FFF1F2] focus:outline-none focus:ring-2 focus:ring-[#C8102E] transition"
         >
           {t("point.details")}
+        </Link>
+        <Link
+          to={`/kiosk/${point.id}`}
+          role="button"
+          title="Bu məntəqənin köşk ekranını aç"
+          className="inline-flex items-center justify-center gap-1 px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#171717] text-xs font-bold transition focus:outline-none focus:ring-2 focus:ring-gray-400"
+        >
+          <Monitor className="w-3.5 h-3.5 text-[#C8102E]" />
+          <span>Köşk</span>
         </Link>
         <button
           type="button"

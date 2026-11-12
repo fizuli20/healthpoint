@@ -70,7 +70,7 @@ describe("OpenCarePoint Signal AI, B2C/B2G Plans & Quick Triage", () => {
   });
 
   it("runs B2C pass check & AI Signal Quality warning + retry inside StationActivateModal and persists good vitals", async () => {
-    renderAppAt(["/"]);
+    renderAppAt(["/map"]);
 
     const openModalBtn = await screen.findByRole("button", { name: /Kod \/ QR ilə Başla/i });
     fireEvent.click(openModalBtn);
@@ -214,13 +214,13 @@ describe("OpenCarePoint Signal AI, B2C/B2G Plans & Quick Triage", () => {
   it("renders animated product video showcase on /video with real-user cast breakdown", async () => {
     const { unmount } = renderAppAt(["/video"]);
     expect(
-      await screen.findByText(/OpenCarePoint & RingXCare — Məhsul Videosu/i)
+      await screen.findByText(/OpenCare Point — Məhsul Videosu/i)
     ).toBeInTheDocument();
     expect(screen.getByText(/Tofiq Qasımov/i)).toBeInTheDocument();
     expect(screen.getByText(/Nigar Əliyeva/i)).toBeInTheDocument();
     expect(screen.getByText(/Rəşad Məmmədov/i)).toBeInTheDocument();
     expect(screen.getByText(/Dr. Samirə Vəliyeva/i)).toBeInTheDocument();
-    expect(screen.getByTitle(/OpenCarePoint Animated Product Video/i)).toBeInTheDocument();
+    expect(screen.getByTitle(/OpenCare Point/i)).toBeInTheDocument();
     unmount();
   });
 });
