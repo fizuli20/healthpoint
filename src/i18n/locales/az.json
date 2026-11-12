@@ -144,7 +144,12 @@
     "spo2": "SpO2",
     "bp": "Təzyiq",
     "savedToHistory": "Ölçüm Profil tarixçəsinə əlavə edildi",
-    "passDisclaimer": "Qeyd: Real bank ödənişi və canlı həkim qoşulması simulyasiya olunur."
+    "passDisclaimer": "Qeyd: Real bank ödənişi və canlı həkim qoşulması simulyasiya olunur.",
+    "connectRingBtn": "NFC / RingXCare Üzük Qoş (Demo)",
+    "ringConnecting": "Sensor axtarılır...",
+    "ringConnected": "RingXCare BLE/NFC Qoşuldu (Demo)",
+    "copyReceiptBtn": "Nəticə Çekini Kopyala",
+    "receiptCopied": "Çek kopyalandı!"
   },
   "report": {
     "title": "Məntəqə ilə bağlı problem bildir",
@@ -174,7 +179,10 @@
     "stop": "Naviqasiyanı Dayandır",
     "activeStatus": "Canlı GPS izləmə aktivdir",
     "openGoogleMaps": "Google Maps-də aç",
-    "straightLineWarning": "OSRM marşrut xidmətinə qoşulmaq olmadı — düz xətt məsafəsi göstərilir. Dəqiq dönmələr üçün Google Maps-dən istifadə edin."
+    "straightLineWarning": "OSRM marşrut xidmətinə qoşulmaq olmadı — düz xətt məsafəsi göstərilir. Dəqiq dönmələr üçün Google Maps-dən istifadə edin.",
+    "speakRoute": "Səsli yol xülasəsi",
+    "arrivedActivate": "Məntəqəyə Çatdım — Aktiv Et",
+    "speakSummary": "{{name}} məntəqəsinə məsafə {{distance}}, təxmini vaxt {{eta}}."
   },
   "emergency": {
     "headline": "Təcili yardıma ehtiyacınız var?",
@@ -189,7 +197,25 @@
     "confirmShareBtn": "Paylaşımı Təsdiqlə",
     "copied": "Mövqe keçidi buferə kopyalandı.",
     "noContacts": "Profil bölməsində hələ etibarlı şəxs əlavə edilməyib.",
-    "disclaimer": "Vacib Qeyd: OpenCarePoint təcili tibbi yardımı, həkimi və ya xəstəxananı əvəz etmir. Zənglər birbaşa cihazınızdan yığılır; platforma avtomatik dispetçer təsdiqi göndərmir."
+    "disclaimer": "Vacib Qeyd: OpenCarePoint təcili tibbi yardımı, həkimi və ya xəstəxananı əvəz etmir. Zənglər birbaşa cihazınızdan yığılır; platforma avtomatik dispetçer təsdiqi göndərmir.",
+    "firstAidTitle": "İlk Yardım Bələdçisi & 110 BPM CPR Ritmi",
+    "firstAidNote": "Yalnız məlumat dəstəyi üçündür — 103 dispetçerinin təlimatını əvəz etmir.",
+    "cprStart": "110 BPM CPR Ritmini Başlat",
+    "cprStop": "Ritmi Dayandır",
+    "cprCount": "Kompressiya: {{count}}",
+    "cprHint": "Sinənin mərkəzinə hər siqnalda bərabər basın (~100–120/dəq).",
+    "stepCprTitle": "Huşsuzluq / Nəfəs yoxdursa",
+    "stepCprBody": "1) 103-ə zəng edin • 2) Kürəküstü uzadın • 3) 110/dəq ritmlə sinəyə basın, varsa AED gətirin.",
+    "stepChestTitle": "Başgicəllənmə / Sinə sıxılması",
+    "stepChestBody": "1) Sakit oturun • 2) Sıx geyimi boşaldın • 3) Yaxın OpenCarePoint-də təzyiq/nəbz ölçüb 103-ə bildirin.",
+    "stepBleedTitle": "Güclü qanaxma / Travma",
+    "stepBleedBody": "1) Təmiz parça ilə birbaşa təzyiq göstərin • 2) Kiosk ilk yardım çantasından steril sarğı götürün.",
+    "iceTitle": "Şəxsi Təcili Tibbi Kart (ICE)",
+    "iceEmpty": "Profil bölməsindən qan qrupu və allergiyaları əlavə edin.",
+    "iceEdit": "Redaktə et →",
+    "iceBlood": "Qan qrupu",
+    "iceAllergy": "Allergiyalar",
+    "iceConditions": "Vəziyyət / Dərman"
   },
   "assistant": {
     "title": "OpenCarePoint Köməkçisi",
@@ -244,7 +270,15 @@
     "validationPhone": "Düzgün telefon nömrəsi daxil edin.",
     "vitalsTitle": "Ölçüm Tarixçəm (Demo Sensor)",
     "vitalsEmpty": "Hələ heç bir sensor ölçümü aparılmayıb. Xəritədən bir məntəqəni aktiv edib ölçüm aparın.",
-    "clearVitals": "Tarixçəni Təmizlə"
+    "clearVitals": "Tarixçəni Təmizlə",
+    "medicalCardTitle": "Təcili Tibbi Kart (ICE — Yerli Məxfilik)",
+    "medicalCardDesc": "Yalnız cihazınızda saxlanılır; SOS səhifəsində təcili halda görünür.",
+    "bloodType": "Qan qrupu",
+    "allergies": "Allergiyalar",
+    "conditions": "Xroniki vəziyyət",
+    "medications": "Qəbul edilən dərmanlar",
+    "saveMedicalCard": "Tibbi Kartı Yadda Saxla",
+    "medicalCardSaved": "Tibbi kart cihazda saxlanıldı."
   },
   "saved": {
     "loading": "Saxlanılan məntəqələr yüklənir..."

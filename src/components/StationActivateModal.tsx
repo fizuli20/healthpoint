@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   Activity,
   AlertTriangle,
+  Bluetooth,
   CheckCircle2,
   Clock,
+  Copy,
   Cpu,
   MapPin,
   PhoneCall,
@@ -61,6 +63,8 @@ export function StationActivateModal({
   const [selectedPass, setSelectedPass] = useState<SessionPassType>("free_basic");
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [latestReading, setLatestReading] = useState<VitalReadingRecord | null>(null);
+  const [ringConnected, setRingConnected] = useState(false);
+  const [receiptCopied, setReceiptCopied] = useState(false);
 
   useEffect(() => {
     if (!open || !activePoint) {
@@ -78,6 +82,8 @@ export function StationActivateModal({
     setErrorMsg(null);
     setLatestReading(null);
     setElapsedSeconds(0);
+    setRingConnected(false);
+    setReceiptCopied(false);
     if (initialPoint) {
       const loc = localizeAccessPoint(initialPoint, i18n.language);
       setCodeInput(getKioskCode(loc.id));
@@ -108,6 +114,8 @@ export function StationActivateModal({
     setErrorMsg(null);
     setLatestReading(null);
     setElapsedSeconds(0);
+    setRingConnected(false);
+    setReceiptCopied(false);
     setCodeInput(getKioskCode(loc.id));
     setActivePoint(loc);
     setSelectedModule(loc.equipment[0] ?? null);
@@ -332,6 +340,18 @@ export function StationActivateModal({
               <div className="flex items-center gap-2 flex-wrap">
                 <button
                   type="button"
+                  onClick={() => setRingConnected((v) => !v)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition ${
+                    ringConnected
+                      ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+                      : "bg-white border-[#E5E7EB] text-[#171717] hover:border-[#C8102E]"
+                  }`}
+                >
+                  <Bluetooth className="w-3.5 h-3.5" />
+                  {ringConnected ? t("station.ringConnected") : t("station.connectRingBtn")}
+                </button>
+                <button
+                  type="button"
                   onClick={() => runSensorCheck("good")}
                   className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#C8102E] text-white text-xs font-bold hover:bg-[#8B1028] transition"
                 >
@@ -418,9 +438,30 @@ export function StationActivateModal({
                           </p>
                         </div>
                       </div>
-                      <p className="text-[11px] text-emerald-700 font-semibold">
-                        {t("station.aiOkMsg", { score: latestReading.signalQualityScore })}
-                      </p>
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <p className="text-[11px] text-emerald-700 font-semibold">
+                          {t("station.aiOkMsg", { score: latestReading.signalQualityScore })}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const receipt = `${latestReading.kioskCode} • ${latestReading.accessPointName} | ${latestReading.heartRateBpm} bpm | SpO2 ${latestReading.spo2Percent}%${
+                              latestReading.bloodPressure ? ` | ${latestReading.bloodPressure}` : ""
+                            } | SQI ${latestReading.signalQualityScore}% | ${
+                              latestReading.priceAzn === 0 ? "0 AZN" : `${latestReading.priceAzn.toFixed(2)} AZN (Demo)`
+                            }`;
+                            if (typeof navigator !== "undefined" && navigator.clipboard) {
+                              await navigator.clipboard.writeText(receipt).catch(() => undefined);
+                            }
+                            setReceiptCopied(true);
+                            window.setTimeout(() => setReceiptCopied(false), 3000);
+                          }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#FFF1F2] border border-[#FCE8EC] text-[#C8102E] text-[11px] font-bold hover:bg-[#FCE8EC]"
+                        >
+                          <Copy className="w-3 h-3" />
+                          {receiptCopied ? t("station.receiptCopied") : t("station.copyReceiptBtn")}
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-2">

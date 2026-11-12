@@ -142,4 +142,44 @@ describe("OpenCarePoint Signal AI, B2C/B2G Plans & Quick Triage", () => {
       expect(screen.queryByText(/OpenCarePoint — Sahil Metrosu/i)).not.toBeInTheDocument();
     });
   });
+
+  it("saves personal ICE medical ID on /profile and shows it with interactive CPR pacer on /emergency", async () => {
+    const profileView = renderAppAt(["/profile"]);
+
+    fireEvent.change(await screen.findByLabelText(/Qan qrupu/i), {
+      target: { value: "A+" },
+    });
+    fireEvent.change(screen.getByLabelText(/Allergiyalar/i), {
+      target: { value: "Penisilin" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Tibbi Kartı Yadda Saxla/i }));
+    expect(await screen.findByText(/Tibbi kart cihazda saxlanıldı/i)).toBeInTheDocument();
+    profileView.unmount();
+
+    // Render /emergency and verify Medical ID appears + CPR pacer toggles
+    const { unmount } = renderAppAt(["/emergency"]);
+    expect(await screen.findByText("A+")).toBeInTheDocument();
+    expect(screen.getByText("Penisilin")).toBeInTheDocument();
+
+    const cprBtn = screen.getByRole("button", { name: /110 BPM CPR Ritmini Başlat/i });
+    fireEvent.click(cprBtn);
+    expect(await screen.findByRole("button", { name: /Ritmi Dayandır/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Ritmi Dayandır/i }));
+    unmount();
+  });
+
+  it("opens arrival station activation modal directly from /navigation/:id", async () => {
+    renderAppAt(["/navigation/hp-baku-boulevard"]);
+
+    const arrivedBtn = await screen.findByRole("button", {
+      name: /Məntəqəyə Çatdım — Aktiv Et/i,
+    });
+    fireEvent.click(arrivedBtn);
+
+    const dialog = await screen.findByRole("dialog");
+    expect(within(dialog).getByText(/Məntəqə Aktivdir \(Demo Kiosk\)/i)).toBeInTheDocument();
+    expect(
+      within(dialog).getByRole("button", { name: /NFC \/ RingXCare Üzük Qoş/i })
+    ).toBeInTheDocument();
+  });
 });

@@ -144,7 +144,12 @@
     "spo2": "SpO2",
     "bp": "Blood Pressure",
     "savedToHistory": "Reading saved to Profile history",
-    "passDisclaimer": "Note: Live payment processing and live doctor calls are simulated."
+    "passDisclaimer": "Note: Live payment processing and live doctor calls are simulated.",
+    "connectRingBtn": "Connect NFC / RingXCare Ring (Demo)",
+    "ringConnecting": "Scanning sensor...",
+    "ringConnected": "RingXCare BLE/NFC Connected (Demo)",
+    "copyReceiptBtn": "Copy Check-In Receipt",
+    "receiptCopied": "Receipt copied!"
   },
   "report": {
     "title": "Report an Access Point Issue",
@@ -174,7 +179,10 @@
     "stop": "Stop Navigation",
     "activeStatus": "Live GPS tracking active",
     "openGoogleMaps": "Open in Google Maps",
-    "straightLineWarning": "Routing service unreachable — displaying straight-line estimate. Open Google Maps for full turn-by-turn directions."
+    "straightLineWarning": "Routing service unreachable — displaying straight-line estimate. Open Google Maps for full turn-by-turn directions.",
+    "speakRoute": "Voice route summary",
+    "arrivedActivate": "I Have Arrived — Activate",
+    "speakSummary": "{{name}}. Distance {{distance}}, estimated time {{eta}}."
   },
   "emergency": {
     "headline": "Need immediate help?",
@@ -189,7 +197,25 @@
     "confirmShareBtn": "Share Coordinates",
     "copied": "Location link copied to clipboard.",
     "noContacts": "No trusted emergency contacts saved in Profile yet.",
-    "disclaimer": "Important Notice: OpenCarePoint does not replace ambulances, hospitals, or professional emergency care. Emergency calls are initiated natively from your device; OpenCarePoint does not verify external dispatch receipt."
+    "disclaimer": "Important Notice: OpenCarePoint does not replace ambulances, hospitals, or professional emergency care. Emergency calls are initiated natively from your device; OpenCarePoint does not verify external dispatch receipt.",
+    "firstAidTitle": "First-Aid Coach & 110 BPM CPR Pacer",
+    "firstAidNote": "Informational guidance only — does not replace 103 dispatcher instructions.",
+    "cprStart": "Start 110 BPM CPR Pacer",
+    "cprStop": "Stop Pacer",
+    "cprCount": "Compressions: {{count}}",
+    "cprHint": "Push hard and fast at center of chest in time with each beat (~100–120/min).",
+    "stepCprTitle": "Unresponsive / Not breathing",
+    "stepCprBody": "1) Call 103 • 2) Lay flat • 3) Start 110/min chest compressions and request nearby AED.",
+    "stepChestTitle": "Dizziness / Chest tightness",
+    "stepChestBody": "1) Sit calmly • 2) Loosen tight clothing • 3) Measure BP/pulse at nearest OpenCarePoint or call 103.",
+    "stepBleedTitle": "Severe bleeding / Injury",
+    "stepBleedBody": "1) Apply firm direct pressure with clean cloth • 2) Use sterile dressing from kiosk first-aid kit.",
+    "iceTitle": "Personal Medical ID (ICE)",
+    "iceEmpty": "Add your blood group and allergies in Profile for emergency responders.",
+    "iceEdit": "Edit →",
+    "iceBlood": "Blood Type",
+    "iceAllergy": "Allergies",
+    "iceConditions": "Conditions / Meds"
   },
   "assistant": {
     "title": "OpenCarePoint Assistant",
@@ -244,7 +270,15 @@
     "validationPhone": "Please enter a valid phone number.",
     "vitalsTitle": "My Check-In Vitals History (Demo Sensor)",
     "vitalsEmpty": "No kiosk sensor checks recorded yet. Activate any station on the map to run a check.",
-    "clearVitals": "Clear History"
+    "clearVitals": "Clear History",
+    "medicalCardTitle": "Emergency Medical ID (ICE — Local Only)",
+    "medicalCardDesc": "Stored strictly on this device; visible on your SOS page during emergencies.",
+    "bloodType": "Blood Type",
+    "allergies": "Allergies",
+    "conditions": "Medical Conditions",
+    "medications": "Current Medications",
+    "saveMedicalCard": "Save Medical ID",
+    "medicalCardSaved": "Medical ID saved on device."
   },
   "saved": {
     "loading": "Loading saved locations..."

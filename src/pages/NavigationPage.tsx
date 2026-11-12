@@ -7,22 +7,29 @@ import {
   ExternalLink,
   Footprints,
   Navigation,
+  QrCode,
   Square,
+  Volume2,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { LoadingSplash } from "../components/BrandLogo";
 import { LeafletMapView } from "../components/LeafletMapView";
 import { MapErrorBoundary } from "../components/MapErrorBoundary";
+import { StationActivateModal } from "../components/StationActivateModal";
 import { DemoBadge } from "../components/StatusBadge";
 import { useHealthPoint } from "../context/HealthPointContext";
-import { useLocalizedAccessPointQuery } from "../hooks/useHealthPointData";
+import {
+  useLocalizedAccessPointQuery,
+  useLocalizedAccessPointsQuery,
+} from "../hooks/useHealthPointData";
 import {
   buildGoogleMapsUrl,
   fetchRoute,
   formatDistance,
   formatDurationMinutes,
 } from "../lib/geo";
+import { getKioskCode, resolveLang } from "../lib/localizePoint";
 import type { RouteResult } from "../types/healthpoint";
 
 export function NavigationPage() {
@@ -30,11 +37,13 @@ export function NavigationPage() {
   const { t, i18n } = useTranslation();
   const { effectiveOrigin, userLocation, setManualLocation } = useHealthPoint();
   const { data: point, isLoading } = useLocalizedAccessPointQuery(id);
+  const { data: allPoints = [] } = useLocalizedAccessPointsQuery();
 
   const [mode, setMode] = useState<"walking" | "driving">("walking");
   const [wheelchairPriority, setWheelchairPriority] = useState(false);
   const [route, setRoute] = useState<RouteResult | null>(null);
   const [navActive, setNavActive] = useState(false);
+  const [activateOpen, setActivateOpen] = useState(false);
   const watchIdRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -211,6 +220,39 @@ export function NavigationPage() {
             {navActive ? t("navigation.stop") : t("navigation.start")}
           </button>
 
+          <button
+            type="button"
+            onClick={() => setActivateOpen(true)}
+            className="flex-1 min-w-[170px] py-3 px-5 rounded-2xl bg-[#171717] text-white font-bold text-sm inline-flex items-center justify-center gap-2 hover:bg-[#C8102E] transition"
+          >
+            <QrCode className="w-4 h-4" />
+            {t("navigation.arrivedActivate")} ({getKioskCode(point.id)})
+          </button>
+
+          {typeof window !== "undefined" && "speechSynthesis" in window && route && (
+            <button
+              type="button"
+              onClick={() => {
+                window.speechSynthesis.cancel();
+                const langCode = resolveLang(i18n.language);
+                const utter = new SpeechSynthesisUtterance(
+                  t("navigation.speakSummary", {
+                    name: point.name,
+                    distance: formatDistance(route.distanceMeters, i18n.language),
+                    eta: formatDurationMinutes(route.durationSeconds, i18n.language),
+                  })
+                );
+                utter.lang =
+                  langCode === "az" ? "az-AZ" : langCode === "ru" ? "ru-RU" : "en-US";
+                window.speechSynthesis.speak(utter);
+              }}
+              className="py-3 px-4 rounded-2xl border border-[#E5E7EB] bg-white text-[#171717] font-bold text-sm inline-flex items-center justify-center gap-2 hover:border-[#C8102E] transition"
+            >
+              <Volume2 className="w-4 h-4 text-[#C8102E]" />
+              {t("navigation.speakRoute")}
+            </button>
+          )}
+
           <a
             href={googleMapsUrl}
             target="_blank"
@@ -242,6 +284,13 @@ export function NavigationPage() {
           />
         </MapErrorBoundary>
       </div>
+
+      <StationActivateModal
+        open={activateOpen}
+        points={allPoints.length > 0 ? allPoints : [point]}
+        initialPoint={point}
+        onClose={() => setActivateOpen(false)}
+      />
     </div>
   );
 }

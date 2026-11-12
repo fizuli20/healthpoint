@@ -4,6 +4,7 @@ import {
   Activity,
   Bookmark,
   CheckCircle2,
+  HeartPulse,
   Lock,
   LogIn,
   LogOut,
@@ -26,6 +27,8 @@ import {
   addEmergencyContact,
   clearVitalReadings,
   deleteEmergencyContact,
+  loadMedicalCard,
+  saveMedicalCard,
 } from "../services/healthpointStore";
 
 export function ProfilePage() {
@@ -46,6 +49,9 @@ export function ProfilePage() {
   const [contactPhone, setContactPhone] = useState("");
   const [contactError, setContactError] = useState<string | null>(null);
   const [submittingContact, setSubmittingContact] = useState(false);
+
+  const [medicalCard, setMedicalCard] = useState(() => loadMedicalCard());
+  const [medicalSaved, setMedicalSaved] = useState(false);
 
   const savedPoints = points.filter((p) => savedIds.includes(p.id));
 
@@ -175,6 +181,112 @@ export function ProfilePage() {
               {t("profile.profileSaved")}
             </p>
           )}
+        </form>
+      </section>
+
+      {/* Emergency Medical ID (ICE — Local Only) */}
+      <section className="bg-white rounded-3xl border border-[#E5E7EB] shadow-soft p-5 sm:p-6 space-y-4">
+        <div className="space-y-1">
+          <h2 className="text-lg font-bold text-[#171717] flex items-center gap-2">
+            <HeartPulse className="w-5 h-5 text-[#C8102E]" />
+            {t("profile.medicalCardTitle")}
+          </h2>
+          <p className="inline-flex items-center gap-1.5 text-xs text-[#737373]">
+            <Lock className="w-3.5 h-3.5 text-[#C8102E]" />
+            {t("profile.medicalCardDesc")}
+          </p>
+        </div>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            saveMedicalCard({
+              bloodType: medicalCard.bloodType.trim(),
+              allergies: medicalCard.allergies.trim(),
+              conditions: medicalCard.conditions.trim(),
+              medications: medicalCard.medications.trim(),
+            });
+            setMedicalSaved(true);
+            setTimeout(() => setMedicalSaved(false), 3000);
+          }}
+          className="space-y-3"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="ice-blood" className="block text-xs font-bold text-[#171717] mb-1">
+                {t("profile.bloodType")}
+              </label>
+              <select
+                id="ice-blood"
+                value={medicalCard.bloodType}
+                onChange={(e) => setMedicalCard((c) => ({ ...c, bloodType: e.target.value }))}
+                className="w-full px-3.5 py-2.5 rounded-2xl border border-[#E5E7EB] text-sm bg-white focus:outline-none focus:border-[#C8102E]"
+              >
+                <option value="">—</option>
+                {["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"].map((bt) => (
+                  <option key={bt} value={bt}>
+                    {bt}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="ice-allergies" className="block text-xs font-bold text-[#171717] mb-1">
+                {t("profile.allergies")}
+              </label>
+              <input
+                id="ice-allergies"
+                type="text"
+                value={medicalCard.allergies}
+                onChange={(e) => setMedicalCard((c) => ({ ...c, allergies: e.target.value }))}
+                placeholder="Penisilin / Yoxdur"
+                className="w-full px-3.5 py-2.5 rounded-2xl border border-[#E5E7EB] text-sm focus:outline-none focus:border-[#C8102E]"
+              />
+            </div>
+            <div>
+              <label htmlFor="ice-conditions" className="block text-xs font-bold text-[#171717] mb-1">
+                {t("profile.conditions")}
+              </label>
+              <input
+                id="ice-conditions"
+                type="text"
+                value={medicalCard.conditions}
+                onChange={(e) => setMedicalCard((c) => ({ ...c, conditions: e.target.value }))}
+                placeholder="Hipertoniya / Astma"
+                className="w-full px-3.5 py-2.5 rounded-2xl border border-[#E5E7EB] text-sm focus:outline-none focus:border-[#C8102E]"
+              />
+            </div>
+            <div>
+              <label htmlFor="ice-meds" className="block text-xs font-bold text-[#171717] mb-1">
+                {t("profile.medications")}
+              </label>
+              <input
+                id="ice-meds"
+                type="text"
+                value={medicalCard.medications}
+                onChange={(e) => setMedicalCard((c) => ({ ...c, medications: e.target.value }))}
+                placeholder="İnhalyator"
+                className="w-full px-3.5 py-2.5 rounded-2xl border border-[#E5E7EB] text-sm focus:outline-none focus:border-[#C8102E]"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            {medicalSaved ? (
+              <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
+                <CheckCircle2 className="w-4 h-4" />
+                {t("profile.medicalCardSaved")}
+              </p>
+            ) : (
+              <span />
+            )}
+            <button
+              type="submit"
+              className="px-5 py-2.5 rounded-2xl bg-[#C8102E] text-white text-sm font-semibold hover:bg-[#8B1028]"
+            >
+              {t("profile.saveMedicalCard")}
+            </button>
+          </div>
         </form>
       </section>
 

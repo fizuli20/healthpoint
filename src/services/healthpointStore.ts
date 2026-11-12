@@ -8,6 +8,7 @@ import type {
   IssueType,
   LanguageCode,
   MaintenanceReport,
+  MedicalCardInfo,
   OperationalStatus,
   PartnerInquiry,
   ReportStatus,
@@ -26,6 +27,7 @@ const KEYS = {
   DEMO_AUTH: "hp_demo_auth_v1",
   VITALS: "hp_vital_readings_v1",
   PARTNER_INQUIRIES: "hp_partner_inquiries_v1",
+  MEDICAL_CARD: "hp_medical_card_v1",
 };
 
 export const DEFAULT_ACCESSIBILITY: AccessibilityPreferences = {
@@ -574,4 +576,22 @@ export async function submitPartnerInquiry(
   const current = safeReadJson<PartnerInquiry[]>(KEYS.PARTNER_INQUIRIES, []);
   safeWriteJson(KEYS.PARTNER_INQUIRIES, [created, ...current]);
   return created;
+}
+
+const DEFAULT_MEDICAL_CARD: MedicalCardInfo = {
+  bloodType: "",
+  allergies: "",
+  conditions: "",
+  medications: "",
+};
+
+export function loadMedicalCard(): MedicalCardInfo {
+  return {
+    ...DEFAULT_MEDICAL_CARD,
+    ...safeReadJson<Partial<MedicalCardInfo>>(KEYS.MEDICAL_CARD, {}),
+  };
+}
+
+export function saveMedicalCard(card: MedicalCardInfo): void {
+  safeWriteJson(KEYS.MEDICAL_CARD, card);
 }

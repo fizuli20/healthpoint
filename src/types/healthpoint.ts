@@ -157,3 +157,10 @@ export interface PartnerInquiry {
   notes: string;
   createdAt: string;
 }
+
+export interface MedicalCardInfo {
+  bloodType: string;
+  allergies: string;
+  conditions: string;
+  medications: string;
+}
